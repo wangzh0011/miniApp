@@ -1,0 +1,12 @@
+/* pages/detail/detail.wxss */
+.textred{
+  color: red
+}
+page{
+    background-color: #FFFFFF;
+    padding-top: 0px;
+    margin-top: 0px;
+}
+.weui-cells{
+  margin-top: 0em;
+}

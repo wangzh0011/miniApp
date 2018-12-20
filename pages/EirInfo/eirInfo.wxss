@@ -1,0 +1,11 @@
+/* pages/cms/cms.wxss */
+.text{
+  color: red;
+  
+}
+.textfont{
+ font-size: 12px;
+}
+.bigtext{
+  font-size: 2rem;
+}/* pages/EirInfo/eirInfo.wxss */

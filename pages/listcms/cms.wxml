@@ -1,0 +1,61 @@
+<!--pages/listcms/cms.wxml-->
+
+<view class="weui-cell weui-cell_input">
+  <view class="weui-cell__hd">
+    <view class="weui-label">车牌号码:</view>
+  </view>
+  <view class="weui-cell__bd">
+    <input class="weui-input" placeholder="请输入车牌号码" value='GDBGY199Y' />
+  </view>
+</view>
+<view class="weui-btn-area">
+  <button class="weui-btn" type="primary" bindtap="showTopTips">确定</button>
+</view>
+<view class="weui-cell">
+  <view class="weui-cell__bd">箱号:asdasd</view>
+  <view class="weui-cell__ft"></view>
+</view>
+<view class="weui-cell">
+  <view class="weui-cell__bd">铅封号</view>
+  <view class="weui-cell__ft"></view>
+</view>
+<view class="weui-cell">
+  <view class="weui-cell__bd">码头专用:</view>
+  <view class="weui-cell__ft"></view>
+</view>
+<view class="weui-cell">
+  <view class="weui-cell__bd">车牌</view>
+  <view class="weui-cell__ft"></view>
+</view>
+<view class="weui-cell">
+  <view class="weui-cell__bd">:asdasd</view>
+  <view class="weui-cell__ft"></view>
+</view>
+<view class="weui-cell">
+  <view class="weui-cell__bd">铅封号</view>
+  <view class="weui-cell__ft"></view>
+</view>
+<view class="weui-cell">
+  <view class="weui-cell__bd">箱号:asdasd</view>
+  <view class="weui-cell__ft"></view>
+</view>
+<view class="weui-cell">
+  <view class="weui-cell__bd">铅封号</view>
+  <view class="weui-cell__ft"></view>
+</view>
+<view class="weui-cell">
+  <view class="weui-cell__bd">箱号:asdasd</view>
+  <view class="weui-cell__ft"></view>
+</view>
+<view class="weui-cell">
+  <view class="weui-cell__bd">铅封号</view>
+  <view class="weui-cell__ft"></view>
+</view>
+<view class="weui-cell">
+  <view class="weui-cell__bd">箱号:asdasd</view>
+  <view class="weui-cell__ft"></view>
+</view>
+<view class="weui-cell">
+  <view class="weui-cell__bd">铅封号</view>
+  <view class="weui-cell__ft"></view>
+</view>

@@ -1,0 +1,12 @@
+/* pages/history/historyorder.wxss */
+.page__hd{
+  padding: 0px;
+}
+.invisibleclass{
+position:absolute;
+width:100%;
+height:100%;
+left:0;
+top:0;
+opacity:0;
+}

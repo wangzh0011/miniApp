@@ -1,0 +1,14 @@
+/* pages/InformaTion/user.wxss */
+.form_button {  
+  background-color: transparent;  
+  padding: 0;  
+  margin: 0;  
+  text-align: left;  
+}  
+  
+.form_button::after {  
+  border: 0px;  
+}
+.phcolor{
+  font-size: 14px
+}  

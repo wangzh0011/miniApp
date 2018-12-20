@@ -1,0 +1,5 @@
+<!--pages/wait/wait.wxml-->
+<!--mode="widthFix "-->
+<view class="page">
+  <image class='warp' src='/pages/images/wait.png'></image>
+</view>

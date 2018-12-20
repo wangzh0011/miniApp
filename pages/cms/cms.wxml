@@ -1,0 +1,113 @@
+<view class="page">
+    
+    <view class="page__bd">
+     <text wx:if="{{msg!=null}}"  > {{msg}}</text>
+     <text wx:if="{{document.length==0}}" class='bigtext' > 暂无小票信息,如已进场，稍候将通过微信推送给您</text>
+     
+       
+      <block wx:for="{{document}}" wx:for-item="cms" wx:key="*this">
+      
+        <view class="weui-cells__title">{{cms.truckLic}} 第{{index + 1}}张小票，共{{document.length}}张小票</view>
+       
+        <view style="margin:5px;border:3px solid #1FB3D8">
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">箱号: {{cms.cntrNo}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">铅封号: {{cms.sealno}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">码头专用:<text class='textfont' > {{cms.remark}} </text></view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">交收位置: {{cms.la}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">日期/时间: {{cms.gateinTime}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">交柜：{{cms.isGet}}<text class='text'>\t\t|\t\t</text> 提柜：{{cms.isSend}}</view>
+                
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">交收编号/数量：{{cms.cont}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">船公司：{{cms.soa}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">服务类别：{{cms.statusType}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">交收类别：{{cms.moveType}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">尺寸/类型/高度 :{{cms.iso}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">船舶/航次：{{cms.vessel}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd" >备注：<text decode="true" >{{cms.notice}}</text></view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+
+         <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell" class='point' >
+                <view class="weui-cell__bd"  ><text decode="true"  >货箱操作区严禁下车</text></view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        
+
+        
+
+
+        
+
+       </view>
+
+
+       </block>
+
+       
+    </view>
+</view>

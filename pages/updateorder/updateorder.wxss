@@ -1,0 +1,12 @@
+/* pages/updateorder/updateorder.wxss */
+.weui-cells{
+  margin-top: 0em;
+}
+
+.btn_img{
+  width: 80%;
+  height: 75rpx;
+  font-size: 80%; 
+}
+
+

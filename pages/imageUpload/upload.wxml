@@ -1,0 +1,9 @@
+<!--pages/imageUpload/upload.wxml-->
+<view class='ttt'>
+<web-view  src="https://olddcblink.dcblink.com/index.html"  >
+
+
+
+
+</web-view>
+</view>

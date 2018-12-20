@@ -1,0 +1,38 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+
+  <view class="page__bd">
+    <form report-submit='true' bindsubmit='gocms'>
+      <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">错误提示</view>
+      <view class="weui-cells__title">查询小票信息</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">车牌号码</view>
+          </view>
+          <view class="weui-cell__hd">
+            <picker bindchange="bindprovCodeChange" value="{{provCodeIndex}}" range="{{prov}}">
+              <view class="weui-select">{{prov[provCodeIndex]}}</view>
+            </picker>
+          </view>
+          <view class="weui-cell__bd">
+            <form report-submit='true' bindsubmit='saveFormId'>
+              <button formType="submit" class='form_button'>       
+                    <input name="truck_lic" class="weui-input" bindinput='changinput' style='padding-left:20rpx' placeholder="请输入车牌号码" placeholder-class="phcolor" value='{{truck_lic}}' />
+              </button>
+            </form>
+          </view>
+          <view class="weui-cell__hd car-color">
+            <picker bindchange="bindcolorCodeChange" value="{{colorCodeIndex}}" range="{{colorCodes}}">
+              <view class="weui-select uicostom">{{colorCodes[colorCodeIndex]}}</view>
+            </picker>
+          </view>
+        </view>
+
+      </view>
+
+      <view class="weui-btn-area">
+        <button class="weui-btn" type="primary" formType="submit">查询</button>
+      </view>
+    </form>
+  </view>
+</view>

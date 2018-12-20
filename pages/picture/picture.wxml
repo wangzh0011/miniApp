@@ -1,0 +1,62 @@
+<!--pages/picture/picture.wxml-->
+<view class="page">
+  <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}"  >{{errormsg}}</view>
+  <view class="weui-cell weui-cell_select">
+    <view class="weui-cells__title" style='color: yellowgreen'>基本信息： {{phone}} {{plate}}
+    </view>
+  </view>
+
+  <form>
+
+    <view class="page__bd">
+      <view class="weui-cells">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view class="weui-uploader">
+              <view class="weui-uploader__hd">
+                <view class="weui-uploader__title">单证照片上传</view>
+                <view class="weui-uploader__info">{{files.length}}/1</view>
+              </view>
+              <view class="weui-uploader__bd">
+                <view class="weui-uploader__files" id="uploaderFiles">
+                  <block wx:for="{{files}}" wx:key="*this">
+                    <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
+                      <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                    </view>
+                  </block>
+
+                </view>
+                <form bindsubmit='saveFormId' report-submit='true'>
+                  <view class="weui-uploader__input-box">
+                    <button class="weui-uploader__input" bindtap="chooseImage" form-type='submit'></button>
+                  </view>
+                </form>
+              </view>
+            </view>
+          </view>
+        </view>
+
+
+        
+        <view class="weui-cell weui-cell_select">
+        <view class="weui-cell__hd weui-cell__hd_in-select-after">
+          <view class="weui-label">到港时间</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker bindchange="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
+            <view class="weui-select weui-select_in-select-after">{{countries[countryIndex]}}</view>
+          </picker>
+        </view>
+      </view>
+
+      </view>
+
+      
+
+      
+      
+      <button form-type='submit' bindtap='savaOrder' class="weui-btn" type="primary">预约</button>
+
+    </view>
+  </form>
+</view>
