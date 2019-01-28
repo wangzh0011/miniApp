@@ -14,7 +14,7 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    console.log("1111")
+    
     console.log(options.plate)
     wx.showLoading({
       title: '数据加载中...',

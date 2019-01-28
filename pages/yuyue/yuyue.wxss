@@ -11,10 +11,15 @@
  
  box-shadow:0px 0px 10px 5px #aaa inset
 }
+/* .radio_view{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex: 1;
+} */
 .time{
   padding-top: 15rpx;
-  padding-bottom: 20rpx;
-  
+  padding-bottom: 20rpx;  
   
 }
 .close {
@@ -119,8 +124,9 @@ flex-flow: row wrap;
 
 .group {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+   flex-direction: row; 
+   /* flex-flow: row wrap; */
+  justify-content: space-around; 
   padding-left: 15rpx;
   padding-right: 15rpx;
 }

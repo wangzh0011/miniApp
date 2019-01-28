@@ -1,26 +1,20 @@
 /* pages/listEir/Eir.wxss */
-.textred{
-  color: red
-}
-.textgreen{
-  color: green;
-}
-.pppppp{
-  font-size: larger;
-}
-.custom{
-  width: 75%;  
-  
-}
-.btn{
-  border: none;
-  background-color: transparent;  
-  padding: 0;  
-  margin: 0;  
-  text-align: left; 
 
+.page__hd {
+  padding: 15px;
 }
-
+.page__bd{
+  padding-bottom: 10px;
+}
+.hd {
+  display: flex;
+}
+.page__desc{
+  padding-left: 20px;
+}
+.hd {
+  display: flex;
+}
 .invisibleclass{
 position:absolute;
 width:100%;
@@ -29,3 +23,154 @@ left:0;
 top:0;
 opacity:0;
 }
+
+.ssss {
+  color: rgba(145, 112, 31, 0.993);
+  margin-right: 20rpx;
+  float:right; 
+  
+  
+}
+
+.arrow {
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid #999;
+  border-right: 2px solid #999;
+  position: absolute;
+  right: 20rpx;
+  justify-content: center;
+  transform: rotate(45deg);
+  margin-top: 10rpx;
+}
+
+.hd_button {
+  height: inherit;
+  vertical-align: middle;
+  overflow-y: hidden;
+}
+
+.textred {
+  color: red;
+}
+
+.textgreen {
+  color: green;
+}
+
+.pppppp {
+  font-size: larger;
+}
+
+.custom {
+  width: 80%;
+  border-radius: 45rpx;
+  box-shadow: 0rpx 50rpx 50rpx 0rpx rgba(38, 112, 69, 0.3);
+  color: beige;
+  background-color: rgb(81, 182, 81);
+  background: linear-gradient(to right, rgba(79, 168, 91, 0.8), rgb(24, 165, 48));
+  text-align: center;
+  vertical-align: middle;
+}
+
+.btn {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+
+
+.otherModuleList {
+  position: absolute;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start; /*从左边开始向右排*/
+  padding: 0px 10px 0px 10px;
+}
+
+.otherModuleList .listItem {
+  position: relative;
+  width: calc((100vw - 20px)/ 3);
+  box-sizing: border-box;
+  padding: 10rpx 20rpx 15rpx 20rpx;
+}
+.otherModuleList .weui-footer {
+  margin-top: 60rpx;
+  width: 90vw;
+}
+.listItem .itemBox {
+  position: relative;
+  display: flex;
+  height: 190rpx;
+  flex-flow: column wrap; /*纵向排列*/
+  justify-content: center;
+  align-items: center;
+  font-size: 30rpx;
+  color: rgb(102, 100, 100);
+  /* box-sizing: border-box;
+ 
+  border-radius: 20rpx; */
+  /* box-shadow: 0 1rpx 5rpx rgba(107, 107, 107, 0.3); */
+  border: none;
+  
+}
+
+.itemBox .itemImg {
+  
+  width: 110rpx;
+  height: 110rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: rgb(220, 224, 226);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.itemImg image {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.itemBox text {
+  margin-top: 15rpx;
+  color: grey ;
+  font-size: 12px;
+}
+
+/*分割线样式*/
+
+.divLine {
+  background: #e0e3da;
+  width: 100%;
+  height: 5rpx;
+}
+.page_hight{
+  height: 1500rpx;
+}
+.weui-footer{
+    
+    /* position: ; */
+    
+    position: relative;
+  
+}
+.weui-footer_fixed-bottom{
+  margin-bottom: 0px;
+}
+.weui-cell{
+  padding: 5px 10px 5px 5px;
+}
+.weui-cells{
+  padding-left: 0rpx;
+  margin: 0rpx 15rpx 5rpx 15rpx;
+  box-sizing: border-box;
+  box-shadow: 5rpx 5rpx 10rpx rgba(107, 107, 107, 0.5);
+  border-radius: 10rpx;
+}
+/* .weui-footer_fixed-bottom{
+  position: static;
+} */

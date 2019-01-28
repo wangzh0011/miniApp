@@ -4,20 +4,24 @@
     //全局变量
     data: {
       uploadurl: 
-        "https://wxxcx.dcblink.com/upload/",
-        //"https://olddcblink.dcblink.com/upload/",
-      //"http://127.0.0.1:8081/upload/", 
-      //"https://olddcblink.dcblink.com:8080/upload/"
+       // "https://wxxcx.dcblink.com/upload/",
+       //"https://olddcblink.dcblink.com/upload/",
+      "http://127.0.0.1:8081/upload/", 
+      //"https://10.10.11.26:9301/upload/", 
+     // "https://10.10.11.34:443/upload/",
+      //"https://olddcblink.dcblink.com:8080/upload/",
       servsers:
-        "https://wxxcx.dcblink.com/miniApp/",
-     // "https://olddcblink.dcblink.com/miniApp/" ,
-      //"http://127.0.0.1:8081/miniApp/",   
+       // "https://wxxcx.dcblink.com/miniApp/",
+     //"https://olddcblink.dcblink.com/miniApp/" ,
+      "http://127.0.0.1:8081/miniApp/", 
+       //"https://10.10.11.26:9301/miniApp/", 
+      // "https://10.10.11.34:443/miniApp/",
       //https://olddcblink.dcblink.com/   127.0.0.1:443  https://wxxcx.dcblink.com/"
       
     },
 
   onLaunch: function () {
-      wx.setStorageSync("flush",true)
+      
 
     var that = this;
    // that.userInfo.userInfo = wx.getStorageSync("userinfo")
@@ -78,21 +82,11 @@
             console.log(res.data);
             console.log(res.data.id);
             
-            if (res.data.id==null||res.data.id==''){
+            if (res.data.id==null || res.data.id=='' || res.data.id == undefined){
+              console.log("未注册")
               wx.setStorageSync("infobase", res.data)
               var data = res.data;
               that.infobase = data;
-              if(data.openid==undefined){
-                wx.hideToast();                             
-                wx.showModal({
-                  content: '未能正确获取数据，请退出程序重进',
-                  showCancel: false,
-                  success: function (res) {
-                    if (res.confirm) {
-                    }
-                  }
-                });
-              }
               //console.log("this.infobase")
               console.log(getApp().infobase )
               wx.redirectTo({

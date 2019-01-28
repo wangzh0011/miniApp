@@ -18,3 +18,24 @@
 .car-color .weui-select{
   border: none
 } 
+.userinfo-avatar {
+  
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+  display: block;
+  overflow: hidden;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  
+  
+}

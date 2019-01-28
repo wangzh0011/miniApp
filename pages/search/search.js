@@ -98,6 +98,71 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+    var openid = wx.getStorageSync("userinfo").openid;
+
+    if (openid == undefined) {
+      wx.login({
+        success: res => {
+          //如果本地没有存储有用户信息
+
+          wx.showToast({
+            title: '程序数据加载中',
+            icon: 'loading',
+            duration: 6000
+          });
+          var code = res.code;
+          // 发送 res.code 到后台换取 openId, sessionKey, unionId
+          wx.request({
+            url: getApp().data.servsers + 'userInfo/' + res.code,
+            success: function (res) {
+              console.log('请求成功，开始处理')
+              console.log(res);
+              console.log(res.data);
+              console.log(res.data.id);
+
+              if (res.data.id == null || res.data.id == '') {
+                wx.setStorageSync("infobase", res.data)
+                var data = res.data;
+                that.infobase = data;
+                if (data.openid == undefined) {
+                  wx.hideToast();
+                  wx.showModal({
+                    content: '未能正确获取数据，请退出程序重进',
+                    showCancel: false,
+                    success: function (res) {
+                      if (res.confirm) {
+                      }
+                    }
+                  });
+                }
+                console.log(getApp().infobase)
+                wx.redirectTo({
+                  url: '/pages/InformaTion/user',
+                })
+
+              } else {
+                console.log('已注册')
+                wx.setStorageSync('userinfo', res.data);
+
+                that.userInfo.userInfo = res.data
+
+              }
+
+              wx.hideToast();
+
+
+            },
+
+
+
+          });
+
+        },
+
+      }
+      )
+    }
     
     if (options.plate != undefined && options.plate.length > 5) {
       var plate = options.plate;
@@ -111,15 +176,22 @@ Page({
     }
     else {
       var plate = wx.getStorageSync("userinfo").plate;
-
-      this.setData({
-        plate: plate,
-        truck_lic: plate.substring(2, plate.length - 1),
-        provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
-        colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
-        openid: wx.getStorageSync("userinfo").openid,
-      })
-    }
+      if(plate == undefined){
+        this.setData({
+          plate: "",
+          truck_lic: "",
+          provCodeIndex: 0,
+          colorCodeIndex: 0         
+        })
+      }else{
+        this.setData({
+          plate: plate,
+          truck_lic: plate.substring(2, plate.length - 1),
+          provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
+          colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
+          openid: wx.getStorageSync("userinfo").openid,
+        })
+    }}
   },
 
   /**
@@ -172,6 +244,7 @@ Page({
   
   }
 })
+
 var provIndex = function (prov, provValue, ) {
   //var prov = plate.substring(0, 2);
   //var truck_lic = plate.substring(plate.length - 1, plate.length);

@@ -1,5 +1,6 @@
 {
 
-    "navigationBarTitleText": "飞单预约"
+    "navigationBarTitleText": "飞单预约",
+    "enablePullDownRefresh": true
   
 }

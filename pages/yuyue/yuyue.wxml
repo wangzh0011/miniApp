@@ -1,80 +1,73 @@
 <!--pages/yuyue/yuyue.wxml-->
-<view class='box'> 
+<view class='box'>
 
-<view class="page__hd" wx:if="{{time=='null'}}">
-        <view class="page__title" style='font-size: 17px;'>飞单业务流程介绍</view>
-        <view class="page__desc" style='font-size: 15px;'>1、选择到港日期和时间</view>
-        <view class="page__desc" style='font-size: 15px;'>2、选择交提柜类型,并上传照片</view>
-        <view class="page__desc" style='font-size: 15px;'>3、如有多个交提柜，请点击添加业务</view>
-</view>
-<view class="page__hd" wx:if="{{time != 'null'}}">
-        <view class="page__title">你已经在{{time}}预约过大铲湾码头业务</view>        
-</view>
-  
-  <view>
-  
-  <view class='radio_view' wx:if="{{time=='null'}}">
-        <radio-group class="group" bindchange="dayradios">
-
-          <view class="attr_value">
-            <label class='radio_label' >
-              <radio color='' checked="" value='{{today}}'>
-                <text>今天</text>
-              </radio>
-            </label>
-          </view>
-
-          <view class="attr_value">
-            <label class='radio_label'>
-              <radio color='' checked="" value='{{tomorrow}}'>
-                <text>明天</text>
-              </radio>
-            </label>
-          </view>
-
-          
-
-          
-        </radio-group>
-
-    </view > 
-     
-
-      <view class='radio_view time' wx:if="{{time=='null'}}">
-        <radio-group class="group" bindchange="timeradios">
-
-          <view class="attr_value">
-            <label class='radio_label'>
-              <radio color='' value='00:00-08:00'>
-                <text>00:00-08:00</text>
-              </radio>
-            </label>
-          </view>
-
-          <view class="attr_value">
-            <label class='radio_label'>
-              <radio color='' value='08:00-16:00'>
-                <text>08:00-16:00</text>
-              </radio>
-            </label>
-          </view>
-
-          <view class="attr_value">
-            <label class='radio_label'>
-              <radio color='' value='16:00-23:59'>
-                <text>16:00-23:59</text>
-              </radio>
-            </label>
-          </view>          
-        </radio-group>
-
-      </view>
-  
+  <view class="page__hd" wx:if="{{time=='null'}}">
+    <view class="page__title" style='font-size: 17px;'>飞单业务流程介绍</view>
+    <view class="page__desc" style='font-size: 15px;'>1、选择到港日期和时间</view>
+    <view class="page__desc" style='font-size: 15px;'>2、选择交提柜类型,并上传照片</view>
+    <view class="page__desc" style='font-size: 15px;'>3、如有多个交提柜，请点击添加业务</view>
   </view>
- 
+  <view class="page__hd" wx:if="{{time != 'null'}}">
+    <view class="page__title">你已经在{{time}}预约过大铲湾码头业务</view>
+  </view>
+
+  <view>
+
+    <view class='radio_view' wx:if="{{time=='null'}}">
+      <radio-group class="group" bindchange="dayradios">
+        <view class="attr_value">
+          <label class='radio_label'>
+            <radio color='' checked="" value='{{today}}'>
+              <text>今天</text>
+            </radio>
+          </label>
+        </view>
+
+        <view class="attr_value">
+          <label class='radio_label'>
+            <radio color='' checked="" value='{{tomorrow}}'>
+              <text>明天</text>
+            </radio>
+          </label>
+        </view>
+      </radio-group>
+    </view>
+
+    <view class='radio_view time' wx:if="{{time=='null'}}">
+      <radio-group class="group" bindchange="timeradios">
+
+        <view class="attr_value">
+          <label class='radio_label'>
+            <radio color='' value='00:00-08:00'>
+              <text>00:00-08:00</text>
+            </radio>
+          </label>
+        </view>
+
+        <view class="attr_value">
+          <label class='radio_label'>
+            <radio color='' value='08:00-16:00'>
+              <text>08:00-16:00</text>
+            </radio>
+          </label>
+        </view>
+
+        <view class="attr_value">
+          <label class='radio_label'>
+            <radio color='' value='16:00-23:59'>
+              <text>16:00-23:59</text>
+            </radio>
+          </label>
+        </view>
+      </radio-group>
+
+    </view>
+
+  </view>
+
   <view class='box_view ' wx:for="{{items}}" wx:for-index="index" wx:for-item="item" wx:key="*this">
     <view class="weui-loadmore weui-loadmore_line">
-            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">飞单业务{{index+1}}</view>
+      <view class="weui-loadmore__tips weui-loadmore__tips_in-line">飞单业务{{index+1}}</view>
     </view>
     <view class='vertical'>
 
@@ -83,7 +76,7 @@
 
           <view class="attr_value">
             <label class='radio_label'>
-              <radio color='' value='RE' >
+              <radio color='' value='RE'>
                 <text>交空</text>
               </radio>
             </label>
@@ -120,11 +113,11 @@
         <view class="page__bd">
           <view class="weui-cells">
             <view class="weui-cell">
-            
+
               <view class="weui-cell__bd">
-                <view class="weui-uploader"> 
-                <button class='btn_img'  bindtap="chooseEirImage" data-index='{{index}}'>单证照片</button>
-                   
+                <view class="weui-uploader">
+                  <button class='btn_img' bindtap="chooseEirImage" data-index='{{index}}'>单证照片</button>
+
                   <view class="weui-uploader__bd">
                     <view class="weui-uploader__files" id="uploaderFiles">
                       <block wx:for="{{item.eir_img}}" wx:key="*this">
@@ -137,9 +130,11 @@
                 </view>
               </view>
 
-              <view class="weui-cell__bd" wx:if="{{item.workType=='RF'}}" >
+              <view class="weui-cell__bd" wx:if="{{item.workType=='RF'}}">
                 <view class="weui-uploader">
-                   <view><button class='btn_img'  bindtap="chooseSealImage" data-index='{{index}}'>封条照片</button></view>
+                  <view>
+                    <button class='btn_img' bindtap="chooseSealImage" data-index='{{index}}'>封条照片</button>
+                  </view>
                   <view class="weui-uploader__bd">
                     <view class="weui-uploader__files" id="uploaderFiles">
                       <block wx:for="{{item.seal_img}}" wx:key="*this">
@@ -154,7 +149,9 @@
 
               <view class="weui-cell__bd">
                 <view class="weui-uploader">
-                   <view><button class='btn_img '   bindtap="chooseAttachlImage" data-index='{{index}}'>附属证明材料</button></view>
+                  <view>
+                    <button class='btn_img ' bindtap="chooseAttachlImage" data-index='{{index}}'>附属证明材料</button>
+                  </view>
                   <view class="weui-uploader__bd">
                     <view class="weui-uploader__files" id="uploaderFiles">
                       <block wx:for="{{item.attach_img}}" wx:key="*this">
@@ -166,8 +163,8 @@
                   </view>
                 </view>
               </view>
-              
-              
+
+
 
             </view>
 
@@ -180,7 +177,9 @@
 
           </view>
 
-         <view><button class='btn delete'  data-index='{{index}}' bindtap='deleteBusines'>删除该业务</button></view>
+          <view>
+            <button class='btn delete' data-index='{{index}}' bindtap='deleteBusines'>删除该业务</button>
+          </view>
 
 
         </view>
@@ -193,11 +192,11 @@
 
   </view>
 
-  
 
-  
+
+
   <view class='add'>
-    
+
 
     <button class='btn' type="primary" bindtap='addBusines'>添加业务</button>
   </view>
@@ -207,6 +206,6 @@
 
 
 <view class='layout_horizontal'>
-  <button class='btn1'  disabled='false'>作业数量：{{type_R}}交{{type_D}}提</button>
-  <button class='btn2'  bindtap='addOrder' disabled='{{disabled}}'>提交</button>
+  <button class='btn1' disabled='false'>作业数量：{{type_R}}交{{type_D}}提</button>
+  <button class='btn2' bindtap='addOrder' disabled='{{disabled}}'>提交</button>
 </view>

@@ -1,8 +1,29 @@
 <!--pages/InformaTion/user.wxml-->
 <view class='page'>
+
+
+
+  <view class="userinfo">
+
+    <open-data class="userinfo-avatar" background-size="cover" type="userAvatarUrl"></open-data>
+    <open-data class="userinfo-nickname" type="userNickName" data-ooo="userinfo-nickname"></open-data>
+    <!--
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" type="default" plain="true"> 获取头像昵称 </button>
+    <block wx:else>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+    -->
+  </view>
+
+
+
   <form bindsubmit='SubMit' bindreset='Reet' report-submit="true">
 
-   <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}"  >{{errormsg}}</view>
+    <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{errormsg}}</view>
+
+
+
 
 
     <view class="weui-cells__title">车主资料修改</view>
@@ -11,21 +32,20 @@
         <view class="weui-label">姓名</view>
       </view>
       <view class="weui-cell__bd">
-      
-        <input name="userName" class="weui-input" placeholder="请输入您的姓名" placeholder-class="phcolor"  value='{{userName}}'/>
-        
+
+        <input name="userName" class="weui-input" placeholder="请输入您的姓名" placeholder-class="phcolor" value='{{userName}}' />
+
       </view>
     </view>
-    
+
     <view class="weui-cell weui-cell_input">
       <view class="weui-cell__hd">
         <view class="weui-label">手机号码</view>
       </view>
       <view class="weui-cell__bd">
-      
-        <input name="phone_number" class="weui-input" type='number' placeholder-class="phcolor" 
-        placeholder="请正确填写手机号码" value='{{userNumber}}' />  
-        
+
+        <input name="phone_number" class="weui-input" type='number' placeholder-class="phcolor" placeholder="请正确填写手机号码" value='{{userNumber}}' />
+
       </view>
     </view>
     <view class="weui-cell weui-cell_input">
@@ -33,35 +53,34 @@
         <view class="weui-label">身份证</view>
       </view>
       <view class="weui-cell__bd">
-      
-        <input name="cardid" class="weui-input"  placeholder="请输入身份证号码" placeholder-class="phcolor" value='{{userCardId}}'/>
-      
+
+        <input name="cardid" class="weui-input" placeholder="请输入身份证号码" placeholder-class="phcolor" value='{{userCardId}}' />
+
       </view>
     </view>
-    
+
     <view class="weui-cell weui-cell_input">
       <view class="weui-cell__hd">
         <view class="weui-label">车牌号码</view>
       </view>
-      <view class="weui-cell__hd">      
+      <view class="weui-cell__hd">
         <picker bindchange="bindprovCodeChange" value="{{provCodeIndex}}" range="{{prov}}">
-                        <view class="weui-select">{{prov[provCodeIndex]}}</view>
-         </picker>
+          <view class="weui-select">{{prov[provCodeIndex]}}</view>
+        </picker>
       </view>
       <view class="weui-cell__bd">
-      
-        <input name="truck_lic" class="weui-input"  style='padding-left:25rpx' placeholder="请输入车牌号码" bindinput='changinput'
-         placeholder-class="phcolor" value='{{truck_lic}}'/>
-        
+
+        <input name="truck_lic" class="weui-input" style='padding-left:25rpx' placeholder="请输入车牌号码" bindinput='changinput' placeholder-class="phcolor" value='{{truck_lic}}' />
+
       </view>
-      <view class="weui-cell__hd">      
+      <view class="weui-cell__hd">
         <picker bindchange="bindcolorCodeChange" value="{{colorCodeIndex}}" range="{{colorCodes}}">
-                        <view class="weui-select uicostom">{{colorCodes[colorCodeIndex]}}</view>
-         </picker>
+          <view class="weui-select uicostom">{{colorCodes[colorCodeIndex]}}</view>
+        </picker>
       </view>
     </view>
     <view class="weui-btn-area">
-      <button class="weui-btn" type="primary" formType="submit" >修改</button>
+      <button class="weui-btn" type="primary" formType="submit">确定</button>
     </view>
   </form>
 </view>

@@ -22,11 +22,10 @@
     "pages/historydetail/detail"
   ],
   "window": {
-    "backgroundTextStyle": "light",
+    "backgroundTextStyle": "dark",
     "navigationBarTitleText": "大铲湾拖车服务",
     "navigationBarTextStyle": "black",
-    "navigationBarBackgroundColor": "#f8f8f8",
-    "backgroundColor": "#f0145a"
+    "navigationBarBackgroundColor": "#f8f8f8"    
   },
   "tabBar": {
     "borderStyle": "white",
@@ -47,8 +46,7 @@
     ]
   },
   "networkTimeout": {
-    "request": 600000,
+    "request": 100000,
     "downloadFile": 100000
-  },
-  "debug": true
+  }
 }

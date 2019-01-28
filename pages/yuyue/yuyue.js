@@ -289,8 +289,6 @@ Page({
       appointmentTime=time;
       expireTime = time.split(" ")[0]+" "+time.split(" ")[1].split("-")[1];
 
-
-
     }
 
     wx.setStorageSync("flush", true) //首页刷新
@@ -368,6 +366,7 @@ Page({
                     console.log("eirImg 上传成功。" + jsondata.data.filename)
                     console.log(res2)
                     if (sucess == count) {
+                      wx.hideLoading();
                       console.log("sucess:" + sucess + " count：" + count)
                       wx.showModal({
                         showCancel: false,
@@ -445,6 +444,7 @@ Page({
                     console.log("sealImg 上传成功。")
                     console.log(res2)
                     if (sucess == count) {
+                      wx.hideLoading();
 
                       console.log("sucess:"+sucess+" count："+count)
                       wx.showModal({
@@ -505,6 +505,7 @@ Page({
                     console.log(res2) 
 
                     if(sucess==count){
+                      wx.hideLoading();
                       console.log("sucess:" + sucess + " count：" + count)
                       wx.showModal({
                         showCancel: false,
@@ -624,7 +625,7 @@ Page({
   },
 
   chooseEirImage: function(e) {
-    var index = e.currentTarget.dataset.index
+    var index = e.currentTarget.dataset.index;
     var that = this;
     var items = this.data.items;
     console.log(index)
@@ -633,6 +634,7 @@ Page({
       sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有 compressed 是压缩图  original 是原图
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function(res) {
+        console.log("adad")
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         items[index].eir_img = res.tempFilePaths,
           that.setData({
@@ -651,6 +653,7 @@ Page({
       sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function(res) {
+        
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         items[index].seal_img = res.tempFilePaths,
           that.setData({
