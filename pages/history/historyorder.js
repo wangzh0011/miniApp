@@ -45,6 +45,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载数据中...',
+    })
     var that = this;
     var openId = wx.getStorageSync("userinfo").openid;
     wx.request({
@@ -62,6 +65,9 @@ Page({
           items: e.data
         })
         
+      },
+      complete:function(e){
+        wx.hideLoading();
       }
     })
   

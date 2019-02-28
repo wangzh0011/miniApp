@@ -1,23 +1,23 @@
 {
   "pages": [
     "pages/listEir/Eir",
-    "pages/index/index",
-    "pages/wait/wait",
+    "pages/modifi_user/user",
+   
+    
     "pages/InformaTion/user",
     "pages/search/search",
     "pages/addseal/seal",
     "pages/imageUpload/upload",
-    "pages/picture/picture",
-    "pages/logs/logs",
+    
+    
     "pages/detail/detail",
-    "pages/cms/cms",
-    "pages/modifi_user/user",
+    "pages/cms/cms",    
     "pages/listcms/cms",
     "pages/history/historyorder",
     "pages/eirsearch/search",
     "pages/yuyue/yuyue",
     "pages/EirInfo/eirInfo",
-    "pages/index1/index1",
+    
     "pages/updateorder/updateorder",
     "pages/historydetail/detail"
   ],
@@ -27,26 +27,9 @@
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#f8f8f8"    
   },
-  "tabBar": {
-    "borderStyle": "white",
-    "selectedColor": "#87CEFA",
-    "list": [
-      {
-        "pagePath": "pages/listEir/Eir",
-        "text": "首页",
-        "iconPath": "pages/images/home.png",
-        "selectedIconPath": "pages/images/home_selected.png"
-      },
-      {
-        "pagePath": "pages/index/index",
-        "text": "我的",
-        "iconPath": "pages/images/user.png",
-        "selectedIconPath": "pages/images/user_selected.png"
-      }
-    ]
-  },
+ 
   "networkTimeout": {
-    "request": 100000,
+    "request": 60000,
     "downloadFile": 100000
   }
 }

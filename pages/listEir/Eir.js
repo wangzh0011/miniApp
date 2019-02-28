@@ -8,7 +8,7 @@ Page({
   data: {
     disabled: false,
     openid: wx.getStorageSync("userinfo").openid,
-    items:[],
+    items: [],
     order: [],
 
 
@@ -22,23 +22,81 @@ Page({
   },
   //下拉刷新
   //onPullDownRefresh: function () {
-    //console.log("导航栏")
-   
-    //wx.showNavigationBarLoading() //在标题栏中显示加载
+  //console.log("导航栏")
 
-    //模拟加载
-    //setTimeout(function () {
-      // complete
-      //wx.hideNavigationBarLoading() //完成停止加载
-      //wx.stopPullDownRefresh() //停止下拉刷新
-    //}, 5000);
+  //wx.showNavigationBarLoading() //在标题栏中显示加载
+
+  //模拟加载
+  //setTimeout(function () {
+  // complete
+  //wx.hideNavigationBarLoading() //完成停止加载
+  //wx.stopPullDownRefresh() //停止下拉刷新
+  //}, 5000);
   //},
-  submit:function(e){
- console.log("ada")
+  submit: function(e) {
+    console.log("ada")
   },
 
-  sssssss:function(){
-    console.log("asdasddddddddddd")
+  handle: function(e) {  
+
+    var openid = wx.getStorageSync("userinfo").openid;
+    var plate = wx.getStorageSync("userinfo").plate;
+    wx.request({
+      url: getApp().data.servsers + '/saveFormId',
+      data: {
+        openid: openid,
+        plate: plate,
+        formId: e.detail.formId
+      },
+      success: function(e) {},
+      fail: function(e) {
+        console.log(e)
+      }
+    })
+
+    var name = e.currentTarget.dataset.name;
+
+    console.log(e)
+
+    if ("user" == name) {
+
+      // wx.switchTab({
+      //   url: '/pages/modifi_user/user',
+      // })
+      wx.navigateTo({
+        url: '/pages/modifi_user/user',
+      })
+    }
+    if ("eir" == name) {
+      wx.navigateTo({
+        url: '/pages/eirsearch/search',
+      })
+    }
+    if ("cms" == name) {
+      wx.navigateTo({
+        url: '/pages/search/search',
+      })
+    }
+    if ("eirLess" == name) {
+      wx.navigateTo({
+        url: '/pages/history/historyorder',
+      })
+    }
+    if ("customer" == name) {
+      wx.makePhoneCall({
+        phoneNumber: '075529022902',
+      })
+    }
+    if ("gr" == name) {
+      console.log("抢单")
+      wx.navigateTo({
+        url: '/pages/imageUpload/upload',
+      })
+      
+      
+    }
+
+
   },
   godetail: function(e) {
     console.log(e)
@@ -49,35 +107,38 @@ Page({
       url: '/pages/detail/detail?order=' + index,
     })
   },
-  gocancel: function (e) {
+  gocancel: function(e) {
 
     var index = e.currentTarget.dataset.index;
 
+    // wx.navigateTo({
+    //   url: '/pages/detail/detail?order=' + index,
+    // })
     wx.navigateTo({
       url: '/pages/historydetail/detail?id=' + index,
     })
   },
   goAddEIR: function(e) {
-    
+
     this.setData({
       disabled: true
     });
     var that = this;
 
-    setTimeout(function(){
+    setTimeout(function() {
       that.setData({
         disabled: false
       });
-    },1000);
+    }, 1000);
     var openid = wx.getStorageSync("userinfo").openid;
     var plate = wx.getStorageSync("userinfo").plate;
-    
-    if(openid == undefined){
+
+    if (openid == undefined) {
       wx.login({
         success: res => {
           //如果本地没有存储有用户信息
 
-         wx.showToast({
+          wx.showToast({
             title: '程序数据加载中',
             icon: 'loading',
             duration: 6000
@@ -86,7 +147,7 @@ Page({
           // 发送 res.code 到后台换取 openId, sessionKey, unionId
           wx.request({
             url: getApp().data.servsers + 'userInfo/' + res.code,
-            success: function (res) {
+            success: function(res) {
               console.log('请求成功，开始处理')
               console.log(res);
               console.log(res.data);
@@ -101,12 +162,11 @@ Page({
                   wx.showModal({
                     content: '未能正确获取数据，请退出程序重进',
                     showCancel: false,
-                    success: function (res) {
-                      if (res.confirm) {
-                      }
+                    success: function(res) {
+                      if (res.confirm) {}
                     }
                   });
-                }  
+                }
                 console.log(getApp().infobase)
                 wx.redirectTo({
                   url: '/pages/InformaTion/user',
@@ -131,8 +191,7 @@ Page({
 
         },
 
-      }
-      )
+      })
     }
 
     wx.request({
@@ -142,113 +201,118 @@ Page({
         plate: plate,
         formId: e.detail.formId
       },
-      success: function (e) {
-      },
-      fail: function (e) {
+      success: function(e) {},
+      fail: function(e) {
         console.log("保存formid的时候未能连接服务器.")
         console.log(e)
       },
-      complete:function(res){
+      complete: function(res) {
         console.log("结束连接")
         console.log(res)
       }
     })
-  var items =this.data.items;
-  
-  
+    var items = this.data.items;
 
-   if(items.length>=4){
-     wx.showModal({
-       showCancel: false,
-       title: '提示',
-       content: '一个作业时间段内最多只能预约四个业务,请作业完成之后之后再预约',
-       success:function(){
-         that.setData({
-           disabled: false
-         });
-       }
-     })
-     
-     return ;
-   }
-   //校验是否符合要求新建预约 
-  
-  console.log(openid)
-  console.log(plate)
-   wx.request({
-     url: getApp().data.servsers +'check',
-     header: {
-       'content-type': 'application/x-www-form-urlencoded' // 默认值
-     },
-     method: "POST",
-     data: {
-       openId: openid,
-       plate:plate
-     },
-     success:function(res){
+    //不参与计数的条数
+    var count=0;
+    for( var i in items){
+      if (items[i].order.state == '3'){
+        count = count + 1;
+      }
+    }
+    console.log(items.length )
+    console.log(count)
+    if ( items.length >= (4+count) ) {
+      wx.showModal({
+        showCancel: false,
+        title: '提示',
+        content: '一个作业时间段内最多只能预约四个业务,请作业完成之后之后再预约',
+        success: function() {
+          that.setData({
+            disabled: false
+          });
+        }
+      })
 
-       wx.setStorageSync("flush", false)
+      return;
+    }
+    //校验是否符合要求新建预约 
 
-       console.log(res)
-       if(res.data.code==0){
-         that.setData({
-           disabled: false
-         });
+    console.log(openid)
+    console.log(plate)
+    wx.request({
+      url: getApp().data.servsers + 'check',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      },
+      method: "POST",
+      data: {
+        openId: openid,
+        plate: plate
+      },
+      success: function(res) {
 
-         wx.showModal({
-           content: res.data.msg,
-           showCancel: true,
-           confirmText:"确认",
-           cancelText:"修改车牌",
-           success: function (res) {
-             if (res.confirm) {
+        wx.setStorageSync("flush", false)
 
-               var time = that.data.time;
-               console.log("time:  " + time)
-               
-               wx.navigateTo({
-                 url: '/pages/yuyue/yuyue?time=' + time,
-               })
+        console.log(res)
+        if (res.data.code == 0) {
+          that.setData({
+            disabled: false
+          });
 
-             }else{
+          wx.showModal({
+            content: res.data.msg,
+            showCancel: true,
+            confirmText: "确认",
+            cancelText: "修改车牌",
+            success: function(res) {
+              if (res.confirm) {
 
-               wx.navigateTo({
-                 url: '/pages/modifi_user/user',
-               })
-             }
+                var time = that.data.time;
+                console.log("time:  " + time)
 
-           }
-         }); 
+                wx.navigateTo({
+                  url: '/pages/yuyue/yuyue?time=' + time,
+                })
 
-       }else{
+              } else {
 
-         that.setData({
-           disabled: false
-         });
-         wx.showModal({
-           content: res.data.msg,
-           showCancel: false,
-           confirmText: "确定",
-           
-           success: function (res) {
-             if (res.confirm) {
-             }
-           }
-         });
-       }
-       
-     },
-     fail:function(res){
-       console.log("校验的时候未能连接服务器.")
-       console.log(res)
-       that.setData({
-         disabled: false
-       });
-     }
-   })
-    
+                wx.navigateTo({
+                  url: '/pages/modifi_user/user',
+                })
+              }
+
+            }
+          });
+
+        } else {
+
+          that.setData({
+            disabled: false
+          });
+          wx.showModal({
+            content: res.data.msg,
+            showCancel: false,
+            confirmText: "确定",
+
+            success: function(res) {
+              if (res.confirm) {}
+            }
+          });
+        }
+
+      },
+      fail: function(res) {
+        console.log("校验的时候未能连接服务器.")
+        console.log(res)
+        that.setData({
+          disabled: false
+        });
+      }
+    })
+
   },
-  saveFormId: function (e) {
+  saveFormId: function(e) {
     var openid = wx.getStorageSync("userinfo").openid;
     var plate = wx.getStorageSync("userinfo").plate;
     wx.request({
@@ -258,11 +322,11 @@ Page({
         plate: plate,
         formId: e.detail.formId
       },
-      success: function (e) {
+      success: function(e) {
 
-        
+
       },
-      fail: function (e) {
+      fail: function(e) {
         console.log(e)
       }
     })
@@ -291,8 +355,8 @@ Page({
           // 发送 res.code 到后台换取 openId, sessionKey, unionId
           wx.request({
             url: getApp().data.servsers + 'userInfo/' + res.code,
-            success: function (res) {
-              console.log('请求成功，开始处理')
+            success: function(res) {
+              console.log('首页页面请求用户信息')
               console.log(res);
               console.log(res.data);
               console.log(res.data.id);
@@ -305,9 +369,8 @@ Page({
                   wx.showModal({
                     content: '未能正确获取数据，请退出程序重进',
                     showCancel: false,
-                    success: function (res) {
-                      if (res.confirm) {
-                      }
+                    success: function(res) {
+                      if (res.confirm) {}
                     }
                   });
                 }
@@ -319,7 +382,7 @@ Page({
               } else {
                 console.log('已注册')
                 wx.setStorageSync('userinfo', res.data);
-                that.userInfo.userInfo = res.data;                
+                that.userInfo.userInfo = res.data;
               }
               wx.hideToast();
             },
@@ -327,8 +390,7 @@ Page({
 
         },
 
-      }
-      )
+      })
     }
   },
 
@@ -346,13 +408,13 @@ Page({
 
 
 
-  
-  var that = this; 
+
+    var that = this;
 
     wx.showLoading({
       title: '加载数据中...',
-    }) 
-   
+    })
+
     var openid = wx.getStorageSync("userinfo").openid;
     //var openid = this.data.openid;
     var plate = wx.getStorageSync("userinfo").plate;
@@ -368,17 +430,17 @@ Page({
       data: {
         openId: openid
       },
-      success: function(res) {       
+      success: function(res) {
         that.setData({
           items: res.data.list,
           time: res.data.time,
           activityQuantity: res.data.activityQuantity,
           servsers: getApp().data.uploadurl,
         })
-        getApp().order.order = res.data.list;  
+        getApp().order.order = res.data.list;
 
-        for(var i in res.data.list){
-          if (res.data.list[i].order.eirImg==null){
+        for (var i in res.data.list) {
+          if (res.data.list[i].order.eirImg == null) {
             wx.showModal({
               showCancel: false,
               title: '提示',
@@ -386,15 +448,15 @@ Page({
             })
           }
         }
-        
+
 
       },
-      fail:function(){
+      fail: function() {
         wx.hideLoading();
         wx.showModal({
           content: '未能连接服务器',
           showCancel: false,
-          success: function (res) {
+          success: function(res) {
             if (res.confirm) {
               wx.navigateBack({
                 delta: -1
@@ -404,14 +466,14 @@ Page({
           }
         });
       },
-      complete:function(){
+      complete: function() {
         wx.hideLoading();
       }
     });
-   
-  
+
+
     wx.request({
-      url: getApp().data.servsers +'listcancel',
+      url: getApp().data.servsers + 'listcancel',
       header: {
         'content-type': 'application/x-www-form-urlencoded' // 默认值
       },
@@ -419,7 +481,7 @@ Page({
       data: {
         openId: openid
       },
-      success:function(res){
+      success: function(res) {
         that.setData({
           ls: res.data.list,
 
@@ -427,7 +489,7 @@ Page({
       }
     })
 
-    
+
 
     this.setData({
       plate: plate,
@@ -436,7 +498,7 @@ Page({
       colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
     })
 
- },
+  },
 
   /**
    * 生命周期函数--监听页面隐藏
@@ -458,7 +520,7 @@ Page({
   onPullDownRefresh: function() {
     wx.showNavigationBarLoading() //在标题栏中显示加载
     //模拟加载
-    setTimeout(function () {
+    setTimeout(function() {
       // complete
       wx.hideNavigationBarLoading() //完成停止加载
       wx.stopPullDownRefresh() //停止下拉刷新
@@ -466,7 +528,7 @@ Page({
 
     var that = this;
 
- 
+
 
     var openid = wx.getStorageSync("userinfo").openid;
     //var openid = this.data.openid;
@@ -479,7 +541,7 @@ Page({
       data: {
         openId: openid
       },
-      success: function (res) {
+      success: function(res) {
 
         wx.hideNavigationBarLoading() //完成停止加载
         wx.stopPullDownRefresh() //停止下拉刷新
@@ -504,12 +566,12 @@ Page({
 
 
       },
-      fail: function () {
-       
+      fail: function() {
+
         wx.showModal({
           content: '未能连接服务器',
           showCancel: false,
-          success: function (res) {
+          success: function(res) {
             if (res.confirm) {
               wx.navigateBack({
                 delta: -1
@@ -519,8 +581,8 @@ Page({
           }
         });
       },
-      complete: function () {
-     
+      complete: function() {
+
       }
     });
 
@@ -534,7 +596,7 @@ Page({
       data: {
         openId: openid
       },
-      success: function (res) {
+      success: function(res) {
         that.setData({
           ls: res.data.list,
 
@@ -562,7 +624,7 @@ Page({
 
 
 
-var provIndex = function (prov, provValue, ) {
+var provIndex = function(prov, provValue, ) {
   for (var i in provValue) {
     if (provValue[i] == prov) {
       console.log("provCodeIndex：" + i)
@@ -571,7 +633,7 @@ var provIndex = function (prov, provValue, ) {
   }
 
 }
-var colorIndex = function (color, colorCodesValue) {
+var colorIndex = function(color, colorCodesValue) {
   console.log(color)
   for (var i in colorCodesValue) {
     if (color == colorCodesValue[i]) {

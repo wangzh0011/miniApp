@@ -162,9 +162,14 @@ Page({
            
             setTimeout(function(){
             wx.hideLoading();
-              wx.switchTab({
-                url: '/pages/listEir/Eir',
-              })
+
+            wx.navigateTo({
+              url: '../listEir/Eir',
+            })
+            //  console.log("跳转网页")
+            //   wx.switchTab({
+            //     url: '/pages/listEir/Eir',
+            //   })
             },3000);        
 
 

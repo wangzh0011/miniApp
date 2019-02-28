@@ -5,15 +5,18 @@
 }
 .page__bd{
   padding-bottom: 10px;
+
 }
 .hd {
   display: flex;
+  
 }
 .page__desc{
   padding-left: 20px;
 }
 .hd {
   display: flex;
+  
 }
 .invisibleclass{
 position:absolute;
@@ -23,13 +26,22 @@ left:0;
 top:0;
 opacity:0;
 }
-
+.page__bd{
+  padding-bottom: 0rpx;
+  margin-bottom: 0rpx;
+  box-sizing: border-box;
+}
+.weui-cells__title{
+  margin-top: 0rpx;
+}
+.page__ss{
+  margin-bottom: 0rpx;
+  box-sizing: border-box;
+  padding: 5rpx 25rpx;
+}
 .ssss {
-  color: rgba(145, 112, 31, 0.993);
-  margin-right: 20rpx;
-  float:right; 
-  
-  
+  color: gray;
+  margin-bottom: 50rpx;
 }
 
 .arrow {
@@ -61,11 +73,14 @@ opacity:0;
 .pppppp {
   font-size: larger;
 }
-
+.rrrr{
+  margin-top: 40rpx;
+}
 .custom {
+  
   width: 80%;
   border-radius: 45rpx;
-  box-shadow: 0rpx 50rpx 50rpx 0rpx rgba(38, 112, 69, 0.3);
+  box-shadow: 2rpx 11rpx 22rpx rgba(38, 112, 69, 0.3);
   color: beige;
   background-color: rgb(81, 182, 81);
   background: linear-gradient(to right, rgba(79, 168, 91, 0.8), rgb(24, 165, 48));
@@ -84,7 +99,7 @@ opacity:0;
 
 
 .otherModuleList {
-  position: absolute;
+  position: relative;
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start; /*从左边开始向右排*/
@@ -100,6 +115,18 @@ opacity:0;
 .otherModuleList .weui-footer {
   margin-top: 60rpx;
   width: 90vw;
+}
+.weui-cells__title{
+  width: 100vw;
+  margin-top: 25rpx;
+  /* clear: right; */
+   
+}
+.textCenter{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .listItem .itemBox {
   position: relative;
@@ -137,8 +164,8 @@ opacity:0;
 
 .itemBox text {
   margin-top: 15rpx;
-  color: grey ;
-  font-size: 12px;
+  color:black ;
+  
 }
 
 /*分割线样式*/
@@ -149,8 +176,11 @@ opacity:0;
   height: 5rpx;
 }
 .page_hight{
-  height: 1500rpx;
-}
+  
+  width: 100vw;
+  overflow: hidden;
+  }
+
 .weui-footer{
     
     /* position: ; */

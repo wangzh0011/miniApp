@@ -60,9 +60,12 @@ Page({
                 that.setData({
                   disabled: false
                 });
-                wx.switchTab({
+                wx.navigateBack({
                   url: '/pages/listEir/Eir',
                 })
+                // wx.switchTab({
+                //   url: '/pages/listEir/Eir',
+                // })
               }
             }
           });
@@ -115,9 +118,12 @@ Page({
             showCancel: false,
             success: function (res) {
               if (res.confirm) {
-                wx.switchTab({
+                wx.navigateBack({
                   url: '/pages/listEir/Eir',
                 })
+                // wx.switchTab({
+                //   url: '/pages/listEir/Eir',
+                // })
               }
             }
           });
@@ -131,9 +137,12 @@ Page({
                 that.setData({
                   disabled: false
                 });
-                wx.switchTab({
+                wx.navigateBack({
                   url: '/pages/listEir/Eir',
                 })
+                // wx.switchTab({
+                //   url: '/pages/listEir/Eir',
+                // })
               }
             }
           });

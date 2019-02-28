@@ -118,11 +118,11 @@ Page({
     var type_D = 0;
     var type_R = 0;
     for (var i in items) {
-      if (items[i].workType == 'DE' || items[i].workType == 'DF') {
+      if (items[i].workType == 'DE' || items[i].workType == 'DF' ) {
 
         type_D = type_D + 1;
       }
-      if (items[i].workType == 'RE' || items[i].workType == 'RF') {
+      if (items[i].workType == 'RE' || items[i].workType == 'RF')  {
 
         type_R = type_R + 1;
       }
@@ -134,11 +134,11 @@ Page({
     for(var i in list){
       
 
-      if (list[i].order.tranType == 'DE' || list[i].order.tranType == 'DF') {
+      if ( (list[i].order.tranType == 'DE' || list[i].order.tranType == 'DF') && list[i].order.state != '3') {
         
         type_D = type_D + 1;
       }
-      if (list[i].order.tranType == 'RE' || list[i].order.tranType == 'RF') {
+      if ((list[i].order.tranType == 'RE' || list[i].order.tranType == 'RF') && list[i].order.state != '3') {
 
         type_R = type_R + 1;
       }
@@ -374,9 +374,12 @@ Page({
                         content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
                         success: function (res) {
                           if (res.confirm) {
-                            wx.switchTab({
+                            wx.navigateBack({
                               url: '../listEir/Eir',
                             })
+                            // wx.switchTab({
+                            //   url: '../listEir/Eir',
+                            // })
                           }
                         }
 
@@ -453,9 +456,12 @@ Page({
                         content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
                         success: function (res) {
                           if (res.confirm) {
-                            wx.switchTab({
+                            wx.navigateBack({
                               url: '../listEir/Eir',
                             })
+                            // wx.switchTab({
+                            //   url: '../listEir/Eir',
+                            // })
                           }
                         }
 
@@ -513,9 +519,12 @@ Page({
                         content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
                         success: function (res) {
                           if (res.confirm) {
-                            wx.switchTab({
+                            wx.navigateBack({
                               url: '../listEir/Eir',
                             })
+                            // wx.switchTab({
+                            //   url: '../listEir/Eir',
+                            // })
                           }
                         }
 
@@ -557,9 +566,12 @@ Page({
         content: '照片可能未全部上传，请再检查重新上传.',
         success: function (res) {
           if (res.confirm) {
-            wx.switchTab({
+            wx.navigateBack({
               url: '../listEir/Eir',
             })
+            // wx.switchTab({
+            //   url: '../listEir/Eir',
+            // })
           }
         }
 
@@ -583,7 +595,17 @@ Page({
     var remain=this.data.remain-1;
 
     //判断是否小于或者等于4
-    if (items.length > remain) {
+
+    //不参与计数的条数
+    // var count = 0;
+    // for (var i in items) {
+    //   if (items[i].state == '3') {
+    //     count = count + 1;
+    //   }
+    // }
+
+
+    if (items.length  > remain) {
       wx.showModal({
         showCancel: false,
         title: '提示',
@@ -736,11 +758,17 @@ Page({
    // console.log("orders: "+orders.length)
    // console.log(4-orders.length)
     //var remain = 4 - orders.length;
-
+        //不参与计数的条数
+    var count=0;
+    for (var i in orders){
+      if (orders[i].order.state != '3'){
+        count = count + 1;
+      }
+    }
     this.setData({
       today: today,
       tomorrow: tomorrow,
-      remain: 4 - orders.length,
+      remain: 4 - count,
     })
 
   },

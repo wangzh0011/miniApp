@@ -6,6 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    disabled: false,//防止用户重复按
     showTopTips: false,
     errormsg:"",
 
@@ -211,6 +212,9 @@ wx.showLoading({
     wx.showLoading({
       title: '提交资料中...',
     })
+    this.setData({
+      disabled: true
+    });
     wx.request({
       url: getApp().data.servsers + 'addUser',
       data:{
@@ -228,11 +232,17 @@ wx.showLoading({
         console.log(res.data);
         wx.setStorageSync('userinfo', res.data);
         app.userInfo.userInfo = res.data;
-        wx.switchTab({
-          url: '/pages/index/index',
+        wx.navigateBack({
+          url: '/pages/listEir/Eir',
         })
+        // wx.switchTab({
+        //   url: '/pages/index/index',
+        // })
       },
       complete:function(res){
+        this.setData({
+          disabled: false
+        });
         setTimeout(function () {
           wx.hideLoading()
         }, 2000)

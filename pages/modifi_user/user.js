@@ -200,9 +200,12 @@ Page({
               wx.hideLoading();
               wx.setStorageSync('userinfo', res.data)
               getApp().userInfo.userInfo = wx.getStorageSync("userinfo")
-              wx.switchTab({
-                url: '/pages/index/index',
+              wx.navigateBack({
+                url: '/pages/listEir/Eir',
               })
+              // wx.switchTab({
+              //   url: '/pages/listEir/Eir',
+              // })
             },
             fail: function () {
               wx.hideLoading();

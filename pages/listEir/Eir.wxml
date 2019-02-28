@@ -1,10 +1,7 @@
 <view class="page page_hight">
 
-  <view class="page__bd">
-   <view>
-      <text class='ssss '>{{prov[provCodeIndex]}}{{truck_lic}}{{colorCodes[colorCodeIndex]}}</text>
-   </view>
-    
+  <view class="page__bd page__ss">
+    <text class='ssss '>您好，您绑定的车牌号码是：{{prov[provCodeIndex]}}{{truck_lic}}{{colorCodes[colorCodeIndex]}}牌</text>
   </view>
 
 
@@ -27,11 +24,11 @@
 
   </view> -->
 
-  <view>
+  <!-- <view> -->
 
 
 
-    <!-- <view class='hd'>
+  <!-- <view class='hd'>
       <view>车牌号码: </view>
       <view>
 
@@ -44,16 +41,16 @@
       </view>
     </view> -->
 
-  </view>
+  <!-- </view> -->
   <!-- <view class="page__hd">
     <view class="page__desc"></view>
   </view> -->
 
 
   <view class="page__bd">
-    <view class="weui-cells__title" wx:if="{{time != null }}" style='color:green'>您在{{time}}时间预约了以下作业，请准时到达作业</view>
-    <view class="weui-cells__title" wx:if="{{time == null}}">
-      <text style='font-size: larger;color:green'>请至少提前30分钟预约</text>
+    <view class="weui-cells__title weui-cells__titless" wx:if="{{time != null }}" style='color:rgb(255, 1, 52);width: 95vw;'>您在{{time}}预约了以下作业，审核通过后请准时到达</view>
+    <view class="weui-cells__title weui-cells__titless" wx:if="{{time == null}}">
+      <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>为减少您的等待时间,请至少提前30分钟预约。</text>
     </view>
 
     <block wx:for="{{items}}" wx:for-item="list" wx:key="*this">
@@ -65,7 +62,7 @@
               <image src="{{servsers}}{{list.order.eirImg}}" style="width: 50px; height: 50px; display: block" />
             </view>
             <view class="weui-cell__bd">
-              <view style="font-size: 14px;color: #888888;">{{list.tranType}}</view>
+              <view style="font-size: 14px;color: #888888;">{{list.tranType}}(内贸)</view>
               <view style="font-size: 13px;color: #888888;">预约号:{{list.order.id}}</view>
               <view style="font-size: 13px;color: #888888;">时间:{{list.order.appointmentTime}} </view>
             </view>
@@ -93,7 +90,7 @@
               <image src="{{servsers}}{{list.order.eirImg}}" style="width: 50px; height: 50px; display: block" />
             </view>
             <view class="weui-cell__bd">
-              <view style="font-size: 14px;color: #888888;">{{list.tranType}}</view>
+              <view style="font-size: 14px;color: #888888;">{{list.tranType}}(内贸)</view>
               <view style="font-size: 13px;color: #888888;">单号:{{list.order.id}}</view>
               <view style="font-size: 13px;color: #888888;">时间:{{list.order.appointmentTime}} </view>
             </view>
@@ -116,7 +113,7 @@
 
 
 
-  <view class="weui-cell__bd ">
+  <view class="weui-cell__bd rrrr ">
     <form report-submit='true' bindsubmit='goAddEIR'>
       <button form-type='submit' class="weui-btn custom" disabled='{{disabled}}'>内贸飞单预约</button>
     </form>
@@ -135,12 +132,12 @@
     <view class='listItem'>
 
       <view class='itemBox'>
-        <form report-submit='true' bindsubmit='sssssss'>
+        <form report-submit='true' bindsubmit='handle' data-name='cms'>
           <view class='itemImg'>
             <image src='../images/search.png' mode='aspectFill'></image>
-          </view>  
-            <text>进闸签到</text>
-            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+          </view>
+          <text class='textCenter'>小票</text>
+          <button formType="submit" hover-class="none" class='invisibleclass'></button>
 
         </form>
       </view>
@@ -151,26 +148,11 @@
     <view class='listItem'>
       <view class='itemBox'>
 
-        <form report-submit='true' bindsubmit='sssssss'>          
-            <view class='itemImg'>
-              <image src='../images/edit.png' mode='aspectFill'></image>
-            </view>
-            <text>小票查询</text>
-            <button formType="submit" hover-class="none" class='invisibleclass'></button>
-          </form>
-
-      </view>
-
-    </view>
-
-    <view class='listItem'>
-      <view class='itemBox'>
-
-        <form report-submit='true' bindsubmit='sssssss'>
+        <form report-submit='true' bindsubmit='handle' data-name='eir'>
           <view class='itemImg'>
             <image src='../images/eir.jpg' mode='aspectFill'></image>
           </view>
-          <text>进闸签到</text>
+          <text class='textCenter'>出闸纸</text>
           <button formType="submit" hover-class="none" class='invisibleclass'></button>
         </form>
 
@@ -178,14 +160,15 @@
 
     </view>
 
+
     <view class='listItem'>
       <view class='itemBox'>
 
-        <form report-submit='true' bindsubmit='sssssss'>
+        <form report-submit='true' bindsubmit='handle' data-name='eirLess'>
           <view class='itemImg'>
-            <image src='../images/history.png' mode='aspectFill'></image>
+            <image src='../images/dindan.png' mode='aspectFill'></image>
           </view>
-          <text>进闸签到</text>
+          <text class='textCenter'>飞单记录</text>
           <button formType="submit" hover-class="none" class='invisibleclass'></button>
         </form>
 
@@ -193,14 +176,47 @@
 
     </view>
 
+
     <view class='listItem'>
       <view class='itemBox'>
 
-        <form report-submit='true' bindsubmit='sssssss'>
+        <form report-submit='true' bindsubmit='handle' data-name='user'>
           <view class='itemImg'>
-            <image src='../images/phone.png' mode='aspectFill'></image>
+            <image src='../images/user.png' mode='aspectFill'></image>
           </view>
-          <text>进闸签到</text>
+          <text class='textCenter'>个人资料</text>
+          <button formType="submit" hover-class="none" class='invisibleclass'></button>
+        </form>
+
+      </view>
+
+    </view>
+
+
+    <view class='listItem'>
+      <view class='itemBox'>
+
+        <form report-submit='true' bindsubmit='handle' data-name='customer'>
+          <view class='itemImg'>
+            <image src='../images/customer.png' mode='aspectFill'></image>
+          </view>
+          <text class='textCenter'>客服</text>
+          <button formType="submit" hover-class="none" class='invisibleclass'></button>
+        </form>
+
+      </view>
+
+    </view>
+
+
+        <view class='listItem'>
+      <view class='itemBox'>
+
+        <form report-submit='true' bindsubmit='handle' data-name='gr'>
+          <view class='itemImg'>
+            <image src='../images/customer.png' mode='aspectFill'></image>
+          </view>
+          <text class='textCenter'>港融渡柜</text>
           <button formType="submit" hover-class="none" class='invisibleclass'></button>
         </form>
 

@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    url: "http://m.dcblink.com/" //goEir.action
+    url: "https://ect1.portx.cn/rob/index.html" //goEir.action
   },
 
   /**
@@ -34,9 +34,22 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
-  },
+    var openid = wx.getStorageSync("userinfo").openid;
+    var truckNumber = wx.getStorageSync("userinfo").plate;
+    var idcard = wx.getStorageSync("userinfo").userCardId;
+    var phone = wx.getStorageSync("userinfo").phone;
+    var name = wx.getStorageSync("userinfo").userName;
+    
+    var url=this.data.url;
+    url = url + "?idcard=" + idcard + "&name=" + name + "&truckNumber" + truckNumber +"&phone"+phone
+    this.setData({
+      url:url
+    })
+    
+    console.log(url)
 
+
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */

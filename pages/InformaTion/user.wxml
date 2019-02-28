@@ -64,7 +64,7 @@
 
 
     <view class="weui-btn-area">
-      <button class="weui-btn" type="primary" formType="submit">提交</button>
+      <button class="weui-btn" type="primary" formType="submit" disabled='{{disabled}}'>提交</button>
     </view>
   </form>
 </view>
