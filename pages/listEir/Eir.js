@@ -7,7 +7,7 @@ Page({
    */
   data: {
     disabled: false,
-    openid: wx.getStorageSync("userinfo").openid,
+    openid: wx.getStorageSync("userinfo").openid,     
     items: [],
     order: [],
 
