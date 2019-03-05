@@ -1,19 +1,19 @@
 // pages/InformaTion/user.js
-var app=getApp();
+var app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    disabled: false,//防止用户重复按
+    disabled: false, //防止用户重复按
     showTopTips: false,
-    errormsg:"",
+    errormsg: "",
 
 
 
-    prov: ["粤", "港", "桂", "琼", "赣", "闽", "浙", "苏", "皖", "沪", "豫", "翼", "湘","鄂","云", "贵", "鲁", "川", "渝", "青", "陕", "宁", "新", "甘", "晋", "蒙", "京", "津", "辽", "吉", "黑","藏"],
-    provValue: ["GD", "HK", "GX", "HQ", "JX", "FZ", "ZJ","JS", "AH", "SH", "HN", "HB", "FN", "FB", "YN", "GZ", "SD", "SC", "CQ","QH", "SX", "NX", "XJ", "GS", "SJ", "NM", "BJ", "TJ", "LN", "JL", "HJ", "XZ"],
+    prov: ["粤", "港", "桂", "琼", "赣", "闽", "浙", "苏", "皖", "沪", "豫", "翼", "湘", "鄂", "云", "贵", "鲁", "川", "渝", "青", "陕", "宁", "新", "甘", "晋", "蒙", "京", "津", "辽", "吉", "黑", "藏"],
+    provValue: ["GD", "HK", "GX", "HQ", "JX", "FZ", "ZJ", "JS", "AH", "SH", "HN", "HB", "FN", "FB", "YN", "GZ", "SD", "SC", "CQ", "QH", "SX", "NX", "XJ", "GS", "SJ", "NM", "BJ", "TJ", "LN", "JL", "HJ", "XZ"],
     provCodeIndex: 0,
 
     colorCodes: ["黄", "蓝", "黑", "绿", "红", "白"],
@@ -22,46 +22,42 @@ Page({
 
 
   },
-  saveFormId: function (e) {
-    console.log("app.data.infobase")
-    console.log(getApp().infobase)
-    console.log(e.detail)
-    wx.request({
-      url: getApp().data.servsers + '/saveFormId',
-      data: {
-        openid: app.infobase.openid,
-        plate: "null",
-        formId: e.detail.formId
-      },
-      success: function (e) {
-        console.log(e)
-      },
-      fail: function (e) {
-        console.log(e)
-      }
-    })
-  },
-  //saveFormId : function(e){
-   // console.log(e.detail)
-    
-  //},
+  // saveFormId: function(e) {
+  //   console.log("app.data.infobase")
+  //   console.log(getApp().infobase)
+  //   console.log(e.detail)
+  //   wx.request({
+  //     url: getApp().data.servsers + '/saveFormId',
+  //     data: {
+  //       openid: app.infobase.openid,
+  //       plate: "null",
+  //       formId: e.detail.formId
+  //     },
+  //     success: function(e) {
+  //       console.log(e)
+  //     },
+  //     fail: function(e) {
+  //       console.log(e)
+  //     }
+  //   })
+  // },
 
 
-  bindprovCodeChange: function (e) {
+  bindprovCodeChange: function(e) {
     console.log('picker country code 发生选择改变，携带值为', e.detail.value);
 
     this.setData({
       provCodeIndex: e.detail.value
     })
   },
-  bindcolorCodeChange: function (e) {
+  bindcolorCodeChange: function(e) {
     console.log('picker country code 发生选择改变，携带值为', e.detail.value);
 
     this.setData({
       colorCodeIndex: e.detail.value
     })
   },
-  changinput: function (e) {
+  changinput: function(e) {
     var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
     if (reg.test(e.detail.value)) {
       this.setData({
@@ -73,10 +69,10 @@ Page({
       truck_lic: e.detail.value.toLocaleUpperCase()
     })
   },
-  SubMit:function(e){
-wx.showLoading({
-  title: '正在提交...',
-})
+  SubMit: function(e) {
+    wx.showLoading({
+      title: '正在提交...',
+    })
 
     var that = this;
     wx.request({
@@ -86,14 +82,14 @@ wx.showLoading({
         plate: "null",
         formId: e.detail.formId
       },
-      success: function (e) {
+      success: function(e) {
         console.log(e)
       },
-      fail: function (e) {
+      fail: function(e) {
         console.log(e)
       }
     })
-   
+
     var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/g;
     if (reg.test(e.detail.value.truck_lic)) {
       this.setData({
@@ -101,25 +97,25 @@ wx.showLoading({
         errormsg: "车牌号码不能为中文"
       });
       wx.hideLoading();
-      return ;
+      return;
     }
 
     var formData = e.detail.value;
     console.log(e);
-    if (e.detail.value.phone_number == '' || e.detail.value.truck_lic == '' || e.detail.value.cardid == ''){ 
-      
+    if (e.detail.value.phone_number == '' || e.detail.value.truck_lic == '' || e.detail.value.cardid == '') {
+
       this.setData({
         showTopTips: true,
-        errormsg:"输入内容不能为空!"
+        errormsg: "输入内容不能为空!"
       });
       //提示内容显示时间
-      setTimeout(function () {
+      setTimeout(function() {
         that.setData({
           showTopTips: false
         });
       }, 3000);
-       wx.hideLoading();     
-      return ;
+      wx.hideLoading();
+      return;
     }
     var reg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
     if (!reg.test(e.detail.value.phone_number)) {
@@ -128,40 +124,40 @@ wx.showLoading({
         errormsg: "输入的手机号码不正确"
       });
       //提示内容显示时间
-      setTimeout(function () {
+      setTimeout(function() {
         that.setData({
           showTopTips: false
         });
-      }, 3000);  
+      }, 3000);
       wx.hideLoading();
-      return ;
+      return;
     }
-    if (e.detail.value.phone_number.length != 11){
+    if (e.detail.value.phone_number.length != 11) {
       var that = this;
       this.setData({
         showTopTips: true,
         errormsg: "输入的手机号码不正确"
       });
 
-      
+
 
       //提示内容显示时间
-      setTimeout(function () {
+      setTimeout(function() {
         that.setData({
           showTopTips: false
         });
-      }, 3000);    
+      }, 3000);
       wx.hideLoading();
       /*
       var regphone = new RegExp('^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$');
         // regphone.exec()
       var rs = regphone.exec(e.detail.value.phone_number)
       console.log("结果  ：  " + rs )*/
-      
-      
 
-      
-      return ;
+
+
+
+      return;
     }
 
 
@@ -172,7 +168,7 @@ wx.showLoading({
         errormsg: "输入身份证号码不正确!"
       });
       wx.hideLoading();
-      setTimeout(function () {
+      setTimeout(function() {
         that.setData({
           showTopTips: false
         });
@@ -182,10 +178,10 @@ wx.showLoading({
     }
 
 
-    
+
     var plate = that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex];
     //console.log(that.data.provValue[that.data.provCodeIndex])
-   // console.log(e.detail.value.truck_lic)
+    // console.log(e.detail.value.truck_lic)
     //console.log(e.detail.value.truck_lic)
     //console.log(plate)
     /** 
@@ -217,33 +213,28 @@ wx.showLoading({
     });
     wx.request({
       url: getApp().data.servsers + 'addUser',
-      data:{
-        openId:wx.getStorageSync('infobase').openid,        
+      data: {
+        openId: wx.getStorageSync('infobase').openid,
         phone: e.detail.value.phone_number,
         plate: plate,
         userCardId: e.detail.value.cardid,
         userName: e.detail.value.username,
+        userType: 'truck'
       },
-      method:"POST",
+      method: "POST",
       header: {
         'content-type': 'application/x-www-form-urlencoded' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res.data);
         wx.setStorageSync('userinfo', res.data);
         app.userInfo.userInfo = res.data;
-        wx.navigateBack({
-          url: '/pages/listEir/Eir',
+        wx.redirectTo({
+          url: '/pages/listEir/Eir'
         })
-        // wx.switchTab({
-        //   url: '/pages/index/index',
-        // })
       },
-      complete:function(res){
-        this.setData({
-          disabled: false
-        });
-        setTimeout(function () {
+      complete: function(res) {
+        setTimeout(function() {
           wx.hideLoading()
         }, 2000)
       }
@@ -253,56 +244,56 @@ wx.showLoading({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-  
+  onLoad: function(options) {
+
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-  
+  onReady: function() {
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-  
+  onShow: function() {
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
-  
+  onHide: function() {
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-  
+  onUnload: function() {
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
-  
+  onPullDownRefresh: function() {
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
-  
+  onReachBottom: function() {
+
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-  
+  onShareAppMessage: function() {
+
   }
 })

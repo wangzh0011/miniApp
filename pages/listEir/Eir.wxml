@@ -209,7 +209,7 @@
     </view>
 
 
-        <view class='listItem'>
+    <view class='listItem'>
       <view class='itemBox'>
 
         <form report-submit='true' bindsubmit='handle' data-name='gr'>
@@ -217,6 +217,22 @@
             <image src='../images/customer.png' mode='aspectFill'></image>
           </view>
           <text class='textCenter'>港融渡柜</text>
+          <button formType="submit" hover-class="none" class='invisibleclass'></button>
+        </form>
+
+      </view>
+
+    </view>
+
+
+    <view class='listItem'>
+      <view class='itemBox'>
+
+        <form report-submit='true' bindsubmit='handle' data-name='sitemap'>
+          <view class='itemImg'>
+            <image src='../images/ship.png' mode='aspectFill'></image>
+          </view>
+          <text class='textCenter'>自主报到</text>
           <button formType="submit" hover-class="none" class='invisibleclass'></button>
         </form>
 
