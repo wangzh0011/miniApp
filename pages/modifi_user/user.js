@@ -112,19 +112,37 @@ Page({
       return;
     }
     
+    if(getApp().userInfo.userInfo.userType == 'truck'){
 
-    var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
-    if (reg.test(e.detail.value.truck_lic)) {
-      this.setData({
-        showTopTips: true,
-        errormsg: "车牌号码不能为中文"
-      });
-      wx.hideLoading();
-      return;
+        var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+        if (reg.test(e.detail.value.truck_lic)) {
+          this.setData({
+            showTopTips: true,
+            errormsg: "车牌号码不能为中文"
+          });
+          wx.hideLoading();
+          return;
+        }
+
+
+        reg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/;
+        if (!reg.test(e.detail.value.cardid)) {
+          this.setData({
+            showTopTips: true,
+            errormsg: "输入身份证号码不正确11"
+          });
+          wx.hideLoading();
+          setTimeout(function () {
+            that.setData({
+              showTopTips: false
+            });
+          }, 3000);
+          return;
+        }
+    
     }
 
- 
-     reg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
+    reg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
     if (!reg.test(e.detail.value.phone_number)) {
       this.setData({
         showTopTips: true,
@@ -140,20 +158,7 @@ Page({
       return ;
     }
      
-    reg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/;
-    if (!reg.test(e.detail.value.cardid)) {
-      this.setData({
-        showTopTips: true,
-        errormsg: "输入身份证号码不正确11"
-      });
-      wx.hideLoading();
-      setTimeout(function () {
-        that.setData({
-          showTopTips: false
-        });
-      }, 3000);
-      return;
-    }
+    
 
 
 
@@ -190,7 +195,7 @@ Page({
               plate: that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex],
               name: e.detail.value.userName,
               cardId: e.detail.value.cardid,
-
+              userType: getApp().userInfo.userInfo.userType
             },
             method: "POST",
             header: {
@@ -255,19 +260,31 @@ Page({
    */
   onShow: function () {
     console.log("用户信息")
-    console.log(getApp().userInfo.userInfo.plate)
-    var plate = getApp().userInfo.userInfo.plate;
-    this.setData({
-      userName: getApp().userInfo.userInfo.userName,
-      openid: getApp().userInfo.userInfo.openid,
-      createTime: getApp().userInfo.userInfo.createTime,
-      userCardId: getApp().userInfo.userInfo.userCardId,
-      plate: plate,
-      userNumber: getApp().userInfo.userInfo.phone,
-      truck_lic: plate.substring(2, plate.length - 1),
-       provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
-       colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue)
-    })
+    console.log(getApp().userInfo.userInfo);
+    var userInfo = getApp().userInfo.userInfo;
+    if(userInfo.userType == 'vessel'){
+      this.setData({
+        userName: userInfo.userName,
+        openid: userInfo.openid,
+        createTime: userInfo.createTime,
+        userNumber: userInfo.phone,
+        userType: userInfo.userType
+      })
+    }else{
+      var plate = getApp().userInfo.userInfo.plate;
+      this.setData({
+        userName: getApp().userInfo.userInfo.userName,
+        openid: getApp().userInfo.userInfo.openid,
+        createTime: getApp().userInfo.userInfo.createTime,
+        userCardId: getApp().userInfo.userInfo.userCardId,
+        plate: plate,
+        userNumber: getApp().userInfo.userInfo.phone,
+        truck_lic: plate.substring(2, plate.length - 1),
+        provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
+        colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
+        userType: userInfo.userType
+      })
+    }
   },
 
   /**

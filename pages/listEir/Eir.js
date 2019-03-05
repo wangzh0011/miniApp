@@ -11,7 +11,6 @@ Page({
     items: [],
     order: [],
 
-
     prov: ["粤", "港", "桂", "琼", "赣", "闽", "浙", "苏", "皖", "沪", "豫", "翼", "湘", "鄂", "云", "贵", "鲁", "川", "渝", "青", "陕", "宁", "新", "甘", "晋", "蒙", "京", "津", "辽", "吉", "黑", "藏"],
     provValue: ["GD", "HK", "GX", "HQ", "JX", "FZ", "ZJ", "JS", "AH", "SH", "HN", "HB", "FN", "FB", "YN", "GZ", "SD", "SC", "CQ", "QH", "SX", "NX", "XJ", "GS", "SJ", "NM", "BJ", "TJ", "LN", "JL", "HJ", "XZ"],
 
@@ -20,19 +19,7 @@ Page({
     colorCodes: ["黄", "蓝", "黑", "绿", "红", "白"],
     colorCodesValue: ["Y", "B", "D", "N", "R", "W"],
   },
-  //下拉刷新
-  //onPullDownRefresh: function () {
-  //console.log("导航栏")
 
-  //wx.showNavigationBarLoading() //在标题栏中显示加载
-
-  //模拟加载
-  //setTimeout(function () {
-  // complete
-  //wx.hideNavigationBarLoading() //完成停止加载
-  //wx.stopPullDownRefresh() //停止下拉刷新
-  //}, 5000);
-  //},
   submit: function(e) {
     console.log("ada")
   },
@@ -59,10 +46,6 @@ Page({
     console.log(e)
 
     if ("user" == name) {
-
-      // wx.switchTab({
-      //   url: '/pages/modifi_user/user',
-      // })
       wx.navigateTo({
         url: '/pages/modifi_user/user',
       })
@@ -98,9 +81,6 @@ Page({
         url: '/pages/sitemap/sitemap',
       })
     }
-
-
-
   },
   godetail: function(e) {
     console.log(e)
@@ -112,12 +92,7 @@ Page({
     })
   },
   gocancel: function(e) {
-
     var index = e.currentTarget.dataset.index;
-
-    // wx.navigateTo({
-    //   url: '/pages/detail/detail?order=' + index,
-    // })
     wx.navigateTo({
       url: '/pages/historydetail/detail?id=' + index,
     })
@@ -136,67 +111,6 @@ Page({
     }, 1000);
     var openid = wx.getStorageSync("userinfo").openid;
     var plate = wx.getStorageSync("userinfo").plate;
-
-    // if (openid == undefined) {
-    //   wx.login({
-    //     success: res => {
-    //       //如果本地没有存储有用户信息
-
-    //       wx.showToast({
-    //         title: '程序数据加载中',
-    //         icon: 'loading',
-    //         duration: 6000
-    //       });
-    //       var code = res.code;
-    //       // 发送 res.code 到后台换取 openId, sessionKey, unionId
-    //       wx.request({
-    //         url: getApp().data.servsers + 'userInfo/' + res.code,
-    //         success: function(res) {
-    //           console.log('请求成功，开始处理')
-    //           console.log(res);
-    //           console.log(res.data);
-    //           console.log(res.data.id);
-
-    //           if (res.data.id == null || res.data.id == '') {
-    //             wx.setStorageSync("infobase", res.data)
-    //             var data = res.data;
-    //             that.infobase = data;
-    //             if (data.openid == undefined) {
-    //               wx.hideToast();
-    //               wx.showModal({
-    //                 content: '未能正确获取数据，请退出程序重进',
-    //                 showCancel: false,
-    //                 success: function(res) {
-    //                   if (res.confirm) {}
-    //                 }
-    //               });
-    //             }
-    //             console.log(getApp().infobase)
-    //             wx.redirectTo({
-    //               url: '/pages/VesselOrTruck/vesselOrTruck',
-    //             })
-
-    //           } else {
-    //             console.log('已注册')
-    //             wx.setStorageSync('userinfo', res.data);
-
-    //             that.userInfo.userInfo = res.data
-
-    //           }
-
-    //           wx.hideToast();
-
-
-    //         },
-
-
-
-    //       });
-
-    //     },
-
-    //   })
-    // }
 
     wx.request({
       url: getApp().data.servsers + '/saveFormId',
@@ -345,72 +259,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // var openid = wx.getStorageSync("userinfo").openid;
-    // if (openid == undefined) {
-    //   wx.login({
-    //     success: res => {
-    //       //如果本地没有存储有用户信息
-    //       wx.showToast({
-    //         title: '程序数据加载中',
-    //         icon: 'loading',
-    //         duration: 6000
-    //       });
-    //       var code = res.code;
-    //       // 发送 res.code 到后台换取 openId, sessionKey, unionId
-    //       wx.request({
-    //         url: getApp().data.servsers + 'userInfo/' + res.code,
-    //         success: function(res) {
-    //           console.log('首页页面请求用户信息')
-    //           console.log(res);
-    //           console.log(res.data);
-    //           console.log(res.data.id);
-    //           if (res.data.id == null || res.data.id == '') {
-    //             wx.setStorageSync("infobase", res.data)
-    //             var data = res.data;
-    //             that.infobase = data;
-    //             if (data.openid == undefined) {
-    //               wx.hideToast();
-    //               wx.showModal({
-    //                 content: '未能正确获取数据，请退出程序重进',
-    //                 showCancel: false,
-    //                 success: function(res) {
-    //                   if (res.confirm) {}
-    //                 }
-    //               });
-    //             }
-    //             console.log(getApp().infobase)
-    //             wx.redirectTo({
-    //               url: '/pages/VesselOrTruck/vesselOrTruck',
-    //             })
 
-    //           } else {
-    //             console.log('已注册')
-    //             wx.setStorageSync('userinfo', res.data);
-    //             that.userInfo.userInfo = res.data;
-    //           }
-    //           wx.hideToast();
-    //         },
-    //       });
-
-    //     },
-
-    //   })
-    // }
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-
-
+    console.log("test");
+    console.log(wx.getStorageSync('userinfo'));
+    console.log("test");
 
 
     var that = this;
@@ -434,7 +286,7 @@ Page({
       data: {
         openId: openid
       },
-      success: function(res) {
+      success: function (res) {
         that.setData({
           items: res.data.list,
           time: res.data.time,
@@ -455,12 +307,12 @@ Page({
 
 
       },
-      fail: function() {
+      fail: function () {
         wx.hideLoading();
         wx.showModal({
           content: '未能连接服务器',
           showCancel: false,
-          success: function(res) {
+          success: function (res) {
             if (res.confirm) {
               wx.navigateBack({
                 delta: -1
@@ -470,7 +322,7 @@ Page({
           }
         });
       },
-      complete: function() {
+      complete: function () {
         wx.hideLoading();
       }
     });
@@ -485,7 +337,7 @@ Page({
       data: {
         openId: openid
       },
-      success: function(res) {
+      success: function (res) {
         that.setData({
           ls: res.data.list,
 
@@ -493,14 +345,55 @@ Page({
       }
     })
 
+    if (getApp().userInfo.userInfo) {
+
+      if (wx.getStorageSync("userinfo").userType == 'truck') {
+        this.setData({
+          plate: plate,
+          truck_lic: plate.substring(2, plate.length - 1),
+          provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
+          colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
+        })
+      }
+
+      this.setData({
+        userType: wx.getStorageSync("userinfo").userType
+      })
+    } else {
+      getApp().callback = () => {
+        if (getApp().userInfo.userInfo.userType == 'truck') {
+          this.setData({
+            plate: plate,
+            truck_lic: plate.substring(2, plate.length - 1),
+            provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
+            colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
+          })
+        }
+
+        this.setData({
+          userType: getApp().userInfo.userInfo.userType
+        })
+      }
+    }
 
 
-    this.setData({
-      plate: plate,
-      truck_lic: plate.substring(2, plate.length - 1),
-      provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
-      colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
-    })
+
+    
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+
+    
 
   },
 

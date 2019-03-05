@@ -1,5 +1,6 @@
 <view class="page page_hight">
 
+<block wx:if="{{userType == 'truck'}}">
   <view class="page__bd page__ss">
     <text class='ssss '>您好，您绑定的车牌号码是：{{prov[provCodeIndex]}}{{truck_lic}}{{colorCodes[colorCodeIndex]}}牌</text>
   </view>
@@ -118,7 +119,7 @@
       <button form-type='submit' class="weui-btn custom" disabled='{{disabled}}'>内贸飞单预约</button>
     </form>
   </view>
-
+</block>
 
   <view style='height: 40rpx;'>
 
@@ -129,57 +130,82 @@
   <view class='otherModuleList'>
 
 
-    <view class='listItem'>
+      <block wx:if="{{userType == 'truck'}}">
 
-      <view class='itemBox'>
-        <form report-submit='true' bindsubmit='handle' data-name='cms'>
-          <view class='itemImg'>
-            <image src='../images/search.png' mode='aspectFill'></image>
+        <view class='listItem'>
+          <view class='itemBox'>
+            <form report-submit='true' bindsubmit='handle' data-name='cms'>
+              <view class='itemImg'>
+                <image src='../images/search.png' mode='aspectFill'></image>
+              </view>
+              <text class='textCenter'>小票</text>
+              <button formType="submit" hover-class="none" class='invisibleclass'></button>
+            </form>
           </view>
-          <text class='textCenter'>小票</text>
-          <button formType="submit" hover-class="none" class='invisibleclass'></button>
-
-        </form>
-      </view>
-
-    </view>
+        </view>
 
 
-    <view class='listItem'>
-      <view class='itemBox'>
-
-        <form report-submit='true' bindsubmit='handle' data-name='eir'>
-          <view class='itemImg'>
-            <image src='../images/eir.jpg' mode='aspectFill'></image>
+        <view class='listItem'>
+          <view class='itemBox'>
+            <form report-submit='true' bindsubmit='handle' data-name='eir'>
+              <view class='itemImg'>
+                <image src='../images/eir.jpg' mode='aspectFill'></image>
+              </view>
+              <text class='textCenter'>出闸纸</text>
+              <button formType="submit" hover-class="none" class='invisibleclass'></button>
+            </form>
           </view>
-          <text class='textCenter'>出闸纸</text>
-          <button formType="submit" hover-class="none" class='invisibleclass'></button>
-        </form>
-
-      </view>
-
-    </view>
+        </view>
 
 
-    <view class='listItem'>
-      <view class='itemBox'>
-
-        <form report-submit='true' bindsubmit='handle' data-name='eirLess'>
-          <view class='itemImg'>
-            <image src='../images/dindan.png' mode='aspectFill'></image>
+        <view class='listItem'>
+          <view class='itemBox'>
+            <form report-submit='true' bindsubmit='handle' data-name='eirLess'>
+              <view class='itemImg'>
+                <image src='../images/dindan.png' mode='aspectFill'></image>
+              </view>
+              <text class='textCenter'>飞单记录</text>
+              <button formType="submit" hover-class="none" class='invisibleclass'></button>
+            </form>
           </view>
-          <text class='textCenter'>飞单记录</text>
-          <button formType="submit" hover-class="none" class='invisibleclass'></button>
-        </form>
+        </view>
 
-      </view>
 
-    </view>
+        <view class='listItem'>
+          <view class='itemBox'>
+            <form report-submit='true' bindsubmit='handle' data-name='gr'>
+              <view class='itemImg'>
+                <image src='../images/gr.png' mode='aspectFill'></image>
+              </view>
+              <text class='textCenter'>港融渡柜</text>
+              <button formType="submit" hover-class="none" class='invisibleclass'></button>
+            </form>
+          </view>
+        </view>
+      </block>
+
+
+      <block wx:if="{{userType == 'vessel'}}">
+
+        <view class="weui-cells__title weui-cells__titless">
+          <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>【温馨提示】请于船到码头前30--60分钟报到。</text>
+        </view>
+        <view class='listItem'>
+          <view class='itemBox'>
+            <form report-submit='true' bindsubmit='handle' data-name='sitemap'>
+              <view class='itemImg'>
+                <image src='../images/ship.png' mode='aspectFill'></image>
+              </view>
+              <text class='textCenter'>自主报到</text>
+              <button formType="submit" hover-class="none" class='invisibleclass'></button>
+            </form>
+          </view>
+        </view>
+      </block>
 
 
     <view class='listItem'>
       <view class='itemBox'>
-
         <form report-submit='true' bindsubmit='handle' data-name='user'>
           <view class='itemImg'>
             <image src='../images/user.png' mode='aspectFill'></image>
@@ -187,15 +213,12 @@
           <text class='textCenter'>个人资料</text>
           <button formType="submit" hover-class="none" class='invisibleclass'></button>
         </form>
-
       </view>
-
     </view>
 
 
     <view class='listItem'>
       <view class='itemBox'>
-
         <form report-submit='true' bindsubmit='handle' data-name='customer'>
           <view class='itemImg'>
             <image src='../images/customer.png' mode='aspectFill'></image>
@@ -203,45 +226,8 @@
           <text class='textCenter'>客服</text>
           <button formType="submit" hover-class="none" class='invisibleclass'></button>
         </form>
-
       </view>
-
     </view>
-
-
-    <view class='listItem'>
-      <view class='itemBox'>
-
-        <form report-submit='true' bindsubmit='handle' data-name='gr'>
-          <view class='itemImg'>
-            <image src='../images/customer.png' mode='aspectFill'></image>
-          </view>
-          <text class='textCenter'>港融渡柜</text>
-          <button formType="submit" hover-class="none" class='invisibleclass'></button>
-        </form>
-
-      </view>
-
-    </view>
-
-
-    <view class='listItem'>
-      <view class='itemBox'>
-
-        <form report-submit='true' bindsubmit='handle' data-name='sitemap'>
-          <view class='itemImg'>
-            <image src='../images/ship.png' mode='aspectFill'></image>
-          </view>
-          <text class='textCenter'>自主报到</text>
-          <button formType="submit" hover-class="none" class='invisibleclass'></button>
-        </form>
-
-      </view>
-
-    </view>
-
-
-
 
     <view class="weui-footer weui-footer_fixed-bottom">
       <view class="weui-footer__links">
