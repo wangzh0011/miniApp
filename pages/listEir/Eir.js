@@ -92,9 +92,13 @@ Page({
       wx.navigateTo({
         url: '/pages/imageUpload/upload',
       })
-      
-      
     }
+    if ("sitemap" == name) {
+      wx.navigateTo({
+        url: '/pages/sitemap/sitemap',
+      })
+    }
+
 
 
   },
@@ -133,66 +137,66 @@ Page({
     var openid = wx.getStorageSync("userinfo").openid;
     var plate = wx.getStorageSync("userinfo").plate;
 
-    if (openid == undefined) {
-      wx.login({
-        success: res => {
-          //如果本地没有存储有用户信息
+    // if (openid == undefined) {
+    //   wx.login({
+    //     success: res => {
+    //       //如果本地没有存储有用户信息
 
-          wx.showToast({
-            title: '程序数据加载中',
-            icon: 'loading',
-            duration: 6000
-          });
-          var code = res.code;
-          // 发送 res.code 到后台换取 openId, sessionKey, unionId
-          wx.request({
-            url: getApp().data.servsers + 'userInfo/' + res.code,
-            success: function(res) {
-              console.log('请求成功，开始处理')
-              console.log(res);
-              console.log(res.data);
-              console.log(res.data.id);
+    //       wx.showToast({
+    //         title: '程序数据加载中',
+    //         icon: 'loading',
+    //         duration: 6000
+    //       });
+    //       var code = res.code;
+    //       // 发送 res.code 到后台换取 openId, sessionKey, unionId
+    //       wx.request({
+    //         url: getApp().data.servsers + 'userInfo/' + res.code,
+    //         success: function(res) {
+    //           console.log('请求成功，开始处理')
+    //           console.log(res);
+    //           console.log(res.data);
+    //           console.log(res.data.id);
 
-              if (res.data.id == null || res.data.id == '') {
-                wx.setStorageSync("infobase", res.data)
-                var data = res.data;
-                that.infobase = data;
-                if (data.openid == undefined) {
-                  wx.hideToast();
-                  wx.showModal({
-                    content: '未能正确获取数据，请退出程序重进',
-                    showCancel: false,
-                    success: function(res) {
-                      if (res.confirm) {}
-                    }
-                  });
-                }
-                console.log(getApp().infobase)
-                wx.redirectTo({
-                  url: '/pages/InformaTion/user',
-                })
+    //           if (res.data.id == null || res.data.id == '') {
+    //             wx.setStorageSync("infobase", res.data)
+    //             var data = res.data;
+    //             that.infobase = data;
+    //             if (data.openid == undefined) {
+    //               wx.hideToast();
+    //               wx.showModal({
+    //                 content: '未能正确获取数据，请退出程序重进',
+    //                 showCancel: false,
+    //                 success: function(res) {
+    //                   if (res.confirm) {}
+    //                 }
+    //               });
+    //             }
+    //             console.log(getApp().infobase)
+    //             wx.redirectTo({
+    //               url: '/pages/VesselOrTruck/vesselOrTruck',
+    //             })
 
-              } else {
-                console.log('已注册')
-                wx.setStorageSync('userinfo', res.data);
+    //           } else {
+    //             console.log('已注册')
+    //             wx.setStorageSync('userinfo', res.data);
 
-                that.userInfo.userInfo = res.data
+    //             that.userInfo.userInfo = res.data
 
-              }
+    //           }
 
-              wx.hideToast();
-
-
-            },
+    //           wx.hideToast();
 
 
+    //         },
 
-          });
 
-        },
 
-      })
-    }
+    //       });
+
+    //     },
+
+    //   })
+    // }
 
     wx.request({
       url: getApp().data.servsers + '/saveFormId',
@@ -341,57 +345,57 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    var openid = wx.getStorageSync("userinfo").openid;
-    if (openid == undefined) {
-      wx.login({
-        success: res => {
-          //如果本地没有存储有用户信息
-          wx.showToast({
-            title: '程序数据加载中',
-            icon: 'loading',
-            duration: 6000
-          });
-          var code = res.code;
-          // 发送 res.code 到后台换取 openId, sessionKey, unionId
-          wx.request({
-            url: getApp().data.servsers + 'userInfo/' + res.code,
-            success: function(res) {
-              console.log('首页页面请求用户信息')
-              console.log(res);
-              console.log(res.data);
-              console.log(res.data.id);
-              if (res.data.id == null || res.data.id == '') {
-                wx.setStorageSync("infobase", res.data)
-                var data = res.data;
-                that.infobase = data;
-                if (data.openid == undefined) {
-                  wx.hideToast();
-                  wx.showModal({
-                    content: '未能正确获取数据，请退出程序重进',
-                    showCancel: false,
-                    success: function(res) {
-                      if (res.confirm) {}
-                    }
-                  });
-                }
-                console.log(getApp().infobase)
-                wx.redirectTo({
-                  url: '/pages/InformaTion/user',
-                })
+    // var openid = wx.getStorageSync("userinfo").openid;
+    // if (openid == undefined) {
+    //   wx.login({
+    //     success: res => {
+    //       //如果本地没有存储有用户信息
+    //       wx.showToast({
+    //         title: '程序数据加载中',
+    //         icon: 'loading',
+    //         duration: 6000
+    //       });
+    //       var code = res.code;
+    //       // 发送 res.code 到后台换取 openId, sessionKey, unionId
+    //       wx.request({
+    //         url: getApp().data.servsers + 'userInfo/' + res.code,
+    //         success: function(res) {
+    //           console.log('首页页面请求用户信息')
+    //           console.log(res);
+    //           console.log(res.data);
+    //           console.log(res.data.id);
+    //           if (res.data.id == null || res.data.id == '') {
+    //             wx.setStorageSync("infobase", res.data)
+    //             var data = res.data;
+    //             that.infobase = data;
+    //             if (data.openid == undefined) {
+    //               wx.hideToast();
+    //               wx.showModal({
+    //                 content: '未能正确获取数据，请退出程序重进',
+    //                 showCancel: false,
+    //                 success: function(res) {
+    //                   if (res.confirm) {}
+    //                 }
+    //               });
+    //             }
+    //             console.log(getApp().infobase)
+    //             wx.redirectTo({
+    //               url: '/pages/VesselOrTruck/vesselOrTruck',
+    //             })
 
-              } else {
-                console.log('已注册')
-                wx.setStorageSync('userinfo', res.data);
-                that.userInfo.userInfo = res.data;
-              }
-              wx.hideToast();
-            },
-          });
+    //           } else {
+    //             console.log('已注册')
+    //             wx.setStorageSync('userinfo', res.data);
+    //             that.userInfo.userInfo = res.data;
+    //           }
+    //           wx.hideToast();
+    //         },
+    //       });
 
-        },
+    //     },
 
-      })
-    }
+    //   })
+    // }
   },
 
   /**

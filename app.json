@@ -2,32 +2,29 @@
   "pages": [
     "pages/listEir/Eir",
     "pages/modifi_user/user",
-   
-    
     "pages/InformaTion/user",
+    "pages/Information_vessel/user",
     "pages/search/search",
     "pages/addseal/seal",
     "pages/imageUpload/upload",
-    
-    
     "pages/detail/detail",
-    "pages/cms/cms",    
+    "pages/cms/cms",
     "pages/listcms/cms",
     "pages/history/historyorder",
     "pages/eirsearch/search",
     "pages/yuyue/yuyue",
     "pages/EirInfo/eirInfo",
-    
     "pages/updateorder/updateorder",
-    "pages/historydetail/detail"
+    "pages/historydetail/detail",
+    "pages/sitemap/sitemap",
+    "pages/VesselOrTruck/vesselOrTruck"
   ],
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarTitleText": "大铲湾拖车服务",
     "navigationBarTextStyle": "black",
-    "navigationBarBackgroundColor": "#f8f8f8"    
+    "navigationBarBackgroundColor": "#f8f8f8"
   },
- 
   "networkTimeout": {
     "request": 60000,
     "downloadFile": 100000
