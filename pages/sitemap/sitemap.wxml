@@ -4,19 +4,23 @@
       <view class="weui-cells__title">船舶自主报到</view>
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
-          <view class="weui-label">预计到港：</view>
+          <view class="weui-label">预计到港</view>
         </view>
         <view class="weui-cell__hd">
-          <picker class='time-picker' mode="multiSelector" bindchange="bindStartMultiPickerChange" bindtap='pickerTap'  bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">{{eta}}</picker>
+          <picker class='time-picker' mode="multiSelector" bindchange="bindStartMultiPickerChange" bindtap='pickerTap'  bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+            <view class="weui-input">{{eta}}</view>
+          </picker>
         </view>
       </view>
 
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
-          <view class="weui-label">报到：</view>
+          <view class="weui-label">报到</view>
         </view> 
         <view class="weui-cell__hd">
-          <picker class='time-picker' mode="multiSelector" bindchange="bindStartMultiPickerChange1" bindtap='pickerTap1' bindcolumnchange="bindMultiPickerColumnChange1" value="{{multiIndex}}" range="{{multiArray}}">{{startDate}}</picker>
+          <picker class='time-picker' mode="multiSelector" bindchange="bindStartMultiPickerChange1" bindtap='pickerTap1' bindcolumnchange="bindMultiPickerColumnChange1" value="{{multiIndex}}" range="{{multiArray}}">
+            <view class="weui-input">{{startDate}}</view>
+          </picker>
         </view>
       </view>
       <view class="weui-btn-area">

@@ -24,25 +24,9 @@
       
 
     var that = this;
-   // that.userInfo.userInfo = wx.getStorageSync("userinfo")
-   /*
-    wx.request({
-      url: 'http://172.25.35.114:8081/cmsaction.action',
-      method:'post',
-      data:{
-        trucklic: 'GDBCW309Y'
-      },
-      success(e){
-        console.log(e)
-      },
-      fail(e){
-        console.log(e)
-      }
-    })
-  */
+   
    wx.showLoading({
     title: '初始化中...',
-    
    })
    
    
@@ -50,9 +34,7 @@
 
    
    
-   // console.log(this.data.user)
-    //var data1=wx.getStorageSync("userinfo")
-    //console.log(data1.openid)
+   
     // 登录
     wx.login({      
       success: res => {
@@ -61,11 +43,6 @@
         //wx.showLoading();
         console.log(res.code)
         console.log(getApp().data.servsers + 'userInfo/' + res.code)
-        
-        
-        /*
-        if (wx.getStorageSync("userinfo").openid == null || wx.getStorageSync("userinfo").openid == '' || 
-        wx.getStorageSync("userinfo").openid == undefined){*/
 
           wx.showToast({
             title: '程序数据加载中',
@@ -96,26 +73,13 @@
             }else{
               console.log('已注册')
               wx.setStorageSync('userinfo', res.data);
-             
-              that.userInfo.userInfo = res.data
-              //console.log("全局变量：  " + this.userInfo.userInfo)
-              /*wx.redirectTo({
-                
-                url: '/pages/index/index',
-              })*/
+              that.userInfo.userInfo = res.data;
+              if(that.callback){
+                that.callback();
+              }
             }
             
             wx.hideToast();
-           /* wx.setStorage({
-              key: 'userinfo',
-              data: {
-                openid:res.data.openid,
-                session_key: res.data.session_key
-              },
-              
-              
-
-            })*/
 
             },
             fail:function(res){
@@ -139,54 +103,7 @@
             
           
         });
-        /*
-        }else{
-          console.log('1已注册')
-          that.userInfo.userInfo = wx.getStorageSync("userinfo")
-          console.log(getApp().userInfo.userInfo)
-          
-        }*/
-
         
-        //判断是否已经绑定资料
-        
-        /*wx.request({
-          url: 'http://127.0.0.1:8080/getUser/' + wx.getStorageSync("userinfo").openid,
-          success:function(res){
-            console.log("获取用户信息")
-           console.log(res.data)
-           if (res.data == null || res.data==''){
-             console.log("无用户信息asdasd") 
-           }
-           else{
-             console.log("有用户信息") 
-             //wx.setStorageSync(key, data)
-             //console.log("用户信息："+this.data.user)
-             wx.setStorageSync("user", res.data)
-             wx.redirectTo({
-               url:'pages/index/index',
-               success:function(res){
-                 console.log("跳转成功")
-               },
-             })
-             /*wx.navigateTo({
-               url: 'pages/logs/logs',
-               success:function(res){
-                 console.log("跳转成功")
-               }
-             })
-           }
-          },
-          fail:function(res){
-            wx.showToast({
-              title: '系统发生错误，错误代码111，请退出重试',
-              duration: 3000
-            })
-          }
-        })*/
-        
-         
-
                   //如果未绑定，跳转用户绑定资料界面
 
                   //如果已经绑定，跳转到飞单上传业务界面，并将用户信息储存到全局变量中
@@ -251,7 +168,7 @@
     
   },
   userInfo:{
-    userInfo:null
+    userInfo:''
   },
   order:{
     order:[]

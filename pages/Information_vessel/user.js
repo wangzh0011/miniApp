@@ -96,6 +96,8 @@ Page({
         openId: wx.getStorageSync('infobase').openid,
         phone: e.detail.value.phone_number,
         userName: e.detail.value.username,
+        plate: '',
+        userCardId: '',
         userType: 'vessel'
       },
       method: "POST",
