@@ -13,6 +13,28 @@
 
   <view>
 
+
+
+    <view class='radio_view' wx:if="{{time=='null'}}">
+      <radio-group class="group" bindchange="chooseSite">
+        <view class="attr_value">
+          <label class='radio_label'>
+            <radio color='' checked="" value='D'>
+              <text>内贸</text>
+            </radio>
+          </label>
+        </view>
+
+        <view class="attr_value">
+          <label class='radio_label'>
+            <radio color='' checked="" value='I'>
+              <text>外贸</text>
+            </radio>
+          </label>
+        </view>
+      </radio-group>
+    </view>
+
     <view class='radio_view' wx:if="{{time=='null'}}">
       <radio-group class="group" bindchange="dayradios">
         <view class="attr_value">

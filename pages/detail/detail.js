@@ -172,7 +172,20 @@ Page({
         urls: this.data.sealUrl // 需要预览的图片http链接列表
       })
     }
+    if ("seal1" == e.currentTarget.dataset.type) {
+      console.log(e.currentTarget.id)
+      wx.previewImage({
+        current: e.currentTarget.id, // 当前显示图片的http链接
+        urls: this.data.sealUrl // 需要预览的图片http链接列表
+      })
+    }
     if ("attach" == e.currentTarget.dataset.type) {
+      wx.previewImage({
+        current: e.currentTarget.id, // 当前显示图片的http链接
+        urls: this.data.attachUrl // 需要预览的图片http链接列表
+      })
+    }
+    if ("attach1" == e.currentTarget.dataset.type) {
       wx.previewImage({
         current: e.currentTarget.id, // 当前显示图片的http链接
         urls: this.data.attachUrl // 需要预览的图片http链接列表
@@ -197,9 +210,24 @@ Page({
         sealUrl: [getApp().data.uploadurl + orderVo.order.sealImg],
       })
     }
+    if (orderVo.order.sealImg1 != null) {
+      var sealUrl = this.data.sealUrl;
+      sealUrl.unshift(getApp().data.uploadurl + orderVo.order.sealImg1)
+      this.setData({
+        sealUrl: sealUrl,
+      })
+    }
+   
     if (orderVo.order.attachImg != null) {
       this.setData({
         attachUrl: [getApp().data.uploadurl + orderVo.order.attachImg],
+      })
+    }
+    if (orderVo.order.attachImg1 != null) {
+      var attachUrl = this.data.attachUrl;
+      attachUrl.unshift(getApp().data.uploadurl + orderVo.order.attachImg1)
+      this.setData({
+        attachUrl: attachUrl,
       })
     }
     var that = this;
