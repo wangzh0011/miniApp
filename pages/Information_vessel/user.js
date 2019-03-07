@@ -106,11 +106,18 @@ Page({
       },
       success: function (res) {
         console.log(res.data);
-        wx.setStorageSync('userinfo', res.data);
-        app.userInfo.userInfo = res.data;
-        wx.redirectTo({
-          url: '/pages/listEir/Eir'
-        })
+        if(res.data == 'not exist'){
+          this.setData({
+            showTopTips: true,
+            errormsg: "此手机号与绑定手机号不一致！"
+          });
+        }else{
+          wx.setStorageSync('userinfo', res.data);
+          app.userInfo.userInfo = res.data;
+          wx.redirectTo({
+            url: '/pages/listEir/Eir'
+          })
+        }
       },
       complete: function (res) {
         setTimeout(function () {

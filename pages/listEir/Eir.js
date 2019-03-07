@@ -77,8 +77,18 @@ Page({
       })
     }
     if ("sitemap" == name) {
-      wx.navigateTo({
-        url: '/pages/sitemap/sitemap',
+      wx.request({
+        url: getApp().data.servsers + 'getEta',
+        data: {
+          phone: '13561409736'
+        },
+        success:function(e) {
+          console.log('bargelink返回的eta:'+e.data);
+          wx.setStorageSync('eta', e.data);
+          wx.navigateTo({
+            url: '/pages/sitemap/sitemap',
+          })
+        }
       })
     }
   },

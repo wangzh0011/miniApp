@@ -3,15 +3,21 @@ const app = getApp()
 var date = new Date();
 var currentHours = date.getHours();
 var currentMinute = date.getMinutes();
+
+
 Page({
   data: {
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    eta: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + currentHours + ":" + currentMinute,
+    eta: '',
     startDate: "请选择日期",
     multiArray: [['今天', '明天'], [0, 1, 2, 3, 4, 5, 6], [0, 1, 2]],
-    multiIndex: [0, 0, 0]
+    multiIndex: [0, 0, 0],
+    radioItems: [
+      { name: '是', value: '0' },
+      { name: '否', value: '1', checked: true }
+    ]
   },
   //事件处理函数
   bindViewTap: function () {
@@ -20,73 +26,88 @@ Page({
     })
   },
 
-  onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
-    
-  },
-  getUserInfo: function (e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
-  },
+  radioChange: function (e) {
+    console.log('radio发生change事件，携带value值为：', e.detail.value);
 
-  bindEtaMakeSureTap: function () {
-    wx.request({
-      url: 'http://localhost:8080/Site-Map/getEta',
-      data: {
-        eta: this.data.eta
-      },
-      method: 'POST',
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        console.log(res.data);
-      },
-      fail: function (res) {
-        console.log("失败");
-      }
+    var radioItems = this.data.radioItems;
+    for (var i = 0, len = radioItems.length; i < len; ++i) {
+      radioItems[i].checked = radioItems[i].value == e.detail.value;
+    }
+
+    this.setData({
+      radioItems: radioItems
+    });
+  },
+  
+  onLoad: function () {
+    var etaOfBarge = wx.getStorageSync('eta').toString();
+    this.setData({
+      eta: etaOfBarge.substring(0, 4) + "-" + etaOfBarge.substring(4, 6) + "-" + etaOfBarge.substring(6, 8) + " " + etaOfBarge.substring(8, 10) + ":" + etaOfBarge.substring(10, 12)
+    }),
+    this.setData({
+      showButton: wx.getStorageSync('showButton')
     })
   },
-  bindAtaMakeSureTap: function () {
+  
+  bindConfirmTap: function () {
+    var that = this;
     wx.request({
-      url: 'http://localhost:8080/Site-Map/getAta',
+      url: app.data.servsers + 'saveEtaAndAta',
       data: {
-        ata: this.data.startDate
+        eta: this.data.eta,
+        ata: this.data.startDate,
+        phone: '13561409736'
       },
       method: 'post',
       header: {
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
+        if(res.data == true){
+          wx.setStorageSync('showButton', 'cancel');
+          that.setData({
+            showButton: wx.getStorageSync('showButton')
+          })
+        }else{
+          that.setData({
+            showTopTips: true,
+            errormsg: "系统错误！"
+          });
+        }
+        console.log("It's success!");
+      },
+      fail: function (res) {
+        console.log("失败");
+      }
+    })
+  },
+
+//需后续修改。。。
+  bindCancelTap: function () {
+    var that = this;
+    wx.request({
+      url: app.data.servsers + 'reSetEtaAndAta',
+      data: {
+        eta: this.data.eta,
+        ata: this.data.startDate,
+        phone: '13561409736'
+      },
+      method: 'post',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        if (res.data == true) {
+          wx.setStorageSync('showButton', 'confirm');
+          that.setData({
+            showButton: wx.getStorageSync('showButton')
+          })
+        } else {
+          that.setData({
+            showTopTips: true,
+            errormsg: "系统错误！"
+          });
+        }
         console.log("It's success!");
       },
       fail: function (res) {
@@ -390,15 +411,35 @@ Page({
     if (monthDay === "今天") {
       var month = date.getMonth() + 1;
       var day = date.getDate();
+      if (month < 10) {
+        month = "0" + month
+      }
+      if (day < 10) {
+        day = "0" + day
+      }
       monthDay = month + "-" + day;
     } else if (monthDay === "明天") {
       var date1 = new Date(date);
       date1.setDate(date.getDate() + 1);
-      monthDay = (date1.getMonth() + 1) + "-" + date1.getDate();
+      var month = date1.getMonth() + 1;
+      var day = date1.getDate();
+      if (month < 10) {
+        month = "0" + month
+      }
+      if (day < 10) {
+        day = "0" + day
+      }
+      monthDay = month + "-" + day;
 
     } else {
       var month = monthDay.split("-")[0]; // 返回月
       var day = monthDay.split("-")[1]; // 返回日
+      if (month < 10) {
+        month = "0" + month
+      }
+      if (day < 10) {
+        day = "0" + day
+      }
       monthDay = month + "-" + day;
     }
     if (hours < 10) {
@@ -421,15 +462,35 @@ Page({
     if (monthDay === "今天") {
       var month = date.getMonth() + 1;
       var day = date.getDate();
+      if(month < 10){
+        month = "0" + month
+      }
+      if(day < 10){
+        day = "0" + day
+      }
       monthDay = month + "-" + day;
     } else if (monthDay === "明天") {
       var date1 = new Date(date);
       date1.setDate(date.getDate() + 1);
-      monthDay = (date1.getMonth() + 1) + "-" + date1.getDate();
+      var month = date1.getMonth() + 1;
+      var day = date1.getDate();
+      if (month < 10) {
+        month = "0" + month
+      }
+      if (day < 10) {
+        day = "0" + day
+      }
+      monthDay = month + "-" + day;
 
     } else {
       var month = monthDay.split("-")[0]; // 返回月
       var day = monthDay.split("-")[1]; // 返回日
+      if (month < 10) {
+        month = "0" + month
+      }
+      if (day < 10) {
+        day = "0" + day
+      }
       monthDay = month + "-" + day;
     }
     if (hours < 10) {

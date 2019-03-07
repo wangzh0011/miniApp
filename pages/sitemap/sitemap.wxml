@@ -1,6 +1,7 @@
 <!--pages/sitemap/sitemap.wxml-->
 <view class="page">
   <form >
+      <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{errormsg}}</view>
       <view class="weui-cells__title">船舶自主报到</view>
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
@@ -23,8 +24,31 @@
           </picker>
         </view>
       </view>
-      <view class="weui-btn-area">
-        <button class="weui-btn" type="primary" bindtap='bindAtaMakeSureTap'>确认</button>
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">办手续</view>
+        </view>
+        <radio-group bindchange="radioChange">
+          <label class="weui-cell weui-check__label" wx:for="{{radioItems}}" wx:key="value">
+              <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
+              <view class="weui-cell__bd">{{item.name}}</view>
+              <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
+                  <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
+              </view>
+          </label>
+        </radio-group>
       </view>
+
+      <block wx:if="{{showButton == 'cancel'}}">
+        <view class="weui-btn-area">
+          <button class="weui-btn" type="primary" bindtap='bindCancelTap'>取消</button>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="weui-btn-area">
+          <button class="weui-btn" type="primary" bindtap='bindConfirmTap'>确认</button>
+        </view>
+      </block>
   </form> 
 </view>
