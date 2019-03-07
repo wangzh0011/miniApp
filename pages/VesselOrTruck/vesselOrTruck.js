@@ -12,22 +12,43 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.showActionSheet({
-      itemList: ['拖车','船舶'],
-      success(res) {
-        if(res.tapIndex == 0){
+    // wx.showActionSheet({
+    //   itemList: ['拖车','船舶'],
+    //   success(res) {
+    //     if(res.tapIndex == 0){
+    //       //拖车司机注册
+    //       wx.redirectTo({
+    //         url: '/pages/InformaTion/user',
+    //       })
+    //     }else {
+    //       //船佬注册
+    //       wx.redirectTo({
+    //         url: '/pages/Information_vessel/user',
+    //       })
+    //     }
+    //   }
+    // })
+
+    wx.showModal({
+      title: '请选择用户类型',
+      content: '不同用户类型所用到的功能不同，请选择正确的类型。',
+      confirmText: "拖车",
+      cancelText: "船舶",
+      success: function (res) {
+        console.log(res);
+        if (res.confirm) {
           //拖车司机注册
           wx.redirectTo({
             url: '/pages/InformaTion/user',
           })
-        }else {
+        } else {
           //船佬注册
           wx.redirectTo({
             url: '/pages/Information_vessel/user',
           })
         }
       }
-    })
+    });
   },
 
   /**

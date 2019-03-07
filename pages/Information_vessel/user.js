@@ -13,26 +13,9 @@ Page({
   
  
   SubMit: function (e) {
-    wx.showLoading({
-      title: '正在提交...',
-    })
+    
 
     var that = this;
-    // wx.request({
-    //   url: getApp().data.servsers + '/saveFormId',
-    //   data: {
-    //     openid: app.infobase.openid,
-    //     plate: "null",
-    //     formId: e.detail.formId
-    //   },
-    //   success: function (e) {
-    //     console.log(e)
-    //   },
-    //   fail: function (e) {
-    //     console.log(e)
-    //   }
-    // })
-
 
     var formData = e.detail.value;
     console.log(e);
@@ -82,49 +65,66 @@ Page({
       return;
     }
 
-
-    console.log("add")
-    wx.showLoading({
-      title: '提交资料中...',
-    })
-    this.setData({
-      disabled: true
-    });
     wx.request({
-      url: getApp().data.servsers + 'addUser',
+      url: getApp().data.servsers + 'checkPhoneIsExist',
       data: {
-        openId: wx.getStorageSync('infobase').openid,
         phone: e.detail.value.phone_number,
-        userName: e.detail.value.username,
-        plate: '',
-        userCardId: '',
         userType: 'vessel'
       },
-      method: "POST",
-      header: {
-        'content-type': 'application/x-www-form-urlencoded' // 默认值
-      },
       success: function (res) {
-        console.log(res.data);
-        if(res.data == 'not exist'){
-          this.setData({
+        that.setData({
+          disabled: true
+        });
+        if(res.data == 1){
+          console.log("add")
+          wx.showLoading({
+            title: '提交资料中...',
+          })
+          wx.request({
+            url: app.data.servsers + 'addUser',
+            data: {
+              openId: wx.getStorageSync('infobase').openid,
+              phone: e.detail.value.phone_number,
+              userName: e.detail.value.username,
+              plate: '',
+              userCardId: '',
+              userType: 'vessel'
+            },
+            method: "POST",
+            header: {
+              'content-type': 'application/x-www-form-urlencoded' // 默认值
+            },
+            success: function (res) {
+              console.log(res.data);
+              wx.setStorageSync('userinfo', res.data);
+              app.userInfo.userInfo = res.data;
+              wx.redirectTo({
+                url: '/pages/listEir/Eir'
+              })
+            },
+            complete: function (res) {
+              setTimeout(function () {
+                wx.hideLoading()
+              }, 2000)
+            }
+          })
+        }else{
+          that.setData({
             showTopTips: true,
             errormsg: "此手机号与绑定手机号不一致！"
           });
-        }else{
-          wx.setStorageSync('userinfo', res.data);
-          app.userInfo.userInfo = res.data;
-          wx.redirectTo({
-            url: '/pages/listEir/Eir'
-          })
         }
       },
       complete: function (res) {
-        setTimeout(function () {
-          wx.hideLoading()
-        }, 2000)
+        setTimeout(function(){
+          that.setData({
+            disabled: false
+          })
+        },2000)
       }
     })
+
+    
   },
 
   /**

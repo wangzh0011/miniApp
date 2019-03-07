@@ -80,7 +80,7 @@ Page({
       wx.request({
         url: getApp().data.servsers + 'getEta',
         data: {
-          phone: '13561409736'
+          phone: getApp().userInfo.userInfo.phone
         },
         success:function(e) {
           console.log('bargelink返回的eta:'+e.data);

@@ -175,7 +175,7 @@ Page({
     var that = this;
 
     wx.request({
-      url: getApp().data.servsers + '/checkUser',
+      url: getApp().data.servsers + 'checkUser',
       data:{
         openid: getApp().userInfo.userInfo.openid,
       },
@@ -185,10 +185,8 @@ Page({
       },
       success:function(res){
         if(res.data.code==0){
-
-          //console.log(that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex])
           wx.request({
-            url: getApp().data.servsers + '/updateUser',
+            url: getApp().data.servsers + 'updateUser',
             data: {
               id: getApp().userInfo.userInfo.id,
               phone: e.detail.value.phone_number,
@@ -208,9 +206,6 @@ Page({
               wx.navigateBack({
                 url: '/pages/listEir/Eir',
               })
-              // wx.switchTab({
-              //   url: '/pages/listEir/Eir',
-              // })
             },
             fail: function () {
               wx.hideLoading();
@@ -220,7 +215,6 @@ Page({
               })
             }
           })
-
         }else{
           wx.hideLoading();
           wx.showModal({
