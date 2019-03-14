@@ -81,9 +81,12 @@ Page({
   
   bindConfirmTap: function () {
     var that = this;
+    var date = new Date();
     var isTakeStep = 0;//默认不办手续
     var currentMonth = date.getMonth() + 1;
     var currentDay = date.getDate();
+    var currentHours = date.getHours();
+    var currentMinute = date.getMinutes();
     if (currentMonth < 10){
       currentMonth = "0" + currentMonth;
     }
@@ -132,7 +135,7 @@ Page({
                   errormsg: "系统错误！"
                 });
               }
-              console.log("It's success!");
+              console.log("It will takeStep.");
             },
             fail: function (res) {
               console.log("失败");
@@ -164,7 +167,7 @@ Page({
                   errormsg: "系统错误！"
                 });
               }
-              console.log("It's success!");
+              console.log("Not takeStep.");
             },
             fail: function (res) {
               console.log("失败");
