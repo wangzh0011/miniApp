@@ -1,30 +1,39 @@
 <!--pages/sitemap/sitemap.wxml-->
 <view class="page">
   <form >
-      <view class="weui-cells__title">船舶自主报到</view>
+      <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{errormsg}}</view>
+      <view class="weui-cells__title weui-cells__titless">
+        <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>【温馨提示】请于船到码头前30--60分报到。</text>
+      </view>
+      <view class="weui-cells__title">预计到港时间</view>
       <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">预计到港</view>
-        </view>
         <view class="weui-cell__hd">
           <picker class='time-picker' mode="multiSelector" bindchange="bindStartMultiPickerChange" bindtap='pickerTap'  bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
             <view class="weui-input">{{eta}}</view>
           </picker>
         </view>
+        <view class="weui-cell__hd">
+          <view class="weui-btn-area">
+            <button class="weui-btn" type="primary" bindtap='bindEtaTap' size='mini'>修改</button>
+          </view>
+        </view>
       </view>
+      
 
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
           <view class="weui-label">报到</view>
         </view> 
         <view class="weui-cell__hd">
-          <picker class='time-picker' mode="multiSelector" bindchange="bindStartMultiPickerChange1" bindtap='pickerTap1' bindcolumnchange="bindMultiPickerColumnChange1" value="{{multiIndex}}" range="{{multiArray}}">
-            <view class="weui-input">{{startDate}}</view>
-          </picker>
+          <view class="weui-btn-area">
+            <block wx:if="{{showButton == 'cancel'}}">
+              <button class="weui-btn" type="primary" size="mini" bindtap='bindCancelTap'>取消报到</button>
+            </block>
+            <block wx:else>
+              <button class="weui-btn" type="primary" size="mini" bindtap='bindConfirmTap'>报到</button>
+            </block>  
+          </view>
         </view>
-      </view>
-      <view class="weui-btn-area">
-        <button class="weui-btn" type="primary" bindtap='bindAtaMakeSureTap'>确认</button>
       </view>
   </form> 
 </view>
