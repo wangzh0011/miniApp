@@ -66,8 +66,11 @@ Page({
       })
     }
     if ("customer" == name) {
-      wx.makePhoneCall({
-        phoneNumber: '075529022902',
+      // wx.makePhoneCall({
+      //   phoneNumber: '075529022902',
+      // })
+      wx.navigateTo({
+        url: '/pages/customer/customer',
       })
     }
     if ("gr" == name) {

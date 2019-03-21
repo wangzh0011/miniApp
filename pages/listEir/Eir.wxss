@@ -190,6 +190,7 @@ opacity:0;
 }
 .weui-footer_fixed-bottom{
   margin-bottom: 0px;
+  position: fixed;
 }
 .weui-cell{
   padding: 5px 10px 5px 5px;

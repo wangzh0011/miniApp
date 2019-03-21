@@ -17,7 +17,9 @@
     "pages/updateorder/updateorder",
     "pages/historydetail/detail",
     "pages/sitemap/sitemap",
-    "pages/VesselOrTruck/vesselOrTruck"
+    "pages/VesselOrTruck/vesselOrTruck",
+    "pages/customer/customer",
+    "pages/yardPlan/yardPlan"
   ],
   "window": {
     "backgroundTextStyle": "dark",
