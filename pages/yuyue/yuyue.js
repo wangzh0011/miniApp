@@ -81,7 +81,6 @@ Page({
   },
 
   chooseSite: function(e) {
-
     this.setData({
       site: e.detail.value,
     })
@@ -330,379 +329,412 @@ Page({
     var site = that.data.site;
 
 
-    for (var i in items) {
-      wx.request({
-        url: getApp().data.servsers + 'addOrder',
-        data: {
-          openId: openId,
-          phone: phone,
-          plate: plate,
-          userName: userName,
-          operator: userName,
-          appointmentTime: appointmentTime,
-          tranType: items[i].workType,
-          expireTime: expireTime,
-          site: 'D', //内贸
-          tranCount: that.data.type_R + ' 交' + that.data.type_D + ' 提',
+    wx.request({
+      url: getApp().data.servsers + 'checkSite',
+      data: {
+        site: site
+      },
+      success: function(res) {
+        if (res.data.code == 0) {
+          for (var i in items) {
+            wx.request({
+              url: getApp().data.servsers + 'addOrder',
+              data: {
+                openId: openId,
+                phone: phone,
+                plate: plate,
+                userName: userName,
+                operator: userName,
+                appointmentTime: appointmentTime,
+                tranType: items[i].workType,
+                expireTime: expireTime,
+                site: site, //内贸
+                tranCount: that.data.type_R + ' 交' + that.data.type_D + ' 提',
 
-          index: i, //标识数组下标
-        },
-        method: "POST",
-        header: {
-          'content-type': 'application/x-www-form-urlencoded' // 默认值
-        },
-        success: function(res) {
+                index: i, //标识数组下标
+              },
+              method: "POST",
+              header: {
+                'content-type': 'application/x-www-form-urlencoded' // 默认值
+              },
+              success: function(res) {
 
-          var order = res.data;
+                var order = res.data;
 
-          var item = items[order.remark];
-          console.log("item")
-          console.log(item)
+                var item = items[order.remark];
+                console.log("item")
+                console.log(item)
 
-          if (item.eir_img[0] != null && item.eir_img[0] != undefined && item.eir_img[0] != "") {
-            var filename = item.eir_img[0];
-            console.log("开始上传eir照片:" + filename)
-            wx.uploadFile({
-              url: getApp().data.servsers + 'saveImage',
-              filePath: filename,
-              name: 'image',
+                if (item.eir_img[0] != null && item.eir_img[0] != undefined && item.eir_img[0] != "") {
+                  var filename = item.eir_img[0];
+                  console.log("开始上传eir照片:" + filename)
+                  wx.uploadFile({
+                    url: getApp().data.servsers + 'saveImage',
+                    filePath: filename,
+                    name: 'image',
 
-              success: function(res1) {
-                console.log("上传成功并保存到了服务器")
-                console.log(res1)
-                sucess = sucess + 1;
+                    success: function(res1) {
+                      console.log("上传成功并保存到了服务器")
+                      console.log(res1)
+                      sucess = sucess + 1;
 
-                console.log(res1)
-                var jsondata = JSON.parse(res1.data);
+                      console.log(res1)
+                      var jsondata = JSON.parse(res1.data);
 
-                wx.request({
-                  url: getApp().data.servsers + 'updateOrderImg',
-                  data: {
-                    orderId: order.id,
-                    address: jsondata.data.filename,
-                    typeImg: "eirImg"
-                  },
-                  method: "POST",
-                  header: {
-                    'content-type': 'application/x-www-form-urlencoded' // 默认值
-                  },
-                  success: function(res2) {
-                    console.log("eirImg 上传成功。" + jsondata.data.filename)
-                    console.log(res2)
-                    if (sucess == count) {
-                      wx.hideLoading();
-                      console.log("sucess:" + sucess + " count：" + count)
-                      wx.showModal({
-                        showCancel: false,
-                        title: '提示',
-                        content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
-                        success: function(res) {
-                          if (res.confirm) {
-                            wx.navigateBack({
-                              url: '../listEir/Eir',
+                      wx.request({
+                        url: getApp().data.servsers + 'updateOrderImg',
+                        data: {
+                          orderId: order.id,
+                          address: jsondata.data.filename,
+                          typeImg: "eirImg"
+                        },
+                        method: "POST",
+                        header: {
+                          'content-type': 'application/x-www-form-urlencoded' // 默认值
+                        },
+                        success: function(res2) {
+                          console.log("eirImg 上传成功。" + jsondata.data.filename)
+                          console.log(res2)
+                          if (sucess == count) {
+                            wx.hideLoading();
+                            console.log("sucess:" + sucess + " count：" + count)
+                            wx.showModal({
+                              showCancel: false,
+                              title: '提示',
+                              content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
+                              success: function(res) {
+                                if (res.confirm) {
+                                  wx.navigateBack({
+                                    url: '../listEir/Eir',
+                                  })
+                                  // wx.switchTab({
+                                  //   url: '../listEir/Eir',
+                                  // })
+                                }
+                              }
+
                             })
-                            // wx.switchTab({
-                            //   url: '../listEir/Eir',
-                            // })
                           }
+
+
+                          if (res2.data.code != 0) {
+                            wx.showModal({
+                              showCancel: false,
+                              title: '提示',
+                              content: '单证照片上传失败,请重试!',
+
+                              success: function(res) {
+                                return;
+                              }
+                            })
+                          } else {
+
+                          }
+
+
+                        }
+                      })
+
+
+                    },
+                    fail: function(res1) {
+                      console.log("上传文件连接服务器失败:")
+                      console.log(res1)
+                    },
+                    complete: function(res) {
+                      console.log("结束上传")
+                      console.log(res)
+                    }
+
+                  })
+
+                }
+                if ((item.seal_img[0] != null && item.seal_img[0] != undefined && item.seal_img[0] != "") && item.workType != 'RE') {
+                  //console.log("item.seal_img: " + item.seal_img[0])
+                  //eirImg = saveImage(item.eir_img[0])
+                  var filename = item.seal_img[0];
+                  console.log("开始上传seal照片:")
+                  wx.uploadFile({
+                    url: getApp().data.servsers + 'saveImage',
+                    filePath: filename,
+                    name: 'image',
+                    success: function(res1) {
+                      sucess = sucess + 1;
+                      var jsondata = JSON.parse(res1.data);
+                      order.sealImg = jsondata.data.filename
+                      wx.request({
+                        url: getApp().data.servsers + 'updateOrderImg',
+                        data: {
+                          orderId: order.id,
+                          address: order.sealImg,
+                          typeImg: "sealImg"
+                        },
+                        method: "POST",
+                        header: {
+                          'content-type': 'application/x-www-form-urlencoded' // 默认值
+                        },
+                        success: function(res2) {
+                          console.log("sealImg 上传成功。")
+                          console.log(res2)
+                          if (sucess == count) {
+                            wx.hideLoading();
+
+                            console.log("sucess:" + sucess + " count：" + count)
+                            wx.showModal({
+                              showCancel: false,
+                              title: '提示',
+                              content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
+                              success: function(res) {
+                                if (res.confirm) {
+                                  wx.navigateBack({
+                                    url: '../listEir/Eir',
+                                  })
+                                  // wx.switchTab({
+                                  //   url: '../listEir/Eir',
+                                  // })
+                                }
+                              }
+
+                            })
+                          }
+                        },
+                        fail: function(res1) {
+                          console.log("seal上传连接服务器失败:")
+                          console.log(res1)
+                        }
+                      })
+                    },
+                    fail: function(res1) {}
+                  })
+
+                }
+                if ((item.seal_img.length > 1 && item.seal_img[1] != undefined && item.seal_img[1] != "") && item.workType != 'RE') {
+                  //console.log("item.seal_img: " + item.seal_img[0])
+                  //eirImg = saveImage(item.eir_img[0])
+                  var filename = item.seal_img[1];
+                  console.log("开始上传seal照片:")
+                  wx.uploadFile({
+                    url: getApp().data.servsers + 'saveImage',
+                    filePath: filename,
+                    name: 'image',
+                    success: function(res1) {
+                      sucess = sucess + 1;
+                      var jsondata = JSON.parse(res1.data);
+                      order.sealImg = jsondata.data.filename
+                      wx.request({
+                        url: getApp().data.servsers + 'updateOrderImg',
+                        data: {
+                          orderId: order.id,
+                          address: order.sealImg,
+                          typeImg: "sealImg1"
+                        },
+                        method: "POST",
+                        header: {
+                          'content-type': 'application/x-www-form-urlencoded' // 默认值
+                        },
+                        success: function(res2) {
+                          console.log("sealImg1 上传成功。")
+                          console.log(res2)
+                          if (sucess == count) {
+                            wx.hideLoading();
+
+                            console.log("sucess:" + sucess + " count：" + count)
+                            wx.showModal({
+                              showCancel: false,
+                              title: '提示',
+                              content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
+                              success: function(res) {
+                                if (res.confirm) {
+                                  wx.navigateBack({
+                                    url: '../listEir/Eir',
+                                  })
+                                  // wx.switchTab({
+                                  //   url: '../listEir/Eir',
+                                  // })
+                                }
+                              }
+
+                            })
+                          }
+                        },
+                        fail: function(res1) {
+                          console.log("seal上传连接服务器失败:")
+                          console.log(res1)
+                        }
+                      })
+                    },
+                    fail: function(res1) {}
+                  })
+
+                }
+                if (item.attach_img[0] != null && item.attach_img[0] != undefined && item.attach_img[0] != "") {
+                  var filename = item.attach_img[0];
+                  console.log("开始上传attach照片:" + filename)
+                  wx.uploadFile({
+                    url: getApp().data.servsers + 'saveImage',
+                    filePath: filename,
+                    name: 'image',
+                    success: function(res1) {
+                      console.log(res1)
+                      sucess = sucess + 1;
+                      var jsondata = JSON.parse(res1.data);
+                      order.attachImg = jsondata.data.filename;
+                      console.log(order.attachImg)
+                      //更新数据
+                      wx.request({
+                        url: getApp().data.servsers + 'updateOrderImg',
+                        formData: {
+
+                        },
+                        data: {
+                          orderId: order.id,
+                          address: order.attachImg,
+                          typeImg: "attachImg"
+                        },
+                        method: "POST",
+                        header: {
+                          'content-type': 'application/x-www-form-urlencoded' // 默认值
+                        },
+                        success: function(res2) {
+                          console.log("attachImg 上传成功。")
+                          console.log(res2)
+
+                          if (sucess == count) {
+                            wx.hideLoading();
+                            console.log("sucess:" + sucess + " count：" + count)
+                            wx.showModal({
+                              showCancel: false,
+                              title: '提示',
+                              content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
+                              success: function(res) {
+                                if (res.confirm) {
+                                  wx.navigateBack({
+                                    url: '../listEir/Eir',
+                                  })
+                                  // wx.switchTab({
+                                  //   url: '../listEir/Eir',
+                                  // })
+                                }
+                              }
+
+                            })
+                          }
+                        },
+                        fail: function(res1) {
+                          console.log("attachImg连接服务器失败:")
+                          console.log(res1)
                         }
 
                       })
+                    },
+                    fail: function(res1) {
+
                     }
+                  })
+                }
 
 
-                    if (res2.data.code != 0) {
-                      wx.showModal({
-                        showCancel: false,
-                        title: '提示',
-                        content: '单证照片上传失败,请重试!',
+                if (item.attach_img.length > 1 && item.attach_img[1] != undefined && item.attach_img[1] != "") {
+                  var filename = item.attach_img[1];
+                  console.log("开始上传attach照片:" + filename)
+                  wx.uploadFile({
+                    url: getApp().data.servsers + 'saveImage',
+                    filePath: filename,
+                    name: 'image',
+                    success: function(res1) {
+                      console.log(res1)
+                      sucess = sucess + 1;
+                      var jsondata = JSON.parse(res1.data);
+                      order.attachImg = jsondata.data.filename;
+                      console.log(order.attachImg)
+                      //更新数据
+                      wx.request({
+                        url: getApp().data.servsers + 'updateOrderImg',
+                        formData: {
 
-                        success: function(res) {
-                          return;
+                        },
+                        data: {
+                          orderId: order.id,
+                          address: order.attachImg,
+                          typeImg: "attachImg1"
+                        },
+                        method: "POST",
+                        header: {
+                          'content-type': 'application/x-www-form-urlencoded' // 默认值
+                        },
+                        success: function(res2) {
+                          console.log("attachImg 上传成功。")
+                          console.log(res2)
+
+                          if (sucess == count) {
+                            wx.hideLoading();
+                            console.log("sucess:" + sucess + " count：" + count)
+                            wx.showModal({
+                              showCancel: false,
+                              title: '提示',
+                              content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
+                              success: function(res) {
+                                if (res.confirm) {
+                                  wx.navigateBack({
+                                    url: '../listEir/Eir',
+                                  })
+                                  // wx.switchTab({
+                                  //   url: '../listEir/Eir',
+                                  // })
+                                }
+                              }
+
+                            })
+                          }
+                        },
+                        fail: function(res1) {
+                          console.log("attachImg连接服务器失败:")
+                          console.log(res1)
                         }
+
                       })
-                    } else {
+                    },
+                    fail: function(res1) {
 
                     }
+                  })
+                }
 
-
-                  }
-                })
 
 
               },
-              fail: function(res1) {
-                console.log("上传文件连接服务器失败:")
-                console.log(res1)
-              },
-              complete: function(res) {
-                console.log("结束上传")
-                console.log(res)
+              complete: function() {
+
               }
-
             })
 
           }
-          if ((item.seal_img[0] != null && item.seal_img[0] != undefined && item.seal_img[0] != "") && item.workType != 'RE') {
-            //console.log("item.seal_img: " + item.seal_img[0])
-            //eirImg = saveImage(item.eir_img[0])
-            var filename = item.seal_img[0];
-            console.log("开始上传seal照片:")
-            wx.uploadFile({
-              url: getApp().data.servsers + 'saveImage',
-              filePath: filename,
-              name: 'image',
-              success: function(res1) {
-                sucess = sucess + 1;
-                var jsondata = JSON.parse(res1.data);
-                order.sealImg = jsondata.data.filename
-                wx.request({
-                  url: getApp().data.servsers + 'updateOrderImg',
-                  data: {
-                    orderId: order.id,
-                    address: order.sealImg,
-                    typeImg: "sealImg"
-                  },
-                  method: "POST",
-                  header: {
-                    'content-type': 'application/x-www-form-urlencoded' // 默认值
-                  },
-                  success: function(res2) {
-                    console.log("sealImg 上传成功。")
-                    console.log(res2)
-                    if (sucess == count) {
-                      wx.hideLoading();
-
-                      console.log("sucess:" + sucess + " count：" + count)
-                      wx.showModal({
-                        showCancel: false,
-                        title: '提示',
-                        content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
-                        success: function(res) {
-                          if (res.confirm) {
-                            wx.navigateBack({
-                              url: '../listEir/Eir',
-                            })
-                            // wx.switchTab({
-                            //   url: '../listEir/Eir',
-                            // })
-                          }
-                        }
-
-                      })
-                    }
-                  },
-                  fail: function(res1) {
-                    console.log("seal上传连接服务器失败:")
-                    console.log(res1)
-                  }
-                })
-              },
-              fail: function(res1) {}
-            })
-
-          }
-          if ((item.seal_img.length > 1 && item.seal_img[1] != undefined && item.seal_img[1] != "") && item.workType != 'RE') {
-            //console.log("item.seal_img: " + item.seal_img[0])
-            //eirImg = saveImage(item.eir_img[0])
-            var filename = item.seal_img[1];
-            console.log("开始上传seal照片:")
-            wx.uploadFile({
-              url: getApp().data.servsers + 'saveImage',
-              filePath: filename,
-              name: 'image',
-              success: function(res1) {
-                sucess = sucess + 1;
-                var jsondata = JSON.parse(res1.data);
-                order.sealImg = jsondata.data.filename
-                wx.request({
-                  url: getApp().data.servsers + 'updateOrderImg',
-                  data: {
-                    orderId: order.id,
-                    address: order.sealImg,
-                    typeImg: "sealImg1"
-                  },
-                  method: "POST",
-                  header: {
-                    'content-type': 'application/x-www-form-urlencoded' // 默认值
-                  },
-                  success: function(res2) {
-                    console.log("sealImg1 上传成功。")
-                    console.log(res2)
-                    if (sucess == count) {
-                      wx.hideLoading();
-
-                      console.log("sucess:" + sucess + " count：" + count)
-                      wx.showModal({
-                        showCancel: false,
-                        title: '提示',
-                        content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
-                        success: function(res) {
-                          if (res.confirm) {
-                            wx.navigateBack({
-                              url: '../listEir/Eir',
-                            })
-                            // wx.switchTab({
-                            //   url: '../listEir/Eir',
-                            // })
-                          }
-                        }
-
-                      })
-                    }
-                  },
-                  fail: function(res1) {
-                    console.log("seal上传连接服务器失败:")
-                    console.log(res1)
-                  }
-                })
-              },
-              fail: function(res1) {}
-            })
-
-          }
-          if (item.attach_img[0] != null && item.attach_img[0] != undefined && item.attach_img[0] != "") {
-            var filename = item.attach_img[0];
-            console.log("开始上传attach照片:" + filename)
-            wx.uploadFile({
-              url: getApp().data.servsers + 'saveImage',
-              filePath: filename,
-              name: 'image',
-              success: function(res1) {
-                console.log(res1)
-                sucess = sucess + 1;
-                var jsondata = JSON.parse(res1.data);
-                order.attachImg = jsondata.data.filename;
-                console.log(order.attachImg)
-                //更新数据
-                wx.request({
-                  url: getApp().data.servsers + 'updateOrderImg',
-                  formData: {
-
-                  },
-                  data: {
-                    orderId: order.id,
-                    address: order.attachImg,
-                    typeImg: "attachImg"
-                  },
-                  method: "POST",
-                  header: {
-                    'content-type': 'application/x-www-form-urlencoded' // 默认值
-                  },
-                  success: function(res2) {
-                    console.log("attachImg 上传成功。")
-                    console.log(res2)
-
-                    if (sucess == count) {
-                      wx.hideLoading();
-                      console.log("sucess:" + sucess + " count：" + count)
-                      wx.showModal({
-                        showCancel: false,
-                        title: '提示',
-                        content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
-                        success: function(res) {
-                          if (res.confirm) {
-                            wx.navigateBack({
-                              url: '../listEir/Eir',
-                            })
-                            // wx.switchTab({
-                            //   url: '../listEir/Eir',
-                            // })
-                          }
-                        }
-
-                      })
-                    }
-                  },
-                  fail: function(res1) {
-                    console.log("attachImg连接服务器失败:")
-                    console.log(res1)
-                  }
-
-                })
-              },
-              fail: function(res1) {
-
+        } else {
+          wx.hideLoading();
+          wx.showModal({
+            showCancel: false,
+            title: '提示',
+            content: res.data.msg,
+            success: function (res) {
+              if (res.confirm) {
+               
+                // wx.switchTab({
+                //   url: '../listEir/Eir',
+                // })
               }
-            })
-          }
+            }
 
-
-          if (item.attach_img.length > 1 && item.attach_img[1] != undefined && item.attach_img[1] != "") {
-            var filename = item.attach_img[1];
-            console.log("开始上传attach照片:" + filename)
-            wx.uploadFile({
-              url: getApp().data.servsers + 'saveImage',
-              filePath: filename,
-              name: 'image',
-              success: function(res1) {
-                console.log(res1)
-                sucess = sucess + 1;
-                var jsondata = JSON.parse(res1.data);
-                order.attachImg = jsondata.data.filename;
-                console.log(order.attachImg)
-                //更新数据
-                wx.request({
-                  url: getApp().data.servsers + 'updateOrderImg',
-                  formData: {
-
-                  },
-                  data: {
-                    orderId: order.id,
-                    address: order.attachImg,
-                    typeImg: "attachImg1"
-                  },
-                  method: "POST",
-                  header: {
-                    'content-type': 'application/x-www-form-urlencoded' // 默认值
-                  },
-                  success: function(res2) {
-                    console.log("attachImg 上传成功。")
-                    console.log(res2)
-
-                    if (sucess == count) {
-                      wx.hideLoading();
-                      console.log("sucess:" + sucess + " count：" + count)
-                      wx.showModal({
-                        showCancel: false,
-                        title: '提示',
-                        content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
-                        success: function(res) {
-                          if (res.confirm) {
-                            wx.navigateBack({
-                              url: '../listEir/Eir',
-                            })
-                            // wx.switchTab({
-                            //   url: '../listEir/Eir',
-                            // })
-                          }
-                        }
-
-                      })
-                    }
-                  },
-                  fail: function(res1) {
-                    console.log("attachImg连接服务器失败:")
-                    console.log(res1)
-                  }
-
-                })
-              },
-              fail: function(res1) {
-
-              }
-            })
-          }
-
-
-
-        },
-        complete: function() {
-
+          })
         }
-      })
+      },
+      complete:function(res){
+        that.setData({
+          disabled: false
+        });
+      }
 
-    }
+    })
+
 
     setTimeout(function() {
       //提交完成
@@ -874,7 +906,9 @@ Page({
    */
   onLoad: function(options) {
     var time = options.time;
+    var site = options.site;
     console.log("预约界面的time:" + time)
+    console.log("预约界面的site:" + site)
     if (time != undefined && time != 'undefined') {
       this.setData({
         time: time
@@ -882,6 +916,15 @@ Page({
     } else {
       this.setData({
         time: 'null'
+      })
+    }
+    if (site != undefined && site != 'undefined') {
+      this.setData({
+        site: site
+      })
+    } else {
+      this.setData({
+        site: 'null'
       })
     }
 

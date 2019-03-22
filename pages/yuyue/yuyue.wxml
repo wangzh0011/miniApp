@@ -3,12 +3,15 @@
 
   <view class="page__hd" wx:if="{{time=='null'}}">
     <view class="page__title" style='font-size: 17px;'>飞单业务流程介绍</view>
-    <view class="page__desc" style='font-size: 15px;'>1、选择到港日期和时间</view>
+    <view class="page__desc" style='font-size: 15px;'>1、选择到港地点、日期和时间</view>
     <view class="page__desc" style='font-size: 15px;'>2、选择交提柜类型,并上传照片</view>
     <view class="page__desc" style='font-size: 15px;'>3、如有多个交提柜，请点击添加业务</view>
   </view>
   <view class="page__hd" wx:if="{{time != 'null'}}">
-    <view class="page__title">你已经在{{time}}预约过大铲湾码头业务</view>
+    <view class="page__title">你已经在{{time}}预约过大铲湾码头业务
+       <text wx:if="{{site == 'D'  }}">(内贸)</text>
+      <text wx:if="{{site == 'I'  }}">(外贸)</text>
+    </view>
   </view>
 
   <view>

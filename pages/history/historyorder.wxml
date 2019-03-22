@@ -16,7 +16,10 @@
               <image src="{{servsers}}{{list.order.eirImg}}" style="width: 50px; height: 50px; display: block" />
             </view>
             <view class="weui-cell__bd">
-              <view style="font-size: 14px;color: #888888;">{{list.tranType}}</view>
+              <view style="font-size: 14px;color: #888888;">{{list.tranType}}
+                <text wx:if="{{list.order.site == 'D'  }}">(内贸)</text>
+                <text wx:if="{{list.order.site == 'I'  }}">(外贸)</text>
+              </view>
               <view style="font-size: 13px;color: #888888;">预约号:{{list.order.id}}</view>
               <view style="font-size: 13px;color: #888888;">时间:{{list.order.appointmentTime}} </view>
             </view>

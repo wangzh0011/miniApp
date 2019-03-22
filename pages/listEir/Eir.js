@@ -7,7 +7,7 @@ Page({
    */
   data: {
     disabled: false,
-    openid: wx.getStorageSync("userinfo").openid,     
+    openid: wx.getStorageSync("userinfo").openid,
     items: [],
     order: [],
 
@@ -24,7 +24,7 @@ Page({
     console.log("ada")
   },
 
-  handle: function(e) {  
+  handle: function(e) {
 
     var openid = wx.getStorageSync("userinfo").openid;
     var plate = wx.getStorageSync("userinfo").plate;
@@ -79,14 +79,75 @@ Page({
         url: '/pages/imageUpload/upload',
       })
     }
+
+    if ("sign" == name) {
+      wx.showLoading({
+        title: '正在为你处理，请稍后......',
+      })
+
+      console.log("签到")
+      wx.request({
+        url: getApp().data.servsers + 'sign',
+        header: {
+          'content-type': 'application/x-www-form-urlencoded' // 默认值
+        },
+        method: "POST",
+        data: {
+          plate: getApp().userInfo.userInfo.plate,
+          openid: getApp().userInfo.userInfo.openid
+        },
+        success: function (res) {
+          wx.hideLoading();
+          if (res.data.code == 0) {
+            wx.showModal({
+              content: res.data.msg,
+              showCancel: false,
+              confirmText: "签到成功",             
+              success: function (res) {
+                if (res.confirm) {                
+
+                } else {
+
+                }
+
+              }
+            });
+          }else{
+
+            console.log(res.data.msg)
+            wx.showModal({
+              content: res.data.msg,
+              showCancel: false,
+              confirmText: "签到失败",
+              confirmColor: "#993300",    
+              success: function (res) {
+                if (res.confirm) {
+
+
+                } else {
+
+                }
+
+              }
+            });
+          }
+        },
+        complete: function(e) {
+          wx.hideLoading();
+        }
+      })
+
+
+    }
+
     if ("sitemap" == name) {
       wx.request({
         url: getApp().data.servsers + 'getEta',
         data: {
           phone: getApp().userInfo.userInfo.phone
         },
-        success:function(e) {
-          console.log('bargelink返回的eta:'+e.data);
+        success: function(e) {
+          console.log('bargelink返回的eta:' + e.data);
           wx.setStorageSync('eta', e.data);
           wx.navigateTo({
             url: '/pages/sitemap/sitemap',
@@ -145,15 +206,15 @@ Page({
     var items = this.data.items;
 
     //不参与计数的条数
-    var count=0;
-    for( var i in items){
-      if (items[i].order.state == '3'){
+    var count = 0;
+    for (var i in items) {
+      if (items[i].order.state == '3') {
         count = count + 1;
       }
     }
-    console.log(items.length )
+    console.log(items.length)
     console.log(count)
-    if ( items.length >= (4+count) ) {
+    if (items.length >= (4 + count)) {
       wx.showModal({
         showCancel: false,
         title: '提示',
@@ -190,7 +251,11 @@ Page({
           that.setData({
             disabled: false
           });
-
+          
+          var site=null;
+          if (res.data.site != undefined){
+            site = res.data.site;
+          }
           wx.showModal({
             content: res.data.msg,
             showCancel: true,
@@ -203,7 +268,7 @@ Page({
                 console.log("time:  " + time)
 
                 wx.navigateTo({
-                  url: '/pages/yuyue/yuyue?time=' + time,
+                  url: '/pages/yuyue/yuyue?time=' + time+'&&site='+site,
                 })
 
               } else {
@@ -277,6 +342,56 @@ Page({
     console.log(wx.getStorageSync('userinfo'));
     console.log("test");
 
+    var that = this;
+    var plate = wx.getStorageSync("userinfo").plate;
+    if (getApp().userInfo.userInfo) {
+      console.log("userType:"+wx.getStorageSync("userinfo").userType)
+      if (wx.getStorageSync("userinfo").userType == 'truck' || wx.getStorageSync("userinfo").userType == null) {
+        console.log("显示拖车")
+        this.setData({
+          plate: plate,
+          truck_lic: plate.substring(2, plate.length - 1),
+          provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
+          colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
+        })
+      }
+
+      this.setData({
+        userType: wx.getStorageSync("userinfo").userType
+      })
+    } else {
+      getApp().callback = () => {
+        if (getApp().userInfo.userInfo.userType == 'truck') {
+          this.setData({
+            plate: plate,
+            truck_lic: plate.substring(2, plate.length - 1),
+            provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
+            colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
+          })
+        }
+
+        this.setData({
+          userType: getApp().userInfo.userInfo.userType
+        })
+      }
+    }
+
+
+
+
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
 
     var that = this;
 
@@ -358,55 +473,6 @@ Page({
       }
     })
 
-    if (getApp().userInfo.userInfo) {
-
-      if (wx.getStorageSync("userinfo").userType == 'truck') {
-        this.setData({
-          plate: plate,
-          truck_lic: plate.substring(2, plate.length - 1),
-          provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
-          colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
-        })
-      }
-
-      this.setData({
-        userType: wx.getStorageSync("userinfo").userType
-      })
-    } else {
-      getApp().callback = () => {
-        if (getApp().userInfo.userInfo.userType == 'truck') {
-          this.setData({
-            plate: plate,
-            truck_lic: plate.substring(2, plate.length - 1),
-            provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
-            colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
-          })
-        }
-
-        this.setData({
-          userType: getApp().userInfo.userInfo.userType
-        })
-      }
-    }
-
-
-
-    
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-
-    
 
   },
 

@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    url: "https://ect1.portx.cn/rob/index.html" //goEir.action
+    url: "https://ect1.portx.cn/rob/index.html#/Entry?" //goEir.action
   },
 
   /**
@@ -41,7 +41,7 @@ Page({
     var name = wx.getStorageSync("userinfo").userName;
     
     var url=this.data.url;
-    url = url + "?idcard=" + idcard + "&name=" + name + "&truckNumber=" + truckNumber +"&phone="+phone
+    url = url + "?idCard=" + idcard + "&name=" + name + "&truckNumber=" + truckNumber +"&phone="+phone
     this.setData({
       url:url
     })
@@ -84,4 +84,5 @@ Page({
   onShareAppMessage: function () {
   
   }
+
 })

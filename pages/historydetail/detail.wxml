@@ -10,49 +10,54 @@
     </view>
   -->
   <form>
-  <view class="page__bd">
-   <view class="weui-cells">
+    <view class="page__bd">
+      <view class="weui-cells">
 
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">预约号：{{orderVo.order.id}}</view>
-        <view class="weui-cell__ft"></view>
-      </view>
-    </view>
-
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">手机号码：{{orderVo.order.phone}}</view>
-        <view class="weui-cell__ft"></view>
-      </view>
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">车牌号码：{{orderVo.order.plate}}</view>
-        <view class="weui-cell__ft"></view>
-      </view>
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">作业类型：{{orderVo.tranType}}</view>
-        <view class="weui-cell__ft"></view>
-      </view>
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">到港时间：{{orderVo.order.appointmentTime}}</view>
-        <view class="weui-cell__ft"></view>
-      </view>
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell">
-        <view class="weui-cell__bd" >状态：<text style='color:{{orderVo.wxCss}}'> {{orderVo.wxState}} </text></view>
-        <view class="weui-cell__ft">
-          <text wx:if="{{orderVo.reason!=null }}" class='textred'>{{orderVo.reason}} </text>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">预约号：{{orderVo.order.id}}</view>
+            <view class="weui-cell__ft"></view>
+          </view>
         </view>
-      </view>
-    </view>   
-      
+
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">手机号码：{{orderVo.order.phone}}</view>
+            <view class="weui-cell__ft"></view>
+          </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">车牌号码：{{orderVo.order.plate}}</view>
+            <view class="weui-cell__ft"></view>
+          </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">作业类型：{{orderVo.tranType}}
+              <text wx:if="{{orderVo.order.site == 'D'  }}">(内贸)</text>
+              <text wx:if="{{orderVo.order.site == 'I'  }}">(外贸)</text>
+            </view>
+            <view class="weui-cell__ft"></view>
+          </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">到港时间：{{orderVo.order.appointmentTime}}</view>
+            <view class="weui-cell__ft"></view>
+          </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell">
+            <view class="weui-cell__bd">状态：
+              <text style='color:{{orderVo.wxCss}}'> {{orderVo.wxState}} </text>
+            </view>
+            <view class="weui-cell__ft">
+              <text wx:if="{{orderVo.reason!=null }}" class='textred'>{{orderVo.reason}} </text>
+            </view>
+          </view>
+        </view>
+
         <view class="weui-cell">
           <view class="weui-cell__bd">
 
@@ -64,7 +69,7 @@
               <view class="weui-uploader__bd">
                 <view class="weui-uploader__files" id="uploaderFiles">
 
-                  <view wx:if="{{orderVo.order.eirImg != null}}" >                  
+                  <view wx:if="{{orderVo.order.eirImg != null}}">
                     <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-type='eir'>
                       <image class="weui-uploader__img" src="{{eirUrl[0]}}" mode="aspectFill" />
                     </view>
@@ -86,7 +91,7 @@
               <view class="weui-uploader__bd">
                 <view class="weui-uploader__files" id="uploaderFiles">
 
-                  <view wx:if="{{orderVo.order.sealImg != null}}" >                  
+                  <view wx:if="{{orderVo.order.sealImg != null}}">
                     <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-type='seal'>
                       <image class="weui-uploader__img" src="{{sealUrl[0]}}" mode="aspectFill" />
                     </view>
@@ -96,10 +101,10 @@
             </view>
           </view>
         </view>
-        
 
 
-        <view class="weui-cell"  >
+
+        <view class="weui-cell">
           <view class="weui-cell__bd">
 
             <view class="weui-uploader">
@@ -110,7 +115,7 @@
               <view class="weui-uploader__bd">
                 <view class="weui-uploader__files" id="uploaderFiles">
 
-                  <view wx:if="{{orderVo.order.attachImg != null}}" >                  
+                  <view wx:if="{{orderVo.order.attachImg != null}}">
                     <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-type='attach'>
                       <image class="weui-uploader__img" src="{{attachUrl[0]}}" mode="aspectFill" />
                     </view>
@@ -121,9 +126,9 @@
           </view>
         </view>
 
-        
 
-        
+
+
 
 
 
@@ -140,7 +145,7 @@
 
       </view>
 
-      
+
 
 
     </view>

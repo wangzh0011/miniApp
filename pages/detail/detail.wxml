@@ -34,7 +34,11 @@
         </view>
         <view class="weui-cells weui-cells_after-title">
           <view class="weui-cell">
-            <view class="weui-cell__bd">作业类型：{{orderVo.tranType}}</view>
+            <view class="weui-cell__bd">作业类型：{{orderVo.tranType}}
+              <text wx:if="{{orderVo.order.site == 'D'  }}">(内贸)</text>
+              <text wx:if="{{orderVo.order.site == 'I'  }}">(外贸)</text>
+
+            </view>
             <view class="weui-cell__ft"></view>
           </view>
         </view>
@@ -154,7 +158,7 @@
 
       <view class="weui-btn-area">
         <form report-submit='true' bindsubmit='update' data-index='{{orderVo.order.id}}'>
-          <button form-type='submit' class="weui-btn" type="default" >修改该预约</button>
+          <button form-type='submit' class="weui-btn" type="default">修改该预约</button>
         </form>
       </view>
 
