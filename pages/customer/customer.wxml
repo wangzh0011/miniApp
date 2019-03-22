@@ -1,0 +1,35 @@
+<!--pages/customer/customer.wxml-->
+<view class="page">
+      <!-- <view class="weui-cells__title weui-cells__titless">
+        <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>大铲湾客户服务中心为您服务。</text>
+      </view> -->
+      <view class="weui-cells__title">客服中心</view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <button class="weui-btn" type="primary" size='mini' bindtap='yardPlanTap'>堆场机械安排</button>
+        </view>
+        <view class="weui-cell__bd">
+          <view class="weui-input" />
+        </view>
+      </view>
+      
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <button class="weui-btn" type="primary" size='mini'>投诉与建议</button>
+        </view> 
+        <view class="weui-cell__bd">
+          <view class="weui-input" />
+        </view>
+      </view>
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <!-- <contact-button type="default-dark" size='20'></contact-button> -->
+          <button open-type="contact" class="weui-btn" type="primary" size='mini'>在线客服</button>
+        </view> 
+        <view class="weui-cell__bd">
+          <view class="weui-input" />
+        </view>
+      </view>
+</view>

@@ -41,7 +41,7 @@ Page({
     var name = wx.getStorageSync("userinfo").userName;
     
     var url=this.data.url;
-    url = url + "?idcard=" + idcard + "&name=" + name + "&truckNumber" + truckNumber +"&phone"+phone
+    url = url + "?idcard=" + idcard + "&name=" + name + "&truckNumber=" + truckNumber +"&phone="+phone
     this.setData({
       url:url
     })

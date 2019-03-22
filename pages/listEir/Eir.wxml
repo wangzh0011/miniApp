@@ -8,44 +8,7 @@
 
 
 
-  <!-- <view class="weui-cell__ft ">资料</view>
-    <view class='arrow'></view> -->
-
-  <!-- <view class="weui-cell__bd">
-      <view class="page__desc">
-          更多功能
-           <text class='ssss'>{{plate}}</text>
-       </view>
-      
-    </view>
-
-  <view class="weui-cell weui-cell_access" hover-class="weui-cell_active bb" bindtap='callPhone'>
-   
-    
-
-  </view> -->
-
-  <!-- <view> -->
-
-
-
-  <!-- <view class='hd'>
-      <view>车牌号码: </view>
-      <view>
-
-      <view>个人资料
-       <view class='arrow' ></view>
-       
-       </view>
-
-        <button  formType="submit"  hover-class="none" class='invisibleclass' ></button>
-      </view>
-    </view> -->
-
-  <!-- </view> -->
-  <!-- <view class="page__hd">
-    <view class="page__desc"></view>
-  </view> -->
+  
 
 
   <view class="page__bd">
@@ -222,12 +185,14 @@
         <form report-submit='true' bindsubmit='handle' data-name='customer'>
           <view class='itemImg'>
             <image src='../images/customer.png' mode='aspectFill'></image>
+            <!-- <contact-button type="default-dark" size='40'></contact-button> -->
           </view>
-          <text class='textCenter'>客服</text>
+          <text class='textCenter'>客服中心</text>
           <button formType="submit" hover-class="none" class='invisibleclass'></button>
         </form>
       </view>
     </view>
+  </view>
 
     <view class="weui-footer weui-footer_fixed-bottom">
       <view class="weui-footer__links">
@@ -236,18 +201,11 @@
       <view class="weui-footer__text">Copyright © 2018-5-12</view>
     </view>
 
-
-  </view>
-
   <view class="page__bd">
 
   </view>
 
-  <!-- <view >
-    <view class="page__desc">更多功能</view>
-    <view class="divLine"></view>
 
-  </view> -->
 
 
 

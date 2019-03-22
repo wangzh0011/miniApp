@@ -1,0 +1,103 @@
+<!--pages/yardPlan/yardPlan.wxml-->
+<view class='box'>
+
+  <view class="page__hd">
+    <view class="page__title" style='font-size: 17px;'>堆场吊柜机械服务流程介绍</view>
+    <view class="page__desc" style='font-size: 15px;'>1、选择内、外贸区域</view>
+    <view class="page__desc" style='font-size: 15px;'>2、输入所在堆场位置</view>
+    <view class="page__desc" style='font-size: 15px;'>3、选择堆场吊柜遇到的机械问题类型</view>
+  </view>
+
+  <view>
+
+
+
+    <view class='radio_view'>
+      <radio-group class="group" bindchange="chooseSite">
+        <view class="attr_value">
+          <label class='radio_label'>
+            <radio color='' checked="" value='D'>
+              <text>内贸</text>
+            </radio>
+          </label>
+        </view>
+
+        <view class="attr_value">
+          <label class='radio_label'>
+            <radio color='' checked="" value='I'>
+              <text>外贸</text>
+            </radio>
+          </label>
+        </view>
+      </radio-group>
+    </view>
+
+  </view>
+
+  <view class='box_view '>
+   <!-- wx:for="{{items}}" wx:for-index="index" wx:for-item="item" wx:key="*this" -->
+    <view class="weui-loadmore weui-loadmore_line">
+      <view class="weui-loadmore__tips weui-loadmore__tips_in-line">机械问题</view>
+    </view>
+    <view class='vertical'>
+
+      <view class='radio_view'>
+        <radio-group class="group" bindchange="type_Radios" data-index="{{index}}">
+
+          <view class="attr_value">
+            <label class='radio_label'>
+              <radio color='' value='RE'>
+                <text>无机械</text>
+              </radio>
+            </label>
+          </view>
+
+          <view class="attr_value">
+            <label class='radio_label'>
+              <radio color='' value='RF'>
+                <text>机械未按顺序作业</text>
+              </radio>
+            </label>
+          </view>
+
+          <view class="attr_value">
+            <label class='radio_label'>
+              <radio color='' value='DE'>
+                <text>机械繁忙，需要改位</text>
+              </radio>
+            </label>
+          </view>
+
+          <view class="attr_value">
+            <label class='radio_label'>
+              <radio color='' value='DF'>
+                <text>调箱门位置</text>
+              </radio>
+            </label>
+          </view>
+          
+        </radio-group>
+
+      </view>
+
+    </view>
+
+  </view>
+
+
+
+
+  <!-- <view class='add'>
+
+
+    <button class='btn' type="primary" bindtap='addBusines'>添加业务</button>
+  </view> -->
+
+
+</view>
+
+
+<view class='layout_horizontal'>
+  <!-- <button class='btn1' disabled='false'>作业数量：{{type_R}}交{{type_D}}提</button> -->
+  <button class='btn2' bindtap='addOrder' disabled='{{disabled}}'>提交</button>
+</view>
