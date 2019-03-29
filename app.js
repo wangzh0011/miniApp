@@ -4,9 +4,13 @@
     //全局变量
     data: {
       uploadurl: 
+
     //  "https://wxxcx.dcblink.com/upload/",
       //  "https://olddcblink.dcblink.com/upload/",
    "http://127.0.0.1:8081/upload/",
+    // "https://wxxcx.dcblink.com/upload/",
+       //"https://olddcblink.dcblink.com/upload/",
+   //"http://127.0.0.1:8081/upload/",
       //"https://10.10.11.26:9301/upload/", 
       //"https://10.10.11.34:443/upload/",
       //"https://olddcblink.dcblink.com:8080/upload/",
@@ -14,6 +18,11 @@
   //  "https://wxxcx.dcblink.com/miniApp/",
     //  "https://olddcblink.dcblink.com/miniApp/" ,
      "http://127.0.0.1:8081/miniApp/", 
+
+   // "https://wxxcx.dcblink.com/miniApp/",
+     //"https://olddcblink.dcblink.com/miniApp/" ,
+    // "http://127.0.0.1:8081/miniApp/",       
+
        //"https://10.10.11.26:9301/miniApp/", 
        //"https://10.10.11.34:443/miniApp/",
       //https://olddcblink.dcblink.com/   127.0.0.1:443  https://wxxcx.dcblink.com/"

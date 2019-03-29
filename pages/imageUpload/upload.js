@@ -1,3 +1,4 @@
+
 // pages/imageUpload/upload.js
 Page({
 
@@ -87,5 +88,4 @@ Page({
   onShareAppMessage: function () {
   
   }
-
 })
