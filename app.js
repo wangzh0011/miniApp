@@ -4,16 +4,16 @@
     //全局变量
     data: {
       uploadurl: 
-     //"https://wxxcx.dcblink.com/upload/",
-       //"https://olddcblink.dcblink.com/upload/",
+    //  "https://wxxcx.dcblink.com/upload/",
+      //  "https://olddcblink.dcblink.com/upload/",
    "http://127.0.0.1:8081/upload/",
       //"https://10.10.11.26:9301/upload/", 
       //"https://10.10.11.34:443/upload/",
       //"https://olddcblink.dcblink.com:8080/upload/",
       servsers:
-   // "https://wxxcx.dcblink.com/miniApp/",
-     //"https://olddcblink.dcblink.com/miniApp/" ,
-     "http://127.0.0.1:8081/miniApp/",       
+  //  "https://wxxcx.dcblink.com/miniApp/",
+    //  "https://olddcblink.dcblink.com/miniApp/" ,
+     "http://127.0.0.1:8081/miniApp/", 
        //"https://10.10.11.26:9301/miniApp/", 
        //"https://10.10.11.34:443/miniApp/",
       //https://olddcblink.dcblink.com/   127.0.0.1:443  https://wxxcx.dcblink.com/"
@@ -39,9 +39,9 @@
     wx.login({      
       success: res => {
         //如果本地没有存储有用户信息
-        
+        console.log("login:进入页面");
         //wx.showLoading();
-        console.log(res.code)
+        console.log("res.code:"+res.code)
         console.log(getApp().data.servsers + 'userInfo/' + res.code)
 
           wx.showToast({
@@ -95,7 +95,7 @@
                     wx.navigateBack({
                       delta:-1
                     })
-                    console.log('用户点击确定')
+                    console.log('未能连接服务器,用户点击确定')
                   }
                 }
               });

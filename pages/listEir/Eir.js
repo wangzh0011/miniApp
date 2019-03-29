@@ -343,9 +343,11 @@ Page({
     console.log("test");
 
     var that = this;
-    var plate = wx.getStorageSync("userinfo").plate;
+    
     if (getApp().userInfo.userInfo) {
+      console.log("app.js已加载。。。");
       console.log("userType:"+wx.getStorageSync("userinfo").userType)
+      var plate = wx.getStorageSync("userinfo").plate;
       if (wx.getStorageSync("userinfo").userType == 'truck' || wx.getStorageSync("userinfo").userType == null) {
         console.log("显示拖车")
         this.setData({
@@ -359,8 +361,11 @@ Page({
       this.setData({
         userType: wx.getStorageSync("userinfo").userType
       })
+      console.log("userType:" + getApp().userInfo.userInfo.userType);
     } else {
+      console.log("index.js优先于app.js加载，需回调app.js");
       getApp().callback = () => {
+        var plate = wx.getStorageSync("userinfo").plate;
         if (getApp().userInfo.userInfo.userType == 'truck') {
           this.setData({
             plate: plate,
@@ -373,6 +378,7 @@ Page({
         this.setData({
           userType: getApp().userInfo.userInfo.userType
         })
+        console.log("userType:" + getApp().userInfo.userInfo.userType);
       }
     }
 
@@ -393,6 +399,11 @@ Page({
    */
   onShow: function() {
 
+    //考虑到小程序非首次加载时只监听onShow函数，若小程序页面缓存失效，显示会异常，所以加入此行防止userType无值问题。
+    this.setData({
+      userType: wx.getStorageSync('userinfo').userType
+    });
+    console.log("onShow--userType"+wx.getStorageSync('userinfo').userType);
     var that = this;
 
     wx.showLoading({

@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    url: "https://ect1.portx.cn/rob/index.html#/Entry?" //goEir.action
+    url: "https://ect1.portx.cn/rob/index.html" //goEir.action
   },
 
   /**
@@ -45,8 +45,11 @@ Page({
     this.setData({
       url:url
     })
-    
-    console.log(url)
+    // wx.showModal({
+    //   title: 'URL',
+    //   content: url,
+    // })
+    // console.log(url)
 
 
   },

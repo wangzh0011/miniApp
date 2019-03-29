@@ -158,7 +158,7 @@
         <view class='itemBox'>
           <form report-submit='true' bindsubmit='handle' data-name='sign'>
             <view class='itemImg'>
-              <image src='../images/gr.png' mode='aspectFill'></image>
+              <image src='../images/signIn.png' mode='aspectFill'></image>
             </view>
             <text class='textCenter'>码头签到</text>
             <button formType="submit" hover-class="none" class='invisibleclass'></button>

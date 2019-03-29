@@ -31,9 +31,11 @@ Page({
 
     wx.showModal({
       title: '请选择用户类型',
-      content: '不同用户类型所用到的功能不同，请选择正确的类型。',
+      content: '不同用户类型所用到的功能不同，选中之后不可更改，请谨慎选择。',
       confirmText: "拖车",
+      confirmColor: "green",
       cancelText: "船舶",
+      cancelColor: "red",
       success: function (res) {
         console.log(res);
         if (res.confirm) {
