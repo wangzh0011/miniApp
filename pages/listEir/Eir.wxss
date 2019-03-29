@@ -147,8 +147,8 @@ opacity:0;
 
 .itemBox .itemImg {
   
-  width: 110rpx;
-  height: 110rpx;
+  width: 102rpx;
+  height: 102rpx;
   border-radius: 50%;
   overflow: hidden;
   background-color: rgb(220, 224, 226);
