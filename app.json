@@ -19,11 +19,12 @@
     "pages/sitemap/sitemap",
     "pages/VesselOrTruck/vesselOrTruck",
     "pages/customer/customer",
-    "pages/yardPlan/yardPlan"
+    "pages/yardPlan/yardPlan",
+    "pages/suggest/suggest"
   ],
   "window": {
     "backgroundTextStyle": "dark",
-    "navigationBarTitleText": "大铲湾拖车服务",
+    "navigationBarTitleText": "大铲湾操作服务",
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#f8f8f8"
   },

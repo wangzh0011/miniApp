@@ -70,9 +70,11 @@
                 <view class="weui-uploader__files" id="uploaderFiles">
 
                   <view wx:if="{{orderVo.order.eirImg != null}}">
-                    <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-type='eir'>
-                      <image class="weui-uploader__img" src="{{eirUrl[0]}}" mode="aspectFill" />
-                    </view>
+                    <block wx:for="{{eirUrl}}" wx:key="*this">
+                      <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-type='eir'>
+                        <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                      </view>
+                    </block>
                   </view>
                 </view>
               </view>
@@ -91,11 +93,14 @@
               <view class="weui-uploader__bd">
                 <view class="weui-uploader__files" id="uploaderFiles">
 
-                  <view wx:if="{{orderVo.order.sealImg != null}}">
-                    <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-type='seal'>
-                      <image class="weui-uploader__img" src="{{sealUrl[0]}}" mode="aspectFill" />
-                    </view>
-                  </view>
+                  <!-- <view wx:if="{{orderVo.order.sealImg != null}}"> -->
+                    <block wx:for="{{sealUrl}}" wx:key="*this">
+                      <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-type='seal'>
+                        <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                      </view>
+                    </block>
+                  <!-- </view> -->
+
                 </view>
               </view>
             </view>
@@ -115,11 +120,14 @@
               <view class="weui-uploader__bd">
                 <view class="weui-uploader__files" id="uploaderFiles">
 
-                  <view wx:if="{{orderVo.order.attachImg != null}}">
-                    <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-type='attach'>
-                      <image class="weui-uploader__img" src="{{attachUrl[0]}}" mode="aspectFill" />
-                    </view>
-                  </view>
+                  <!-- <view wx:if="{{orderVo.order.attachImg != null}}"> -->
+                    <block wx:for="{{attachUrl}}" wx:key="*this">
+                      <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-type='attach'>
+                        <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                      </view>
+                    </block>  
+                  <!-- </view> -->
+
                 </view>
               </view>
             </view>

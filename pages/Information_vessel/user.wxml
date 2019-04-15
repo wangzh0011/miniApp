@@ -20,7 +20,7 @@
         <view class="weui-label">手机号码</view>
       </view>
       <view class="weui-cell__bd">
-        <input name="phone_number" class="weui-input" type='number' placeholder-class="phcolor" placeholder="请正确填写手机号码" />
+        <input name="phone_number" class="weui-input" type='number' maxlength='11' placeholder-class="phcolor" placeholder="请正确填写手机号码" />
       </view>
     </view>
 

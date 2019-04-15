@@ -22,7 +22,7 @@
       <radio-group class="group" bindchange="chooseSite">
         <view class="attr_value">
           <label class='radio_label'>
-            <radio color='' checked="" value='D'>
+            <radio color='' checked="{{checked}}" value='D'>
               <text>内贸</text>
             </radio>
           </label>
@@ -30,7 +30,7 @@
 
         <view class="attr_value">
           <label class='radio_label'>
-            <radio color='' checked="" value='I'>
+            <radio color='' checked="{{checked}}" value='I'>
               <text>外贸</text>
             </radio>
           </label>
@@ -101,7 +101,7 @@
 
           <view class="attr_value">
             <label class='radio_label'>
-              <radio color='' value='RE'>
+              <radio color='' value='RE' checked='{{tranTypeChecked}}'>
                 <text>交空</text>
               </radio>
             </label>
@@ -109,7 +109,7 @@
 
           <view class="attr_value">
             <label class='radio_label'>
-              <radio color='' value='RF'>
+              <radio color='' value='RF' checked='{{tranTypeChecked}}'>
                 <text>交重</text>
               </radio>
             </label>
@@ -117,7 +117,7 @@
 
           <view class="attr_value">
             <label class='radio_label'>
-              <radio color='' value='DE'>
+              <radio color='' value='DE' checked='{{tranTypeChecked}}'>
                 <text>提空</text>
               </radio>
             </label>
@@ -125,7 +125,7 @@
 
           <view class="attr_value">
             <label class='radio_label'>
-              <radio color='' value='DF'>
+              <radio color='' value='DF' checked='{{tranTypeChecked}}'>
                 <text>提重</text>
               </radio>
             </label>
@@ -142,7 +142,6 @@
               <view class="weui-cell__bd">
                 <view class="weui-uploader">
                   <button class='btn_img' bindtap="chooseEirImage" data-index='{{index}}'>单证照片</button>
-
                   <view class="weui-uploader__bd">
                     <view class="weui-uploader__files" id="uploaderFiles">
                       <block wx:for="{{item.eir_img}}" wx:key="*this">
@@ -157,9 +156,7 @@
 
               <view class="weui-cell__bd" wx:if="{{item.workType=='RF'}}">
                 <view class="weui-uploader">
-                  <view>
-                    <button class='btn_img' bindtap="chooseSealImage" data-index='{{index}}'>封条照片</button>
-                  </view>
+                    <button class='btn_img' bindtap="chooseSealImage" data-index='{{index}}'>封条</button>
                   <view class="weui-uploader__bd">
                     <view class="weui-uploader__files" id="uploaderFiles">
                       <block wx:for="{{item.seal_img}}" wx:key="*this">
@@ -174,9 +171,7 @@
 
               <view class="weui-cell__bd">
                 <view class="weui-uploader">
-                  <view>
-                    <button class='btn_img ' bindtap="chooseAttachlImage" data-index='{{index}}'>附属证明材料</button>
-                  </view>
+                    <button class='btn_img' bindtap="chooseAttachlImage" data-index='{{index}}'>附属证明</button>
                   <view class="weui-uploader__bd">
                     <view class="weui-uploader__files" id="uploaderFiles">
                       <block wx:for="{{item.attach_img}}" wx:key="*this">
@@ -232,5 +227,5 @@
 
 <view class='layout_horizontal'>
   <button class='btn1' disabled='false'>作业数量：{{type_R}}交{{type_D}}提</button>
-  <button class='btn2' bindtap='addOrder' disabled='{{disabled}}'>提交</button>
+  <button class='btn2' bindtap='addOrder' >提交</button>
 </view>

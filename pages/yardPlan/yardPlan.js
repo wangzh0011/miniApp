@@ -5,7 +5,193 @@ Page({
    * 页面的初始数据
    */
   data: {
-    items: []
+    //hiddenmodalput: true,
+    other: '其他'
+  },
+
+  chooseSite: function(e) {
+    var site = e.detail.value;
+    this.setData({
+      site: site
+    })
+  },
+
+  type_Radios: function(e) {
+    console.log(e)
+    var issueType = e.detail.value;
+    this.setData({
+      issueType: issueType
+    })
+    if(issueType == 'other'){
+      this.setData({
+        showModal: true
+      })
+    }
+  },
+
+  
+  /**
+   * 对话框取消按钮点击事件
+   */
+  onCancel: function () {
+    this.setData({
+      showModal: false,
+      showTips: false
+    })
+  },
+  /**
+   * 对话框确认按钮点击事件
+   */
+  onConfirm: function (e) {
+    console.log(e)
+    var value = this.data.otherText
+    if(value == '' || value == undefined){
+      this.setData({
+        showTips: true,
+        errorMsg: '输入的内容不能为空'
+      })
+      return;
+    }
+    this.setData({
+      other: value,
+      showModal: false,
+      showTips: false
+    })
+  },
+  /**
+   * 获取弹出框文本
+   */
+  inputChange: function (e) {
+    var otherText = e.detail.value
+    this.setData({
+      otherText: otherText.trim(),
+    })
+  },
+
+  /**
+   * 文本点击事件
+   */
+  clickTap: function(e){
+    this.setData({
+      showTips: false
+    })
+  },
+
+
+  addOrder: function(e) {
+    var site = this.data.site;
+    console.log(site)
+    var issueType = this.data.issueType;
+    if(site == undefined){
+      wx.showModal({
+        title: '提示',
+        content: '请选择作业地点',
+        showCancel: false,
+        confirmText: '确定'
+      })
+      return;
+    }
+    if(issueType == undefined){
+      wx.showModal({
+        title: '提示',
+        content: '请选择机械问题',
+        showCancel: false,
+        confirmText: '确定'
+      })
+      return;
+    }
+    var userInfo = getApp().userInfo.userInfo;
+    //保存formId
+    wx.request({
+      url: getApp().data.servsers + 'saveFormId',
+      data: {
+        openid: userInfo.openid,
+        plate: userInfo.plate,
+        formId: e.detail.formId
+      },
+      success: function (e) {console.log(e.data) },
+      fail: function (e) {
+        console.log(e)
+      }
+    })
+
+    //获取当前时间
+    var date = new Date();
+    var currentMonth = date.getMonth() + 1;
+    var currentDay = date.getDate();
+    var currentHours = date.getHours();
+    var currentMinute = date.getMinutes();
+    if (currentMonth < 10) {
+      currentMonth = "0" + currentMonth;
+    }
+    if (currentDay < 10) {
+      currentDay = "0" + currentDay;
+    }
+    if (currentHours < 10) {
+      currentHours = "0" + currentHours;
+    }
+    if (currentMinute < 10) {
+      currentMinute = "0" + currentMinute;
+    }
+    var currentTime = date.getFullYear() + "-" + currentMonth + "-" + currentDay + " " + currentHours + ":" + currentMinute;
+    var other = this.data.other;//其他问题的text
+    //提交堆场机械问题
+    wx.request({
+      url: getApp().data.servsers + "yardPlan",
+      data: {
+        openId: userInfo.openid,
+        userName: userInfo.userName,
+        plate: userInfo.plate,
+        site: site,
+        issueType: issueType,
+        createTime: currentTime,
+        issue: other
+
+      },
+      success: function(res){
+        if(res.data.code == 0){
+          wx.showModal({
+            content: '提交成功',
+            confirmText: '确定',
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+                wx.reLaunch({
+                  url: '/pages/listEir/Eir',
+                })
+              }
+            }
+          })
+        }else{
+          wx.showModal({
+            content: res.data.msg,
+            confirmText: '确定',
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+                wx.reLaunch({
+                  url: '/pages/listEir/Eir',
+                })
+              }
+            }
+          })
+        }
+      },
+      fail: function (res) {
+        wx.showModal({
+          content: '网络异常，请稍候重试。',
+          showCancel: false,
+          confirmText: '确定',
+          success: function (res) {
+            if (res.confirm) {
+              wx.reLaunch({
+                url: '/pages/listEir/Eir',
+              })
+            }
+          }
+        })
+      }
+    })
   },
 
   /**

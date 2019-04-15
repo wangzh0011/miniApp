@@ -33,9 +33,9 @@ Page({
       title: '请选择用户类型',
       content: '不同用户类型所用到的功能不同，选中之后不可更改，请谨慎选择。',
       confirmText: "拖车",
-      confirmColor: "green",
+      confirmColor: "#008000",
       cancelText: "船舶",
-      cancelColor: "red",
+      cancelColor: "#FF0000",
       success: function (res) {
         console.log(res);
         if (res.confirm) {

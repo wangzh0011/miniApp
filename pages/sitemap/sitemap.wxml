@@ -8,14 +8,14 @@
       <view class="weui-cells__title">预计到港时间</view>
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
-          <picker class='time-picker' mode="multiSelector" bindchange="bindStartMultiPickerChange" bindtap='pickerTap'  bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
             <view class="weui-input">{{eta}}</view>
-          </picker>
         </view>
         <view class="weui-cell__hd">
-          <view class="weui-btn-area">
-            <button class="weui-btn" type="primary" bindtap='bindEtaTap' size='mini'>修改</button>
-          </view>
+          <picker class='time-picker' mode="multiSelector" bindchange="bindStartMultiPickerChange" bindtap='pickerTap'  bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+            <view class="weui-btn-area">
+              <button class="weui-btn" type="primary" size='mini'>修改</button>
+            </view>
+          </picker>
         </view>
       </view>
       

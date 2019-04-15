@@ -9,8 +9,14 @@ Page({
   },
 
   yardPlanTap: function(){
-    wx.redirectTo({
+    wx.navigateTo({
       url: '/pages/yardPlan/yardPlan'
+    })
+  },
+
+  suggestTap: function(){
+    wx.navigateTo({
+      url: '/pages/suggest/suggest',
     })
   },
 

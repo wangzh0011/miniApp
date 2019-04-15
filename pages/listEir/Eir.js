@@ -155,6 +155,19 @@ Page({
         }
       })
     }
+
+    if("suggest" == name){
+      wx.navigateTo({
+        url: '/pages/suggest/suggest',
+      })
+    }
+
+    if ("yardPlan" == name) {
+      wx.navigateTo({
+        url: '/pages/yardPlan/yardPlan',
+      })
+    }
+
   },
   godetail: function(e) {
     console.log(e)
@@ -218,7 +231,7 @@ Page({
       wx.showModal({
         showCancel: false,
         title: '提示',
-        content: '一个作业时间段内最多只能预约四个业务,请作业完成之后之后再预约',
+        content: '一个作业时间段内最多只能预约四个业务,请作业完成之后再预约',
         success: function() {
           that.setData({
             disabled: false
@@ -403,7 +416,7 @@ Page({
     this.setData({
       userType: wx.getStorageSync('userinfo').userType
     });
-    console.log("onShow--userType"+wx.getStorageSync('userinfo').userType);
+    console.log("onShow--userType:"+wx.getStorageSync('userinfo').userType);
     var that = this;
 
     wx.showLoading({
@@ -415,6 +428,9 @@ Page({
     var plate = wx.getStorageSync("userinfo").plate;
     that.setData({
       plate: plate,
+      truck_lic: plate.substring(2, plate.length - 1),
+      provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
+      colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue)
     })
     wx.request({
       url: getApp().data.servsers + 'getOrder',
@@ -456,7 +472,7 @@ Page({
               wx.navigateBack({
                 delta: -1
               })
-              console.log('用户点击确定')
+              console.log('用户点击确定，onShow--getOrder()')
             }
           }
         });
@@ -505,6 +521,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
+    console.log("下拉刷新");
     wx.showNavigationBarLoading() //在标题栏中显示加载
     //模拟加载
     setTimeout(function() {
@@ -563,7 +580,7 @@ Page({
               wx.navigateBack({
                 delta: -1
               })
-              console.log('用户点击确定')
+              console.log('用户点击确定,onPullDownRefresh--getOrder')
             }
           }
         });

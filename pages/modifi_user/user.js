@@ -9,9 +9,6 @@ Page({
     showTopTips: false,
     errormsg: "",
 
-    
-
-
    // prov: ["粤", "港", "桂", "琼","赣"],
    // provValue: ["GD", "HK", "GX", "HQ", "JX"],
     
@@ -24,6 +21,9 @@ Page({
     colorCodesValue: ["Y", "B", "D", "N", "R", "W"],
     colorCodeIndex: 0,
     
+    userTypeOnPage: ["拖车","驳船"],
+    usertype: ["truck","vessel"],
+    userTypeIndex: 0 
   
   },
 
@@ -39,6 +39,12 @@ Page({
 
     this.setData({
       colorCodeIndex: e.detail.value
+    })
+  },
+  bindUserTypeChange: function (e) {
+    //console.log("userinfo modify ==> userType:"+e.detail.value);
+    this.setData({
+      userTypeIndex: e.detail.value
     })
   },
   changinput:function(e){   
@@ -158,19 +164,6 @@ Page({
       return ;
     }
      
-    
-
-
-
-
-
-
-
-
-
-
-
-
 
     var that = this;
 
@@ -185,36 +178,142 @@ Page({
       },
       success:function(res){
         if(res.data.code==0){
-          wx.request({
-            url: getApp().data.servsers + 'updateUser',
-            data: {
-              id: getApp().userInfo.userInfo.id,
-              phone: e.detail.value.phone_number,
-              plate: that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex],
-              name: e.detail.value.userName,
-              cardId: e.detail.value.cardid,
-              userType: getApp().userInfo.userInfo.userType
-            },
-            method: "POST",
-            header: {
-              'content-type': 'application/x-www-form-urlencoded' // 默认值
-            },
-            success: function (res) {
-              wx.hideLoading();
-              wx.setStorageSync('userinfo', res.data)
-              getApp().userInfo.userInfo = wx.getStorageSync("userinfo")
-              wx.navigateBack({
-                url: '/pages/listEir/Eir',
+          //用户类型不同，提交的数据来源也不同
+          console.log(that.data.usertype[that.data.userTypeIndex])
+          if(that.data.usertype[that.data.userTypeIndex] == 'vessel'){
+            if (getApp().userInfo.userInfo.userType == 'truck') {
+              console.log("modify userinfo ==> usertype: truck 1");
+              wx.request({
+                url: getApp().data.servsers + 'updateUser',
+                data: {
+                  id: getApp().userInfo.userInfo.id,
+                  phone: e.detail.value.phone_number,
+                  plate: that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex],
+                  name: e.detail.value.userName,
+                  cardId: e.detail.value.cardid,
+                  userType: that.data.usertype[that.data.userTypeIndex]
+                },
+                method: "POST",
+                header: {
+                  'content-type': 'application/x-www-form-urlencoded' // 默认值
+                },
+                success: function (res) {
+                  wx.hideLoading();
+                  wx.setStorageSync('userinfo', res.data)
+                  getApp().userInfo.userInfo = wx.getStorageSync("userinfo")
+                  wx.navigateBack({
+                    url: '/pages/listEir/Eir',
+                  })
+                },
+                fail: function () {
+                  wx.hideLoading();
+                  wx.showModal({
+                    title: '通知',
+                    content: '提交失败，请重试',
+                  })
+                }
               })
-            },
-            fail: function () {
-              wx.hideLoading();
-              wx.showModal({
-                title: '通知',
-                content: '提交失败，请重试',
+            } else {
+              console.log("modify userinfo ==> usertype: vessel 1");
+              wx.request({
+                url: getApp().data.servsers + 'updateUser',
+                data: {
+                  id: getApp().userInfo.userInfo.id,
+                  phone: e.detail.value.phone_number,
+                  plate: getApp().userInfo.userInfo.plate,
+                  name: e.detail.value.userName,
+                  cardId: getApp().userInfo.userInfo.userCardId,
+                  userType: that.data.usertype[that.data.userTypeIndex]
+                },
+                method: "POST",
+                header: {
+                  'content-type': 'application/x-www-form-urlencoded' // 默认值
+                },
+                success: function (res) {
+                  wx.hideLoading();
+                  wx.setStorageSync('userinfo', res.data)
+                  getApp().userInfo.userInfo = wx.getStorageSync("userinfo")
+                  wx.navigateBack({
+                    url: '/pages/listEir/Eir',
+                  })
+                },
+                fail: function () {
+                  wx.hideLoading();
+                  wx.showModal({
+                    title: '通知',
+                    content: '提交失败，请重试',
+                  })
+                }
               })
             }
-          })
+          }else{
+              if(getApp().userInfo.userInfo.userType == 'truck'){
+                console.log("modify userinfo ==> usertype: truck 2");
+                wx.request({
+                  url: getApp().data.servsers + 'updateUser',
+                  data: {
+                    id: getApp().userInfo.userInfo.id,
+                    phone: e.detail.value.phone_number,
+                    plate: that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex],
+                    name: e.detail.value.userName,
+                    cardId: e.detail.value.cardid,
+                    userType: that.data.usertype[that.data.userTypeIndex]
+                  },
+                  method: "POST",
+                  header: {
+                    'content-type': 'application/x-www-form-urlencoded' // 默认值
+                  },
+                  success: function (res) {
+                    wx.hideLoading();
+                    wx.setStorageSync('userinfo', res.data)
+                    getApp().userInfo.userInfo = wx.getStorageSync("userinfo")
+                    wx.navigateBack({
+                      url: '/pages/listEir/Eir',
+                    })
+                  },
+                  fail: function () {
+                    wx.hideLoading();
+                    wx.showModal({
+                      title: '通知',
+                      content: '提交失败，请重试',
+                    })
+                  }
+                })
+              }else{
+                console.log("modify userinfo ==> usertype: vessel 2");
+                wx.request({
+                  url: getApp().data.servsers + 'updateUser',
+                  data: {
+                    id: getApp().userInfo.userInfo.id,
+                    phone: e.detail.value.phone_number,
+                    plate: getApp().userInfo.userInfo.plate,
+                    name: e.detail.value.userName,
+                    cardId: getApp().userInfo.userInfo.userCardId,
+                    userType: that.data.usertype[that.data.userTypeIndex]
+                  },
+                  method: "POST",
+                  header: {
+                    'content-type': 'application/x-www-form-urlencoded' // 默认值
+                  },
+                  success: function (res) {
+                    wx.hideLoading();
+                    wx.setStorageSync('userinfo', res.data)
+                    getApp().userInfo.userInfo = wx.getStorageSync("userinfo")
+                    wx.navigateBack({
+                      url: '/pages/listEir/Eir',
+                    })
+                  },
+                  fail: function () {
+                    wx.hideLoading();
+                    wx.showModal({
+                      title: '通知',
+                      content: '提交失败，请重试',
+                    })
+                  }
+                })
+              }
+            }
+          
         }else{
           wx.hideLoading();
           wx.showModal({
@@ -262,7 +361,8 @@ Page({
         openid: userInfo.openid,
         createTime: userInfo.createTime,
         userNumber: userInfo.phone,
-        userType: userInfo.userType
+        userType: userInfo.userType,
+        userTypeIndex: 1
       })
     }else{
       var plate = getApp().userInfo.userInfo.plate;
@@ -276,7 +376,8 @@ Page({
         truck_lic: plate.substring(2, plate.length - 1),
         provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
         colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
-        userType: userInfo.userType
+        userType: userInfo.userType,
+        userTypeIndex: 0
       })
     }
   },

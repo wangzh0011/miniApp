@@ -50,6 +50,8 @@ Page({
          })
         var orderVo = res.data;
         var url = getApp().data.uploadurl;
+        var sealUrl = that.data.sealUrl;
+        var attachUrl = that.data.attachUrl;
         console.log("orderVo")
         console.log(orderVo)
         that.setData({
@@ -59,13 +61,27 @@ Page({
         })
 
         if (orderVo.order.sealImg != null) {
+          sealUrl[0] = url + orderVo.order.sealImg;
           that.setData({
-            sealUrl: [url+ orderVo.order.sealImg],
+            sealUrl: sealUrl,
+          })
+        }
+        if (orderVo.order.sealImg1 != null) {
+          sealUrl[1] = url + orderVo.order.sealImg1;
+          that.setData({
+            sealUrl: sealUrl,
           })
         }
         if (orderVo.order.attachImg != null) {
+          attachUrl[0] = url + orderVo.order.attachImg;
           that.setData({
-            attachUrl: [url + orderVo.order.attachImg],
+            attachUrl: attachUrl,
+          })
+        }
+        if (orderVo.order.attachImg1 != null) {
+          attachUrl[1] = url + orderVo.order.attachImg1;
+          that.setData({
+            attachUrl: attachUrl,
           })
         }
       },

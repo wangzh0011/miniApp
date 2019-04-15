@@ -123,6 +123,35 @@ Page({
               })
             }
 
+            if (that.data.sealUrl[1] != null && that.data.sealUrl[1] != undefined && that.data.sealUrl[1].indexOf(that.data.orderVo.order.sealImg1) == -1) {
+              wx.uploadFile({
+                url: getApp().data.servsers + 'saveImage',
+                filePath: that.data.sealUrl[1],
+                name: 'image',
+                success: function (res) {
+                  var jsondata = JSON.parse(res.data);
+
+                  wx.request({
+                    url: getApp().data.servsers + 'updateOrderImg',
+                    data: {
+                      orderId: order.id,
+                      address: jsondata.data.filename,
+                      typeImg: "sealImg1"
+                    },
+                    success: function (res2) {
+                      console.log("sealImg 上传成功。" + jsondata.data.filename)
+                    }
+                  })
+
+                },
+                fail: function (e) {
+                  wx.showToast({
+                    title: '上传单证照片失败',
+                  })
+                }
+              })
+            }
+
           }
 
 
@@ -156,7 +185,36 @@ Page({
                   })
                 }
               })
-            } 
+            }
+
+            if (that.data.attachUrl[1] != null && that.data.attachUrl[1] != undefined && that.data.attachUrl[1].indexOf(that.data.orderVo.order.attachImg1) == -1) {
+              wx.uploadFile({
+                url: getApp().data.servsers + 'saveImage',
+                filePath: that.data.attachUrl[1],
+                name: 'image',
+                success: function (res) {
+                  var jsondata = JSON.parse(res.data);
+
+                  wx.request({
+                    url: getApp().data.servsers + 'updateOrderImg',
+                    data: {
+                      orderId: order.id,
+                      address: jsondata.data.filename,
+                      typeImg: "attachImg1"
+                    },
+                    success: function (res2) {
+                      console.log("attachImg上传成功。" + jsondata.data.filename)
+                    }
+                  })
+
+                },
+                fail: function (e) {
+                  wx.showToast({
+                    title: '上传单证照片失败',
+                  })
+                }
+              })
+            }  
           }
            
            
@@ -208,7 +266,7 @@ Page({
   chooseSealImage: function (e) {    
     var that = this;
     wx.chooseImage({
-      count: 1,
+      count: 2,
       sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
@@ -224,7 +282,7 @@ Page({
   chooseAttachlImage: function (e) {    
     var that = this; 
     wx.chooseImage({
-      count: 1,
+      count: 2,
       sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
@@ -286,7 +344,9 @@ Page({
           orderVo: res.data,
         })
         var orderVo = res.data;
-        var url = getApp().data.uploadurl;        
+        var url = getApp().data.uploadurl;      
+        var sealUrl = that.data.sealUrl; 
+        var attachUrl = that.data.attachUrl;
         console.log(orderVo)
         that.setData({
           tranType:orderVo.order.tranType,
@@ -295,16 +355,29 @@ Page({
         })
 
         if (orderVo.order.sealImg != null) {
+          sealUrl[0] = url + orderVo.order.sealImg;
           that.setData({
-            sealUrl: [url + orderVo.order.sealImg],
+            sealUrl: sealUrl,
+          })
+        }
+        if (orderVo.order.sealImg1 != null) {
+          sealUrl[1] = url + orderVo.order.sealImg1;
+          that.setData({
+            sealUrl: sealUrl,
           })
         }
         if (orderVo.order.attachImg != null) {
+          attachUrl[0] = url + orderVo.order.attachImg;
           that.setData({
-            attachUrl: [url + orderVo.order.attachImg],
+            attachUrl: attachUrl,
           })
         }
-   
+        if (orderVo.order.attachImg1 != null) {
+          attachUrl[1] = url + orderVo.order.attachImg1;
+          that.setData({
+            attachUrl: attachUrl,
+          })
+        }
        
 
       },

@@ -30,6 +30,7 @@ Page({
         formId: e.detail.formId
       },
       success: function (e) {
+        console.log(e.data);
       },
       fail: function (e) {
         console.log(e)

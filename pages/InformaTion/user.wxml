@@ -23,7 +23,7 @@
       </view>
       <view class="weui-cell__bd">
       
-        <input name="phone_number" class="weui-input" type='number' placeholder-class="phcolor" placeholder="请正确填写手机号码" />
+        <input name="phone_number" class="weui-input" maxlength='11' type='number' placeholder-class="phcolor" placeholder="请正确填写手机号码" />
         
       </view>
     </view>
@@ -33,7 +33,7 @@
       </view>
       <view class="weui-cell__bd">
       
-        <input name="cardid" class="weui-input"  placeholder="请输入身份证号码" placeholder-class="phcolor"/>
+        <input name="cardid" class="weui-input" maxlength='18'  placeholder="请输入身份证号码" placeholder-class="phcolor"/>
         
       </view>
     </view>
@@ -52,7 +52,7 @@
       </view>
       <view class="weui-cell__bd">
       
-        <input name="truck_lic" bindinput='changinput' class="weui-input" placeholder="请输入车牌号码" placeholder-class="phcolor" value='{{truck_lic}}'/>
+        <input name="truck_lic" bindinput='changinput' class="weui-input" maxlength='6' placeholder="请输入车牌号码" placeholder-class="phcolor" value='{{truck_lic}}'/>
         
       </view>
       <view class="weui-cell__hd">      

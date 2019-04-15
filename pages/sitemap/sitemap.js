@@ -50,33 +50,7 @@ Page({
   },
 
   bindEtaTap: function () {
-    wx.request({
-      url: app.data.servsers + 'saveEta',
-      data: {
-        eta: this.data.eta,
-        phone: getApp().userInfo.userInfo.phone
-      },
-      method: 'post',
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        if (res.data == true) {
-          wx.showModal({
-            content: '修改成功',
-            showCancel: false
-          })
-        } else {
-          that.setData({
-            showTopTips: true,
-            errormsg: "系统错误！"
-          });
-        }
-      },
-      fail: function (res) {
-        console.log("失败");
-      }
-    })
+    
   },
   
   bindConfirmTap: function () {
@@ -105,9 +79,9 @@ Page({
       content: '请确认是否办理联检手续',
       showCancel: true,
       cancelText: '否',
-      cancelColor: 'red',
+      cancelColor: '#FF0000',
       confirmText: '是',
-      confirmColor: 'green',
+      confirmColor: '#008000',
       success: function(res) {
         if(res.confirm){
           isTakeStep = 1;
@@ -441,7 +415,38 @@ Page({
     var eta = date.getFullYear() + "-" + monthDay + " " + hours + ":" + minute;
     that.setData({
       eta: eta
-    })
+    }),
+
+    //bindEtaTap 修改预计到港时间
+
+      wx.request({
+        url: app.data.servsers + 'saveEta',
+        data: {
+          eta: this.data.eta,
+          phone: getApp().userInfo.userInfo.phone
+        },
+        method: 'post',
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        success: function (res) {
+          if (res.data == true) {
+            wx.showModal({
+              content: '修改成功',
+              showCancel: false
+            })
+          } else {
+            that.setData({
+              showTopTips: true,
+              errormsg: "系统错误！"
+            });
+          }
+        },
+        fail: function (res) {
+          console.log("失败");
+        }
+      })
+
   }
   
 

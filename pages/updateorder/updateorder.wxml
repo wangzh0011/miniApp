@@ -32,7 +32,8 @@
         <view class='radio_view'>
         <radio-group class="group" bindchange="type_Radios" data-index="{{index}}">
 
-          <view class="attr_value">
+          
+          <view class="attr_value" wx:if="{{tranType == 'RE'}}">
             <label class='radio_label'>
               <radio color='' value='RE'  checked="{{tranType == 'RE'}}" >
                 <text>交空</text>
@@ -40,7 +41,7 @@
             </label>
           </view>
 
-          <view class="attr_value">
+          <view class="attr_value" wx:if="{{tranType == 'RF'}}">
             <label class='radio_label'>
               <radio color='' value='RF' checked="{{tranType == 'RF'}}">
                 <text>交重</text>
@@ -48,7 +49,7 @@
             </label>
           </view>
 
-          <view class="attr_value">
+          <view class="attr_value" wx:if="{{tranType == 'DE'}}">
             <label class='radio_label'>
               <radio color='' value='DE' checked="{{tranType == 'DE'}}">
                 <text>提空</text>
@@ -56,7 +57,7 @@
             </label>
           </view>
 
-          <view class="attr_value">
+          <view class="attr_value" wx:if="{{tranType == 'DF'}}">
             <label class='radio_label'>
               <radio color='' value='DF'checked="{{tranType == 'DF'}}">
                 <text>提重</text>
@@ -129,7 +130,7 @@
           </view>
 
 
-          <view class="weui-cell__bd">
+          <view class="weui-cell__bd" wx:if="{{tranType == 'RF'}}">
 
             <view class="weui-uploader">
               <view class="weui-uploader__hd">
@@ -139,11 +140,11 @@
               <view class="weui-uploader__bd">
                 <view class="weui-uploader__files" id="uploaderFiles">
 
-                  <view  >                  
+                  <block wx:for="{{sealUrl}}" wx:key="*this">              
                     <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-type='seal'>
-                      <image class="weui-uploader__img" src="{{sealUrl[0]}}" mode="aspectFill" />
+                      <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
                     </view>
-                  </view>
+                  </block>
                 </view>
               </view>
             </view>
@@ -158,11 +159,11 @@
               </view>
               <view class="weui-uploader__bd">
                 <view class="weui-uploader__files" id="uploaderFiles">
-                  <view  >                  
+                  <block wx:for="{{attachUrl}}" wx:key="*this">                
                     <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-type='attach'>
-                      <image class="weui-uploader__img" src="{{attachUrl[0]}}" mode="aspectFill" />
+                      <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
                     </view>
-                  </view>
+                  </block>
                 </view>
               </view>
             </view>
