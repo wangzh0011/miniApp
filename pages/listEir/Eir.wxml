@@ -98,166 +98,197 @@
   </view>
 
 
-  <view class='otherModuleList'>
-
-
-    <block wx:if="{{userType == 'truck'}}">
-
-      <view class='listItem'>
-        <view class='itemBox'>
-          <form report-submit='true' bindsubmit='handle' data-name='cms'>
-            <view class='itemImg'>
-              <image src='../images/search.png' mode='aspectFill'></image>
+  <view class="weui-tab">
+            <view class="weui-navbar">
+                <block wx:for="{{tabs}}" wx:key="*this">
+                    <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+                        <view class="weui-navbar__title">{{item}}</view>
+                    </view>
+                </block>
+                <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
             </view>
-            <text class='textCenter'>小票</text>
-            <button formType="submit" hover-class="none" class='invisibleclass'></button>
-          </form>
-        </view>
-      </view>
+            <view class="weui-tab__panel">
+
+                <!-- 操作专区 -->
+                <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+                  <view class='otherModuleList'>
+                    <block wx:if="{{userType == 'truck'}}">
+                      <view class='listItem'>
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='cms'>
+                            <view class='itemImg'>
+                              <image src='../images/search.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>小票</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view>
 
 
-      <view class='listItem'>
-        <view class='itemBox'>
-          <form report-submit='true' bindsubmit='handle' data-name='eir'>
-            <view class='itemImg'>
-              <image src='../images/eir.jpg' mode='aspectFill'></image>
+                      <view class='listItem'>
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='eir'>
+                            <view class='itemImg'>
+                              <image src='../images/eir.jpg' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>出闸纸</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view>
+
+
+                      <view class='listItem'>
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='eirLess'>
+                            <view class='itemImg'>
+                              <image src='../images/dindan.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>飞单记录</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view>
+
+
+                      <view class='listItem'>
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='gr'>
+                            <view class='itemImg'>
+                              <image src='../images/gr.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>港融渡柜</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view>
+
+
+                      <view class='listItem'>
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='user'>
+                            <view class='itemImg'>
+                              <image src='../images/user.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>个人资料</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view>
+                      <!-- <view class='listItem'>
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='sign'>
+                            <view class='itemImg'>
+                              <image src='../images/signIn.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>码头签到</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view> -->
+                        
+                    </block>
+
+                    <block wx:if="{{userType == 'vessel'}}">
+                      <view class="weui-cells__title weui-cells__titless">
+                        <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>【温馨提示】请于船到码头前30--60分钟报到。</text>
+                      </view>
+                      <view class='listItem'>
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='sitemap'>
+                            <view class='itemImg'>
+                              <image src='../images/ship.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>自主报到</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view>
+
+                      <view class='listItem'>
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='user'>
+                            <view class='itemImg'>
+                              <image src='../images/user.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>个人资料</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view>
+                    </block>
+
+                      
+
+                  </view>
+                </view>
+
+
+                <!-- 客服专区 -->
+                <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
+                  <view class='otherModuleList'>
+                    <block wx:if="{{userType == 'truck'}}">
+                      <view class='listItem'>
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='yardPlan'>
+                            <view class='itemImg'>
+                              <image src='../images/yardPlan.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>机械安排</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view>
+                    </block>  
+
+                    <view class='listItem'>
+                      <view class='itemBox'>
+                        <form report-submit='true' bindsubmit='handle' data-name='suggest'>
+                          <view class='itemImg'>
+                            <image src='../images/suggest.png' mode='aspectFill'></image>
+                          </view>
+                          <text class='textCenter'>意见建议</text>
+                          <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                        </form>
+                      </view>
+                    </view>
+
+                    <view class='listItem'>
+                      <view class='itemBox'>
+                        <form report-submit='true' bindsubmit='handle' data-name='customer'>
+                          <view class='itemImg'>
+                            <image src='../images/customer.png' mode='aspectFill'></image>
+                            <!-- <contact-button type="default-dark" size='40'></contact-button> -->
+                          </view>
+                          <text class='textCenter'>人工客服</text>
+                          <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                        </form>
+                      </view>
+                    </view>
+                    </view>
+                  </view>
+                </view>
             </view>
-            <text class='textCenter'>出闸纸</text>
-            <button formType="submit" hover-class="none" class='invisibleclass'></button>
-          </form>
         </view>
-      </view>
 
-
-      <view class='listItem'>
-        <view class='itemBox'>
-          <form report-submit='true' bindsubmit='handle' data-name='eirLess'>
-            <view class='itemImg'>
-              <image src='../images/dindan.png' mode='aspectFill'></image>
-            </view>
-            <text class='textCenter'>飞单记录</text>
-            <button formType="submit" hover-class="none" class='invisibleclass'></button>
-          </form>
-        </view>
-      </view>
-
-
-      <view class='listItem'>
-        <view class='itemBox'>
-          <form report-submit='true' bindsubmit='handle' data-name='gr'>
-            <view class='itemImg'>
-              <image src='../images/gr.png' mode='aspectFill'></image>
-            </view>
-            <text class='textCenter'>港融渡柜</text>
-            <button formType="submit" hover-class="none" class='invisibleclass'></button>
-          </form>
-        </view>
-      </view>
-
-      <!-- <view class='listItem'>
-        <view class='itemBox'>
-          <form report-submit='true' bindsubmit='handle' data-name='sign'>
-            <view class='itemImg'>
-              <image src='../images/signIn.png' mode='aspectFill'></image>
-            </view>
-            <text class='textCenter'>码头签到</text>
-            <button formType="submit" hover-class="none" class='invisibleclass'></button>
-          </form>
-        </view>
-      </view> -->
-
-      
-    </block>
-
-
-    <block wx:if="{{userType == 'vessel'}}">
-
-      <view class="weui-cells__title weui-cells__titless">
-        <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>【温馨提示】请于船到码头前30--60分钟报到。</text>
-      </view>
-      <view class='listItem'>
-        <view class='itemBox'>
-          <form report-submit='true' bindsubmit='handle' data-name='sitemap'>
-            <view class='itemImg'>
-              <image src='../images/ship.png' mode='aspectFill'></image>
-            </view>
-            <text class='textCenter'>自主报到</text>
-            <button formType="submit" hover-class="none" class='invisibleclass'></button>
-          </form>
-        </view>
-      </view>
-    </block>
-
-    <view class='listItem'>
-    <view class='itemBox'>
-      <form report-submit='true' bindsubmit='handle' data-name='yardPlan'>
-        <view class='itemImg'>
-          <image src='../images/yardPlan.png' mode='aspectFill'></image>
-        </view>
-        <text class='textCenter'>机械安排</text>
-        <button formType="submit" hover-class="none" class='invisibleclass'></button>
-      </form>
-    </view>
-  </view>
-
-  <view class='listItem'>
-    <view class='itemBox'>
-      <form report-submit='true' bindsubmit='handle' data-name='suggest'>
-        <view class='itemImg'>
-          <image src='../images/suggest.png' mode='aspectFill'></image>
-        </view>
-        <text class='textCenter'>意见建议</text>
-        <button formType="submit" hover-class="none" class='invisibleclass'></button>
-      </form>
-    </view>
-  </view>
-
-
-    <view class='listItem'>
-      <view class='itemBox'>
-        <form report-submit='true' bindsubmit='handle' data-name='user'>
-          <view class='itemImg'>
-            <image src='../images/user.png' mode='aspectFill'></image>
-          </view>
-          <text class='textCenter'>个人资料</text>
-          <button formType="submit" hover-class="none" class='invisibleclass'></button>
-        </form>
-      </view>
-    </view>
-
-
-    <view class='listItem'>
-      <view class='itemBox'>
-        <form report-submit='true' bindsubmit='handle' data-name='customer'>
-          <view class='itemImg'>
-            <image src='../images/customer.png' mode='aspectFill'></image>
-            <!-- <contact-button type="default-dark" size='40'></contact-button> -->
-          </view>
-          <text class='textCenter'>客服中心</text>
-          <button formType="submit" hover-class="none" class='invisibleclass'></button>
-        </form>
-      </view>
-    </view>
-  </view>
 
   
-
-  <!-- 空白行 -->
-  <view class='listItem'>
-    <view class='itemBox'>
-      <form report-submit='true' bindsubmit='' data-name=''>
-        <text class='textCenter'></text>
-      </form>
+    <!-- 空白行 -->
+    <view class='listItem'>
+      <view class='itemBox'>
+        <form report-submit='true' bindsubmit='' data-name=''>
+          <text class='textCenter'></text>
+        </form>
+      </view>
     </view>
-  </view>
 
 
     <view class="weui-footer weui-footer_fixed-bottom">
       <view class="weui-footer__links">
         <text class="weui-footer__link">DCB 操作服务</text>
       </view>
-      <view class="weui-footer__text">Copyright © 2018-5-12</view>
-    </view>
+    <view class="weui-footer__text">Copyright © 2018-5-12</view>
 
   <view class="page__bd">
 

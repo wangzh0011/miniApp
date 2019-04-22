@@ -227,5 +227,5 @@
 
 <view class='layout_horizontal'>
   <button class='btn1' disabled='false'>作业数量：{{type_R}}交{{type_D}}提</button>
-  <button class='btn2' bindtap='addOrder' >提交</button>
+  <button class='btn2' bindtap='addOrder' disabled="{{disabled}}">提交</button>
 </view>

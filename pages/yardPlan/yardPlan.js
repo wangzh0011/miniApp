@@ -80,8 +80,18 @@ Page({
 
   addOrder: function(e) {
     var site = this.data.site;
-    console.log(site)
+    console.log(e)
+    var location = e.detail.value.location;
     var issueType = this.data.issueType;
+    if(location == "" || location == undefined){
+      wx.showModal({
+        title: '提示',
+        content: '请输入堆场位置',
+        showCancel: false,
+        confirmText: '确定'
+      })
+      return;
+    }
     if(site == undefined){
       wx.showModal({
         title: '提示',
@@ -100,7 +110,7 @@ Page({
       })
       return;
     }
-    var userInfo = getApp().userInfo.userInfo;
+    var userInfo = wx.getStorageSync("userinfo");
     //保存formId
     wx.request({
       url: getApp().data.servsers + 'saveFormId',
@@ -145,8 +155,9 @@ Page({
         site: site,
         issueType: issueType,
         createTime: currentTime,
-        issue: other
-
+        issue: other,
+        location: location,
+        status: 0 //待回复状态
       },
       success: function(res){
         if(res.data.code == 0){

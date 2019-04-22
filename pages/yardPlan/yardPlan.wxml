@@ -45,7 +45,7 @@
     <view class="modal-message"><text wx:if="{{showTips}}">{{errorMsg}}</text></view>
     <view class="modal-content">
       <view class="modal-input">
-        <input placeholder-class="input-holder" type="text" maxlength="10" bindinput="inputChange" bindtap='clickTap' class="input" placeholder="请输入堆场吊柜遇到的问题"></input>
+        <input placeholder-class="input-holder" type="text" maxlength="25" bindinput="inputChange" bindtap='clickTap' class="input" placeholder="请输入堆场吊柜遇到的问题"></input>
       </view>
     </view>
     <view class="modal-footer">
@@ -58,7 +58,7 @@
   <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell weui-cell_input">
           <view class="weui-cell__bd">
-              <input class="weui-input" placeholder="例：G30-35" />
+              <input class="weui-input" name="location" placeholder="例：G30-35" />
           </view>
       </view>
   </view>

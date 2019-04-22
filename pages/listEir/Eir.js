@@ -1,5 +1,6 @@
 // pages/listEir/Eir.js
 var base64 = require("../images/base64");
+var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
 Page({
 
   /**
@@ -18,10 +19,14 @@ Page({
 
     colorCodes: ["黄", "蓝", "黑", "绿", "红", "白"],
     colorCodesValue: ["Y", "B", "D", "N", "R", "W"],
+
+    tabs: ["操作专区", "客服专区"],
+    activeIndex: 0,
+    sliderOffset: 0,
+    sliderLeft: 0
   },
 
   submit: function(e) {
-    console.log("ada")
   },
 
   handle: function(e) {
@@ -66,12 +71,12 @@ Page({
       })
     }
     if ("customer" == name) {
-      // wx.makePhoneCall({
-      //   phoneNumber: '075529022902',
-      // })
-      wx.navigateTo({
-        url: '/pages/customer/customer',
+      wx.makePhoneCall({
+        phoneNumber: '075529022902',
       })
+      // wx.navigateTo({
+      //   url: '/pages/customer/customer',
+      // })
     }
     if ("gr" == name) {
       console.log("抢单")
@@ -170,8 +175,6 @@ Page({
 
   },
   godetail: function(e) {
-    console.log(e)
-    //console.log(e.currentTarget.dataset.index)
     var index = e.currentTarget.dataset.index;
 
     wx.navigateTo({
@@ -225,8 +228,6 @@ Page({
         count = count + 1;
       }
     }
-    console.log(items.length)
-    console.log(count)
     if (items.length >= (4 + count)) {
       wx.showModal({
         showCancel: false,
@@ -243,8 +244,6 @@ Page({
     }
     //校验是否符合要求新建预约 
 
-    console.log(openid)
-    console.log(plate)
     wx.request({
       url: getApp().data.servsers + 'check',
       header: {
@@ -346,56 +345,155 @@ Page({
       url: '/pages/detail/detail?order=' + index,
     })
   },
+
+
+  tabClick: function (e) {
+    this.setData({
+      sliderOffset: e.currentTarget.offsetLeft,
+      activeIndex: e.currentTarget.id
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
-    console.log("test");
-    console.log(wx.getStorageSync('userinfo'));
-    console.log("test");
-
     var that = this;
-    
-    if (getApp().userInfo.userInfo) {
-      console.log("app.js已加载。。。");
-      console.log("userType:"+wx.getStorageSync("userinfo").userType)
+    console.log("eir.js--onLoad--wx.getStorageSync('userinfo'):"+wx.getStorageSync('userinfo'));
+    console.log("eir.js--onLoad--getApp().userInfo.userInfo:" + getApp().userInfo.userInfo);
+    if (wx.getStorageSync('userinfo').userType == undefined || wx.getStorageSync("userinfo").userType == null){
+      wx.clearStorageSync("userinfo");
+      console.log("清除userinfo缓存");
+    }
+    if (wx.getStorageSync('userinfo')) {
+      console.log("userType:" + wx.getStorageSync("userinfo").userType)
       var plate = wx.getStorageSync("userinfo").plate;
       if (wx.getStorageSync("userinfo").userType == 'truck' || wx.getStorageSync("userinfo").userType == null) {
         console.log("显示拖车")
-        this.setData({
+        that.setData({
           plate: plate,
           truck_lic: plate.substring(2, plate.length - 1),
           provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
           colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
+          
         })
       }
-
-      this.setData({
+      //设置userType以显示首页
+      that.setData({
         userType: wx.getStorageSync("userinfo").userType
       })
-      console.log("userType:" + getApp().userInfo.userInfo.userType);
-    } else {
-      console.log("index.js优先于app.js加载，需回调app.js");
-      getApp().callback = () => {
-        var plate = wx.getStorageSync("userinfo").plate;
-        if (getApp().userInfo.userInfo.userType == 'truck') {
-          this.setData({
-            plate: plate,
-            truck_lic: plate.substring(2, plate.length - 1),
-            provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
-            colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
-          })
-        }
 
-        this.setData({
-          userType: getApp().userInfo.userInfo.userType
-        })
-        console.log("userType:" + getApp().userInfo.userInfo.userType);
-      }
+      console.log("userType:" + wx.getStorageSync("userinfo").userType);
+    }else{
+
+      // 登录
+      wx.login({
+        success: res => {
+          //如果本地没有存储有用户信息
+          console.log("login:进入页面");
+          //wx.showLoading();
+          console.log("res.code:" + res.code)
+
+          wx.showLoading({
+            title: '数据加载中',
+          })
+          var code = res.code;
+          // 发送 res.code 到后台换取 openId, sessionKey, unionId
+          wx.request({
+            url: getApp().data.servsers + 'userInfo/' + res.code,
+            success: function (res) {
+              console.log('请求成功，开始处理')
+              console.log(res);
+
+              if (res.data.id == null || res.data.id == '' || res.data.id == undefined) {
+                console.log("未注册")
+                wx.setStorageSync("infobase", res.data)
+                var data = res.data;
+                that.infobase = data;
+                console.log(getApp().infobase)
+                wx.hideLoading();
+                wx.redirectTo({
+                  url: '/pages/VesselOrTruck/vesselOrTruck',
+                })
+
+              } else {
+                console.log('已注册')
+                wx.setStorageSync('userinfo', res.data);
+                wx.hideLoading();
+                //that.userInfo.userInfo = res.data;
+                //设置首页数据
+                var plate = wx.getStorageSync("userinfo").plate;
+                if (wx.getStorageSync("userinfo").userType == 'truck' || wx.getStorageSync("userinfo").userType == null) {
+                  that.setData({
+                    plate: plate,
+                    truck_lic: plate.substring(2, plate.length - 1),
+                    provCodeIndex: provIndex(plate.substring(0, 2), that.data.provValue),
+                    colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), that.data.colorCodesValue),
+                  })
+                }
+                //设置userType以显示首页
+                that.setData({
+                  userType: wx.getStorageSync("userinfo").userType
+                })
+                console.log("userType:" + wx.getStorageSync("userinfo").userType);
+              }
+
+            },
+            fail: function (res) {
+
+              console.log("fail:   " + getApp().data.servsers + 'userInfo/' + res.code)
+              wx.showModal({
+                content: '未能连接服务器',
+                showCancel: false,
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.navigateBack({
+                      delta: -1
+                    })
+                    console.log('未能连接服务器,用户点击确定')
+                  }
+                }
+              });
+            }
+
+
+          });
+
+          //如果未绑定，跳转用户绑定资料界面
+
+          //如果已经绑定，跳转到飞单上传业务界面，并将用户信息储存到全局变量中
+
+        },
+        fail: function (res) {
+          console.log("服务器暂不可用")
+          wx.showModal({
+            content: '网络似乎有点问题',
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+                wx.navigateBack({
+                  delta: -1
+                })
+                console.log('用户点击确定')
+              }
+            }
+          });
+        }
+      })
     }
 
 
+
+
+
+
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
+          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
+        });
+      }
+    });
 
 
   },
@@ -411,94 +509,97 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    console.log("eir.js--onShow--wx.getStorageSync('userinfo'):"+wx.getStorageSync('userinfo'))
     //考虑到小程序非首次加载时只监听onShow函数，若小程序页面缓存失效，显示会异常，所以加入此行防止userType无值问题。
-    this.setData({
-      userType: wx.getStorageSync('userinfo').userType
-    });
-    console.log("onShow--userType:"+wx.getStorageSync('userinfo').userType);
-    var that = this;
+    if (wx.getStorageSync('userinfo')){
+      this.setData({
+        userType: wx.getStorageSync('userinfo').userType
+      });
+    
+      console.log("onShow--userType:"+wx.getStorageSync('userinfo').userType);
+      var that = this;
 
-    wx.showLoading({
-      title: '加载数据中...',
-    })
+      wx.showLoading({
+        title: '加载数据中...',
+      })
 
-    var openid = wx.getStorageSync("userinfo").openid;
-    //var openid = this.data.openid;
-    var plate = wx.getStorageSync("userinfo").plate;
-    that.setData({
-      plate: plate,
-      truck_lic: plate.substring(2, plate.length - 1),
-      provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
-      colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue)
-    })
-    wx.request({
-      url: getApp().data.servsers + 'getOrder',
-      header: {
-        'content-type': 'application/x-www-form-urlencoded' // 默认值
-      },
-      method: "POST",
-      data: {
-        openId: openid
-      },
-      success: function (res) {
-        that.setData({
-          items: res.data.list,
-          time: res.data.time,
-          activityQuantity: res.data.activityQuantity,
-          servsers: getApp().data.uploadurl,
-        })
-        getApp().order.order = res.data.list;
+      var openid = wx.getStorageSync("userinfo").openid;
+      //var openid = this.data.openid;
+      var plate = wx.getStorageSync("userinfo").plate;
+      that.setData({
+        plate: plate,
+        truck_lic: plate.substring(2, plate.length - 1),
+        provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
+        colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue)
+      })
+      wx.request({
+        url: getApp().data.servsers + 'getOrder',
+        header: {
+          'content-type': 'application/x-www-form-urlencoded' // 默认值
+        },
+        method: "POST",
+        data: {
+          openId: openid
+        },
+        success: function (res) {
+          that.setData({
+            items: res.data.list,
+            time: res.data.time,
+            activityQuantity: res.data.activityQuantity,
+            servsers: getApp().data.uploadurl,
+          })
+          getApp().order.order = res.data.list;
 
-        for (var i in res.data.list) {
-          if (res.data.list[i].order.eirImg == null) {
-            wx.showModal({
-              showCancel: false,
-              title: '提示',
-              content: '有预约未能成功上传照片，请修改重新上传!',
-            })
-          }
-        }
-
-
-      },
-      fail: function () {
-        wx.hideLoading();
-        wx.showModal({
-          content: '未能连接服务器',
-          showCancel: false,
-          success: function (res) {
-            if (res.confirm) {
-              wx.navigateBack({
-                delta: -1
+          for (var i in res.data.list) {
+            if (res.data.list[i].order.eirImg == null) {
+              wx.showModal({
+                showCancel: false,
+                title: '提示',
+                content: '有预约未能成功上传照片，请修改重新上传!',
               })
-              console.log('用户点击确定，onShow--getOrder()')
             }
           }
-        });
-      },
-      complete: function () {
-        wx.hideLoading();
-      }
-    });
 
 
-    wx.request({
-      url: getApp().data.servsers + 'listcancel',
-      header: {
-        'content-type': 'application/x-www-form-urlencoded' // 默认值
-      },
-      method: "POST",
-      data: {
-        openId: openid
-      },
-      success: function (res) {
-        that.setData({
-          ls: res.data.list,
+        },
+        fail: function () {
+          wx.hideLoading();
+          wx.showModal({
+            content: '未能连接服务器',
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+                wx.navigateBack({
+                  delta: -1
+                })
+                console.log('用户点击确定，onShow--getOrder()')
+              }
+            }
+          });
+        },
+        complete: function () {
+          wx.hideLoading();
+        }
+      });
 
-        })
-      }
-    })
+
+      wx.request({
+        url: getApp().data.servsers + 'listcancel',
+        header: {
+          'content-type': 'application/x-www-form-urlencoded' // 默认值
+        },
+        method: "POST",
+        data: {
+          openId: openid
+        },
+        success: function (res) {
+          that.setData({
+            ls: res.data.list,
+
+          })
+        }
+      })
+    }  
 
 
   },
@@ -631,18 +732,15 @@ Page({
 var provIndex = function(prov, provValue, ) {
   for (var i in provValue) {
     if (provValue[i] == prov) {
-      console.log("provCodeIndex：" + i)
       return i;
     }
   }
 
 }
 var colorIndex = function(color, colorCodesValue) {
-  console.log(color)
   for (var i in colorCodesValue) {
     if (color == colorCodesValue[i]) {
 
-      console.log("colorCodeIndex" + i)
       return i;
     }
   }

@@ -170,7 +170,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var plate = getApp().userInfo.userInfo.plate;
+    var plate = wx.getStorageSync("userinfo").plate;
     if (plate == undefined) {
       this.setData({
         plate: "",

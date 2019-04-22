@@ -426,6 +426,9 @@ Page({
           title: '提示',
           content: '飞单业务' + num + "的单证照片未上传成功，请选择照片重新上传",
           success: function (res) {
+            that.setData({
+              disabled: false
+            });
           }
         })
         return;
@@ -437,7 +440,9 @@ Page({
           title: '提示',
           content: '飞单业务' + num + "的封条照片未上传成功，请选择照片重新上传",
           success: function (res) {
-
+            that.setData({
+              disabled: false
+            });
           }
         })
         return;
@@ -449,7 +454,9 @@ Page({
           title: '提示',
           content: '飞单业务' + num + "的封条照片未上传成功，请选择照片重新上传",
           success: function (res) {
-
+            that.setData({
+              disabled: false
+            });
           }
         })
         return;
@@ -461,7 +468,9 @@ Page({
           title: '提示',
           content: '飞单业务' + num + "的附属证明照片未上传成功，请选择照片重新上传",
           success: function (res) {
-
+            that.setData({
+              disabled: false
+            });
           }
         })
         return;
@@ -473,7 +482,9 @@ Page({
           title: '提示',
           content: '飞单业务' + num + "的附属证明照片未上传成功，请选择照片重新上传",
           success: function (res) {
-
+            that.setData({
+              disabled: false
+            });
           }
         })
         return;
@@ -525,9 +536,9 @@ Page({
             content: '网络环境不佳，请确认网络连接正常并重新预约！',
             success: function (res) {
               if (res.confirm) {
-                wx.navigateBack({
-                 // url: '../listEir/Eir',
-                })
+                that.setData({
+                  disabled: false
+                });
               }
             }
           })

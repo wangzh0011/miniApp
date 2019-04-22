@@ -1,5 +1,6 @@
 // pages/modifi_user/user.js
 var app = getApp();
+
 Page({
   
   /**
@@ -62,12 +63,13 @@ Page({
     })
   },
   saveFormId: function (e) {
+    var userInfo = wx.getStorageSync("userinfo");
     console.log(e.detail)
     wx.request({
       url: getApp().data.servsers + '/saveFormId',
       data: {
-        openid: getApp().userInfo.userInfo.openid,
-        plate: getApp().userInfo.userInfo.plate,
+        openid: userInfo.openid,
+        plate: userInfo.plate,
         formId: e.detail.formId
       },
       success: function (e) {
@@ -85,12 +87,13 @@ Page({
     setTimeout(function(){
       wx.hideLoading()
     },3000);
+    var userInfo = wx.getStorageSync("userinfo");
     var that= this;
     wx.request({
       url: getApp().data.servsers + '/saveFormId',
       data: {
-        openid: getApp().userInfo.userInfo.openid,
-        plate: getApp().userInfo.userInfo.plate,
+        openid: userInfo.openid,
+        plate: userInfo.plate,
         formId: e.detail.formId
       },
       success: function (e) {
@@ -118,7 +121,7 @@ Page({
       return;
     }
     
-    if(getApp().userInfo.userInfo.userType == 'truck'){
+    if(userInfo.userType == 'truck'){
 
         var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
         if (reg.test(e.detail.value.truck_lic)) {
@@ -170,7 +173,7 @@ Page({
     wx.request({
       url: getApp().data.servsers + 'checkUser',
       data:{
-        openid: getApp().userInfo.userInfo.openid,
+        openid: userInfo.openid,
       },
       method: "POST",
       header: {
@@ -181,12 +184,12 @@ Page({
           //用户类型不同，提交的数据来源也不同
           console.log(that.data.usertype[that.data.userTypeIndex])
           if(that.data.usertype[that.data.userTypeIndex] == 'vessel'){
-            if (getApp().userInfo.userInfo.userType == 'truck') {
+            if (userInfo.userType == 'truck') {
               console.log("modify userinfo ==> usertype: truck 1");
               wx.request({
                 url: getApp().data.servsers + 'updateUser',
                 data: {
-                  id: getApp().userInfo.userInfo.id,
+                  id: userInfo.id,
                   phone: e.detail.value.phone_number,
                   plate: that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex],
                   name: e.detail.value.userName,
@@ -218,11 +221,11 @@ Page({
               wx.request({
                 url: getApp().data.servsers + 'updateUser',
                 data: {
-                  id: getApp().userInfo.userInfo.id,
+                  id: userInfo.id,
                   phone: e.detail.value.phone_number,
-                  plate: getApp().userInfo.userInfo.plate,
+                  plate: userInfo.plate,
                   name: e.detail.value.userName,
-                  cardId: getApp().userInfo.userInfo.userCardId,
+                  cardId: userInfo.userCardId,
                   userType: that.data.usertype[that.data.userTypeIndex]
                 },
                 method: "POST",
@@ -247,12 +250,12 @@ Page({
               })
             }
           }else{
-              if(getApp().userInfo.userInfo.userType == 'truck'){
+              if(userInfo.userType == 'truck'){
                 console.log("modify userinfo ==> usertype: truck 2");
                 wx.request({
                   url: getApp().data.servsers + 'updateUser',
                   data: {
-                    id: getApp().userInfo.userInfo.id,
+                    id: userInfo.id,
                     phone: e.detail.value.phone_number,
                     plate: that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex],
                     name: e.detail.value.userName,
@@ -284,11 +287,11 @@ Page({
                 wx.request({
                   url: getApp().data.servsers + 'updateUser',
                   data: {
-                    id: getApp().userInfo.userInfo.id,
+                    id: userInfo.id,
                     phone: e.detail.value.phone_number,
-                    plate: getApp().userInfo.userInfo.plate,
+                    plate: userInfo.plate,
                     name: e.detail.value.userName,
-                    cardId: getApp().userInfo.userInfo.userCardId,
+                    cardId: userInfo.userCardId,
                     userType: that.data.usertype[that.data.userTypeIndex]
                   },
                   method: "POST",
@@ -353,8 +356,8 @@ Page({
    */
   onShow: function () {
     console.log("用户信息")
-    console.log(getApp().userInfo.userInfo);
-    var userInfo = getApp().userInfo.userInfo;
+    console.log(userInfo);
+    var userInfo = wx.getStorageSync("userinfo");
     if(userInfo.userType == 'vessel'){
       this.setData({
         userName: userInfo.userName,
@@ -365,14 +368,14 @@ Page({
         userTypeIndex: 1
       })
     }else{
-      var plate = getApp().userInfo.userInfo.plate;
+      var plate = userInfo.plate;
       this.setData({
-        userName: getApp().userInfo.userInfo.userName,
-        openid: getApp().userInfo.userInfo.openid,
-        createTime: getApp().userInfo.userInfo.createTime,
-        userCardId: getApp().userInfo.userInfo.userCardId,
+        userName: userInfo.userName,
+        openid: userInfo.openid,
+        createTime: userInfo.createTime,
+        userCardId: userInfo.userCardId,
         plate: plate,
-        userNumber: getApp().userInfo.userInfo.phone,
+        userNumber: userInfo.phone,
         truck_lic: plate.substring(2, plate.length - 1),
         provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
         colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),

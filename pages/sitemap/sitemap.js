@@ -19,34 +19,37 @@ Page({
       { name: '否', value: '1', checked: true }
     ]
   },
-  //事件处理函数
-  bindViewTap: function () {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
-  },
-
-  radioChange: function (e) {
-    console.log('radio发生change事件，携带value值为：', e.detail.value);
-
-    var radioItems = this.data.radioItems;
-    for (var i = 0, len = radioItems.length; i < len; ++i) {
-      radioItems[i].checked = radioItems[i].value == e.detail.value;
-    }
-
-    this.setData({
-      radioItems: radioItems
-    });
-  },
 
   onLoad: function () {
     var etaOfBarge = wx.getStorageSync('eta').toString();
-    this.setData({
-      eta: etaOfBarge.substring(0, 4) + "-" + etaOfBarge.substring(4, 6) + "-" + etaOfBarge.substring(6, 8) + " " + etaOfBarge.substring(8, 10) + ":" + etaOfBarge.substring(10, 12)
-    }),
-    this.setData({
-      showButton: wx.getStorageSync('showButton')
-    })
+    var date = new Date();
+    var currentMonth = date.getMonth() + 1;
+    var currentDay = date.getDate();
+    var currentHours = date.getHours();
+    var currentMinute = date.getMinutes();
+    if (currentMonth < 10) {
+      currentMonth = "0" + currentMonth;
+    }
+    if (currentDay < 10) {
+      currentDay = "0" + currentDay;
+    }
+    if (currentHours < 10) {
+      currentHours = "0" + currentHours;
+    }
+    if (currentMinute < 10) {
+      currentMinute = "0" + currentMinute;
+    }
+    var currentTime = date.getFullYear() + "-" + currentMonth + "-" + currentDay + " " + currentHours + ":" + currentMinute;
+    if(etaOfBarge == ""){
+      this.setData({
+        eta: currentTime
+      })
+    }else{
+      this.setData({
+        eta: etaOfBarge.substring(0, 4) + "-" + etaOfBarge.substring(4, 6) + "-" + etaOfBarge.substring(6, 8) + " " + etaOfBarge.substring(8, 10) + ":" + etaOfBarge.substring(10, 12),
+        showButton: wx.getStorageSync('showButton')
+      })
+    }
   },
 
   bindEtaTap: function () {
