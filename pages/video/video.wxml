@@ -1,0 +1,9 @@
+<!--pages/video/video.wxml-->
+<view class="section tc">
+  <video style='width:{{windowWidth}}px;height:{{windowHeight}}px'
+    id="myVideo"
+    src="{{srcUrl}}"
+    poster="{{imgUrl}}"
+  ></video>
+  
+</view>

@@ -38,7 +38,7 @@ Page({
     }
     var currentTime = date.getFullYear() + "-" + currentMonth + "-" + currentDay + " " + currentHours + ":" + currentMinute;
     console.log("log:"+suggest);
-    var userInfo = getApp().userInfo.userInfo;
+    var userInfo = wx.getStorageSync("userinfo");
     wx.request({
       url: getApp().data.servsers + 'suggest',
       data: {

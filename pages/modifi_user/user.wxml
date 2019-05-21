@@ -80,7 +80,7 @@
       </view>
     </block>
 
-    <view class="weui-cell weui-cell_input">
+    <!-- <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
           <view class="weui-label">用户类型</view>
         </view>
@@ -89,7 +89,7 @@
             <view class="weui-select">{{userTypeOnPage[userTypeIndex]}}</view>
           </picker>
         </view>
-    </view>
+    </view> -->
 
     <view class="weui-btn-area">
       <button class="weui-btn" type="primary" formType="submit">确定</button>

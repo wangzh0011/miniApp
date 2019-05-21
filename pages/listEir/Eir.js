@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
     disabled: false,
     openid: wx.getStorageSync("userinfo").openid,
     items: [],
@@ -146,12 +147,20 @@ Page({
     }
 
     if ("sitemap" == name) {
+     
+      wx.navigateTo({
+        url: '/pages/sitemap/sitemap',
+      })
+       
+    }
+
+    if("updateEta" == name){
       wx.request({
         url: getApp().data.servsers + 'getEta',
         data: {
           phone: getApp().userInfo.userInfo.phone
         },
-        success: function(e) {
+        success: function (e) {
           console.log('bargelink返回的eta:' + e.data);
           wx.setStorageSync('eta', e.data);
           wx.navigateTo({
@@ -170,6 +179,18 @@ Page({
     if ("yardPlan" == name) {
       wx.navigateTo({
         url: '/pages/yardPlan/yardPlan',
+      })
+    }
+
+    if ("guide" == name) {
+      wx.navigateTo({
+        url: '/pages/video/video',
+      })
+    }
+
+    if ("introduce" == name) {
+      wx.navigateTo({
+        url: '/pages/introduce/introduce',
       })
     }
 
@@ -360,11 +381,45 @@ Page({
     var that = this;
     console.log("eir.js--onLoad--wx.getStorageSync('userinfo'):"+wx.getStorageSync('userinfo'));
     console.log("eir.js--onLoad--getApp().userInfo.userInfo:" + getApp().userInfo.userInfo);
-    if (wx.getStorageSync('userinfo').userType == undefined || wx.getStorageSync("userinfo").userType == null){
+    if (wx.getStorageSync('userinfo').userType == undefined || wx.getStorageSync("userinfo").userType == null
+      || wx.getStorageSync('userinfo').userName == null || wx.getStorageSync('userinfo').userName == undefined){
       wx.clearStorageSync("userinfo");
       console.log("清除userinfo缓存");
     }
+    var currentTime = getCurrentTime();
+
+    wx.getSetting({
+      success(res) {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取微信昵称
+          wx.getUserInfo({
+            success(res) {
+              console.log(res)
+              wx.setStorageSync("nickName", res.userInfo.nickName)
+            }
+          })
+        }
+      }
+    })
+  
+    
     if (wx.getStorageSync('userinfo')) {
+      console.log("nickname:"+wx.getStorageSync("nickName"))
+      //更新登录时间
+      wx.request({
+        url: getApp().data.servsers + "updateUser",
+        data: {
+          id: wx.getStorageSync("userinfo").id,
+          lastLoginTime: currentTime,
+          nickName: wx.getStorageSync("nickName")
+        },
+        success: function (res) {
+          console.log("已更新登录时间：" + currentTime);
+        }
+      })
+
+
+
       console.log("userType:" + wx.getStorageSync("userinfo").userType)
       var plate = wx.getStorageSync("userinfo").plate;
       if (wx.getStorageSync("userinfo").userType == 'truck' || wx.getStorageSync("userinfo").userType == null) {
@@ -412,10 +467,24 @@ Page({
                 console.log(getApp().infobase)
                 wx.hideLoading();
                 wx.redirectTo({
-                  url: '/pages/VesselOrTruck/vesselOrTruck',
+                  // url: '/pages/VesselOrTruck/vesselOrTruck',
+                  url: "/pages/InformaTion/user"
                 })
 
               } else {
+
+                //更新登录时间
+                wx.request({
+                  url: getApp().data.servsers + "updateUser",
+                  data: {
+                    id: wx.getStorageSync("userinfo").id,
+                    lastLoginTime: currentTime
+                  },
+                  success: function (res) {
+                    console.log("已更新登录时间：" + currentTime);
+                  }
+                })
+
                 console.log('已注册')
                 wx.setStorageSync('userinfo', res.data);
                 wx.hideLoading();
@@ -509,7 +578,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    console.log("eir.js--onShow--wx.getStorageSync('userinfo'):"+wx.getStorageSync('userinfo'))
+    console.log("eir.js--onShow--wx.getStorageSync('userinfo'):")
+    console.log(wx.getStorageSync('userinfo'))
     //考虑到小程序非首次加载时只监听onShow函数，若小程序页面缓存失效，显示会异常，所以加入此行防止userType无值问题。
     if (wx.getStorageSync('userinfo')){
       this.setData({
@@ -726,8 +796,32 @@ Page({
   }
 })
 
-
-
+var getCurrentTime = function(){
+  //获取当前时间
+  var date = new Date();
+  var currentMonth = date.getMonth() + 1;
+  var currentDay = date.getDate();
+  var currentHours = date.getHours();
+  var currentMinute = date.getMinutes();
+  var currentSeconds = date.getSeconds();
+  if (currentMonth < 10) {
+    currentMonth = "0" + currentMonth;
+  }
+  if (currentDay < 10) {
+    currentDay = "0" + currentDay;
+  }
+  if (currentHours < 10) {
+    currentHours = "0" + currentHours;
+  }
+  if (currentMinute < 10) {
+    currentMinute = "0" + currentMinute;
+  }
+  if (currentSeconds < 10) {
+    currentSeconds = "0" + currentSeconds;
+  }
+  var currentTime = date.getFullYear() + "-" + currentMonth + "-" + currentDay + " " + currentHours + ":" + currentMinute + ":" + currentSeconds;
+  return currentTime;
+}
 
 var provIndex = function(prov, provValue, ) {
   for (var i in provValue) {

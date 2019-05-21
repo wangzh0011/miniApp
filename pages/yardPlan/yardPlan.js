@@ -157,7 +157,7 @@ Page({
         createTime: currentTime,
         issue: other,
         location: location,
-        status: 0 //待回复状态
+        status: "0" //待回复状态
       },
       success: function(res){
         if(res.data.code == 0){

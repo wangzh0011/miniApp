@@ -1,16 +1,9 @@
 <view class="page page_hight">
-
+<add-tips />
   <block wx:if="{{userType == 'truck'  }}">
     <view class="page__bd page__ss">
       <text class='ssss '>您绑定的车牌号码是：{{prov[provCodeIndex]}}{{truck_lic}}{{colorCodes[colorCodeIndex]}}牌</text>
     </view>
-
-
-
-
-
-
-
 
     <view class="page__bd">
       <view class="weui-cells__title weui-cells__titless" wx:if="{{time != null }}" style='color:rgb(255, 1, 52);width: 95vw;'>您在{{time}}预约了以下作业，审核通过后请准时到达</view>
@@ -87,7 +80,9 @@
 
     <view class="weui-cell__bd rrrr ">
       <form report-submit='true' bindsubmit='goAddEIR'>
-        <button form-type='submit' class="weui-btn custom" disabled='{{disabled}}'>飞单预约</button>
+        <button form-type='submit' class="weui-btn custom" disabled='{{disabled}}' wx:if="{{canIUse}}"
+open-type="getUserInfo">飞单预约</button>
+
       </form>
     </view>
   </block>
@@ -152,7 +147,7 @@
                       </view>
 
 
-                      <view class='listItem'>
+                      <!-- <view class='listItem'>
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='gr'>
                             <view class='itemImg'>
@@ -162,7 +157,7 @@
                             <button formType="submit" hover-class="none" class='invisibleclass'></button>
                           </form>
                         </view>
-                      </view>
+                      </view> -->
 
 
                       <view class='listItem'>
@@ -172,6 +167,30 @@
                               <image src='../images/user.png' mode='aspectFill'></image>
                             </view>
                             <text class='textCenter'>个人资料</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view>
+
+                      <view class='listItem'>
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='guide'>
+                            <view class='itemImg'>
+                              <image src='../images/guide.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>飞单视频</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view>
+
+                      <view class='listItem'>
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='introduce'>
+                            <view class='itemImg'>
+                              <image src='../images/introduce.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>飞单简图</text>
                             <button formType="submit" hover-class="none" class='invisibleclass'></button>
                           </form>
                         </view>
@@ -194,6 +213,19 @@
                       <view class="weui-cells__title weui-cells__titless">
                         <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>【温馨提示】请于船到码头前30--60分钟报到。</text>
                       </view>
+
+                      <view class='listItem'>
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='updateEta'>
+                            <view class='itemImg'>
+                              <image src='../images/updateEta.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>船期更新</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view>
+
                       <view class='listItem'>
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='sitemap'>
@@ -228,7 +260,7 @@
                 <!-- 客服专区 -->
                 <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
                   <view class='otherModuleList'>
-                    <block wx:if="{{userType == 'truck'}}">
+                    <!-- <block wx:if="{{userType == 'truck'}}">
                       <view class='listItem'>
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='yardPlan'>
@@ -240,7 +272,7 @@
                           </form>
                         </view>
                       </view>
-                    </block>  
+                    </block>   -->
 
                     <view class='listItem'>
                       <view class='itemBox'>

@@ -170,6 +170,8 @@ Page({
 
     var that = this;
 
+
+
     wx.request({
       url: getApp().data.servsers + 'checkUser',
       data:{
@@ -192,11 +194,10 @@ Page({
                   id: userInfo.id,
                   phone: e.detail.value.phone_number,
                   plate: that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex],
-                  name: e.detail.value.userName,
-                  cardId: e.detail.value.cardid,
+                  userName: e.detail.value.userName,
+                  userCardId: e.detail.value.cardid,
                   userType: that.data.usertype[that.data.userTypeIndex]
                 },
-                method: "POST",
                 header: {
                   'content-type': 'application/x-www-form-urlencoded' // 默认值
                 },
@@ -224,11 +225,10 @@ Page({
                   id: userInfo.id,
                   phone: e.detail.value.phone_number,
                   plate: userInfo.plate,
-                  name: e.detail.value.userName,
-                  cardId: userInfo.userCardId,
+                  userName: e.detail.value.userName,
+                  userCardId: userInfo.userCardId,
                   userType: that.data.usertype[that.data.userTypeIndex]
                 },
-                method: "POST",
                 header: {
                   'content-type': 'application/x-www-form-urlencoded' // 默认值
                 },
@@ -252,22 +252,23 @@ Page({
           }else{
               if(userInfo.userType == 'truck'){
                 console.log("modify userinfo ==> usertype: truck 2");
+                console.log("e ==> " + e);
                 wx.request({
                   url: getApp().data.servsers + 'updateUser',
                   data: {
                     id: userInfo.id,
                     phone: e.detail.value.phone_number,
                     plate: that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex],
-                    name: e.detail.value.userName,
-                    cardId: e.detail.value.cardid,
+                    userName: e.detail.value.userName,
+                    userCardId: e.detail.value.cardid,
                     userType: that.data.usertype[that.data.userTypeIndex]
                   },
-                  method: "POST",
                   header: {
                     'content-type': 'application/x-www-form-urlencoded' // 默认值
                   },
                   success: function (res) {
                     wx.hideLoading();
+                    console.log("res.data ==> " + res.data);
                     wx.setStorageSync('userinfo', res.data)
                     getApp().userInfo.userInfo = wx.getStorageSync("userinfo")
                     wx.navigateBack({
@@ -290,11 +291,10 @@ Page({
                     id: userInfo.id,
                     phone: e.detail.value.phone_number,
                     plate: userInfo.plate,
-                    name: e.detail.value.userName,
-                    cardId: userInfo.userCardId,
+                    userName: e.detail.value.userName,
+                    userCardId: userInfo.userCardId,
                     userType: that.data.usertype[that.data.userTypeIndex]
                   },
-                  method: "POST",
                   header: {
                     'content-type': 'application/x-www-form-urlencoded' // 默认值
                   },
@@ -337,10 +337,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("用户信息")
-    //var provCodeIndex = provIndex(plate.substring(0, 2), this.data.provValue);
-    //var colorCodeIndex = colorIndex(plate.substring( 
-     // plate.length - 1, plate.length), this.data.colorCodesValue);
+    
 
   },
 
@@ -355,11 +352,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log("用户信息")
-    console.log(userInfo);
+    var that = this;
+    console.log("onShow ==> 用户信息")
     var userInfo = wx.getStorageSync("userinfo");
+    console.log(userInfo);
     if(userInfo.userType == 'vessel'){
-      this.setData({
+      that.setData({
         userName: userInfo.userName,
         openid: userInfo.openid,
         createTime: userInfo.createTime,
@@ -369,7 +367,7 @@ Page({
       })
     }else{
       var plate = userInfo.plate;
-      this.setData({
+      that.setData({
         userName: userInfo.userName,
         openid: userInfo.openid,
         createTime: userInfo.createTime,
@@ -421,26 +419,16 @@ Page({
   }
 })
 var provIndex = function (prov, provValue, ){
-  //var prov = plate.substring(0, 2);
-  //var truck_lic = plate.substring(plate.length - 1, plate.length);
-  //var color = plate.substring(2, plate.length - 1);
- // var provValue = this.data.provValue;
-  //var colorCodesValue = this.data.colorCodesValue;
   for (var i in provValue){
     if (provValue[i] == prov){
-       
-       console.log("provCodeIndex："+i)
        return i;
     }
   }
   
 }
 var colorIndex = function (color, colorCodesValue){
-  console.log(color)
   for (var i in colorCodesValue) {
     if (color == colorCodesValue[i]) {
-      
-      console.log("colorCodeIndex" + i)
       return i;
     }
   }

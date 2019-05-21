@@ -1,0 +1,5 @@
+<!--pages/introduce/introduce.wxml-->
+<view >
+  <!-- <image src='{{introduce1}}' bindtap='previewImage' id="{{introduce1}}"></image> -->
+  <image src='{{introduce2}}' bindtap='previewImage' id="{{introduce2}}" style='width:{{windowWidth}}px;height:{{windowHeight}}px'></image>
+</view>

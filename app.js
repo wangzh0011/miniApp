@@ -1,16 +1,22 @@
-  
+//fundebug插件
+var fundebug = require('./libs/fundebug.1.2.1.min.js');
+fundebug.init(
+  {
+    apikey: 'cb2157ae38b6352c5619c371e61b6acc372a9a4e5d74e178d50bb11ef3e50cee'
+  })
+
  App(
   {
     //全局变量
     data: {
       uploadurl: 
-     "https://wxxcx.dcblink.com/upload/",
-      //  "https://olddcblink.dcblink.com/upload/",
+     "https://wxxcx.dcblink.com/upload/",   //UAT
+      //  "https://olddcblink.dcblink.com/upload/",  //PROD
   //  "http://127.0.0.1:8081/upload/",
 
       servsers:
-   "https://wxxcx.dcblink.com/miniApp/",
-    //  "https://olddcblink.dcblink.com/miniApp/" ,
+   "https://wxxcx.dcblink.com/miniApp/",   //UAT
+    //  "https://olddcblink.dcblink.com/miniApp/" ,  //PROD
     //  "http://127.0.0.1:8081/miniApp/", 
       
     },

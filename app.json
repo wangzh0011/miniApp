@@ -20,7 +20,10 @@
     "pages/VesselOrTruck/vesselOrTruck",
     "pages/customer/customer",
     "pages/yardPlan/yardPlan",
-    "pages/suggest/suggest"
+    "pages/suggest/suggest",
+    "pages/video/video",
+    "pages/introduce/introduce",
+    "pages/addTips/addTips"
   ],
   "window": {
     "backgroundTextStyle": "dark",
@@ -31,5 +34,6 @@
   "networkTimeout": {
     "request": 60000,
     "downloadFile": 100000
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }
