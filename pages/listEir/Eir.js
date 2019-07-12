@@ -146,34 +146,96 @@ Page({
 
     }
 
-    if ("sitemap" == name) {
-     
-      wx.navigateTo({
-        url: '/pages/sitemap/sitemap',
+    if ("updateAta" == name) {
+      wx.request({
+        url: getApp().data.servsers + 'checkPhoneIsExist',
+        data: {
+          phone: wx.getStorageSync("userinfo").phone
+        },
+        success: function (e) {
+          if(e.data == 1) {
+            wx.request({
+              url: getApp().data.servsers + 'getEta',
+              data: {
+                phone: wx.getStorageSync("userinfo").phone,
+                userName: wx.getStorageSync("userinfo").userName
+              },
+              success: function (e) {
+                console.log('bargelink返回的data:' + e.data);
+                wx.setStorageSync('ltrschedule', e.data);
+                wx.navigateTo({
+                  url: '/pages/updateAta/updateAta',
+                })
+              }
+            })
+          }else {
+            wx.showModal({
+              title: '更新驳船信息',
+              content: '驳船预留手机号已更改，请更新对应的手机号。',
+              showCancel: false,
+              confirmText: '去更新',
+              success (res) {
+                wx.navigateTo({
+                  url: '/pages/modifi_user/user',
+                })
+              }
+            })
+          }
+        }
       })
-       
+      
     }
 
     if("updateEta" == name){
+
       wx.request({
-        url: getApp().data.servsers + 'getEta',
+        url: getApp().data.servsers + 'checkPhoneIsExist',
         data: {
-          phone: getApp().userInfo.userInfo.phone
+          phone: wx.getStorageSync("userinfo").phone
         },
         success: function (e) {
-          console.log('bargelink返回的eta:' + e.data);
-          wx.setStorageSync('eta', e.data);
-          wx.navigateTo({
-            url: '/pages/sitemap/sitemap',
-          })
+          if (e.data == 1) {
+            wx.request({
+              url: getApp().data.servsers + 'getEta',
+              data: {
+                phone: wx.getStorageSync("userinfo").phone,
+                userName: wx.getStorageSync("userinfo").userName
+              },
+              success: function (e) {
+                console.log('bargelink返回的data:' + e.data);
+                wx.setStorageSync('ltrschedule', e.data);
+                wx.navigateTo({
+                  url: '/pages/updateEta/updateEta',
+                })
+              }
+            })
+          }else {
+            wx.showModal({
+              title: '更新驳船信息',
+              content: '驳船预留手机号已更改，请更新对应的手机号。',
+              showCancel: false,
+              confirmText: '去更新',
+              success(res) {
+                wx.navigateTo({
+                  url: '/pages/modifi_user/user',
+                })
+              }
+            })
+          }
         }
-      })
+      })  
+      
     }
 
     if("suggest" == name){
-      wx.navigateTo({
-        url: '/pages/suggest/suggest',
+      wx.showModal({
+        title: '功能维护中',
+        content: '敬请期待！',
+        showCancel: false
       })
+      // wx.navigateTo({
+      //   url: '/pages/suggest/suggest',
+      // })
     }
 
     if ("yardPlan" == name) {
@@ -182,15 +244,36 @@ Page({
       })
     }
 
-    if ("guide" == name) {
+    if ("video" == name) {
       wx.navigateTo({
         url: '/pages/video/video',
       })
     }
 
-    if ("introduce" == name) {
+    if ("picture" == name) {
       wx.navigateTo({
         url: '/pages/introduce/introduce',
+      })
+    }
+
+    if ("notice" == name) {
+      
+      wx.setStorageSync("hasView", "Y")
+
+      wx.request({
+        url: getApp().data.servsers + 'getAllNotice',
+        success: function(e) {
+          wx.setStorageSync("operNotice", e.data);
+          wx.navigateTo({
+            url: '/pages/operNotice/notice',
+          })
+        },
+        fail: function(e) {
+          wx.showModal({
+            title: '系统异常',
+            content: '请退出小程序重试！',
+          })
+        }
       })
     }
 
@@ -467,8 +550,8 @@ Page({
                 console.log(getApp().infobase)
                 wx.hideLoading();
                 wx.redirectTo({
-                  // url: '/pages/VesselOrTruck/vesselOrTruck',
-                  url: "/pages/InformaTion/user"
+                  url: '/pages/VesselOrTruck/vesselOrTruck',
+                  // url: "/pages/InformaTion/user"
                 })
 
               } else {
@@ -551,10 +634,7 @@ Page({
     }
 
 
-
-
-
-
+    //计算tab下面横条的中间位置
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -563,6 +643,8 @@ Page({
         });
       }
     });
+
+    
 
 
   },
@@ -582,94 +664,127 @@ Page({
     console.log(wx.getStorageSync('userinfo'))
     //考虑到小程序非首次加载时只监听onShow函数，若小程序页面缓存失效，显示会异常，所以加入此行防止userType无值问题。
     if (wx.getStorageSync('userinfo')){
+      var userType = wx.getStorageSync('userinfo').userType;
       this.setData({
-        userType: wx.getStorageSync('userinfo').userType
+        userType: userType
       });
     
       console.log("onShow--userType:"+wx.getStorageSync('userinfo').userType);
       var that = this;
 
-      wx.showLoading({
-        title: '加载数据中...',
-      })
+      // wx.showLoading({
+      //   title: '加载数据中...',
+      // })
 
       var openid = wx.getStorageSync("userinfo").openid;
-      //var openid = this.data.openid;
-      var plate = wx.getStorageSync("userinfo").plate;
-      that.setData({
-        plate: plate,
-        truck_lic: plate.substring(2, plate.length - 1),
-        provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
-        colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue)
-      })
-      wx.request({
-        url: getApp().data.servsers + 'getOrder',
-        header: {
-          'content-type': 'application/x-www-form-urlencoded' // 默认值
-        },
-        method: "POST",
-        data: {
-          openId: openid
-        },
-        success: function (res) {
-          that.setData({
-            items: res.data.list,
-            time: res.data.time,
-            activityQuantity: res.data.activityQuantity,
-            servsers: getApp().data.uploadurl,
-          })
-          getApp().order.order = res.data.list;
+      if(userType == 'truck'){
+        var plate = wx.getStorageSync("userinfo").plate;
+        that.setData({
+          plate: plate,
+          truck_lic: plate.substring(2, plate.length - 1),
+          provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
+          colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue)
+        })
+        wx.request({
+          url: getApp().data.servsers + 'getOrder',
+          header: {
+            'content-type': 'application/x-www-form-urlencoded' // 默认值
+          },
+          method: "POST",
+          data: {
+            openId: openid
+          },
+          success: function (res) {
+            that.setData({
+              items: res.data.list,
+              time: res.data.time,
+              activityQuantity: res.data.activityQuantity,
+              servsers: getApp().data.uploadurl,
+            })
+            getApp().order.order = res.data.list;
 
-          for (var i in res.data.list) {
-            if (res.data.list[i].order.eirImg == null) {
-              wx.showModal({
-                showCancel: false,
-                title: '提示',
-                content: '有预约未能成功上传照片，请修改重新上传!',
-              })
-            }
-          }
-
-
-        },
-        fail: function () {
-          wx.hideLoading();
-          wx.showModal({
-            content: '未能连接服务器',
-            showCancel: false,
-            success: function (res) {
-              if (res.confirm) {
-                wx.navigateBack({
-                  delta: -1
+            for (var i in res.data.list) {
+              if (res.data.list[i].order.eirImg == null) {
+                wx.showModal({
+                  showCancel: false,
+                  title: '提示',
+                  content: '有预约未能成功上传照片，请修改重新上传!',
                 })
-                console.log('用户点击确定，onShow--getOrder()')
               }
             }
-          });
-        },
-        complete: function () {
-          wx.hideLoading();
-        }
-      });
 
 
-      wx.request({
-        url: getApp().data.servsers + 'listcancel',
-        header: {
-          'content-type': 'application/x-www-form-urlencoded' // 默认值
-        },
-        method: "POST",
-        data: {
-          openId: openid
-        },
-        success: function (res) {
+          },
+          fail: function () {
+            wx.hideLoading();
+            wx.showModal({
+              content: '未能连接服务器',
+              showCancel: false,
+              success: function (res) {
+                if (res.confirm) {
+                  wx.navigateBack({
+                    delta: -1
+                  })
+                  console.log('用户点击确定，onShow--getOrder()')
+                }
+              }
+            });
+          },
+          complete: function () {
+            // wx.hideLoading();
+          }
+        });
+
+
+        wx.request({
+          url: getApp().data.servsers + 'listcancel',
+          header: {
+            'content-type': 'application/x-www-form-urlencoded' // 默认值
+          },
+          method: "POST",
+          data: {
+            openId: openid
+          },
+          success: function (res) {
+            that.setData({
+              ls: res.data.list,
+
+            })
+          }
+        })
+      }
+    }  
+
+
+    //获取操作通知数据
+    wx.request({
+      url: getApp().data.servsers + 'getNoticeNum',
+      success: function (e) {
+        if (wx.getStorageSync("noticeNum")) {
+          //获取缓存中操作通知数量
+          var oldNoticeNum = wx.getStorageSync("noticeNum");
+          //判断用户是否已查看
+          if (wx.getStorageSync("hasView") == 'Y') {
+            //最新的通知数量
+            var notice = e.data - oldNoticeNum;
+            //更新缓存
+            wx.setStorageSync("noticeNum", e.data);
+            that.setData({
+              noticeNum: notice
+            })
+          }else {
+            that.setData({
+              noticeNum: e.data
+            })
+          }
+        } else {
+          wx.setStorageSync("noticeNum", e.data);
           that.setData({
-            ls: res.data.list,
-
+            noticeNum: e.data
           })
         }
-      })
-    }  
+      }
+    })
 
 
   },

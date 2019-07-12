@@ -10,14 +10,14 @@ fundebug.init(
     //全局变量
     data: {
       uploadurl: 
-     "https://wxxcx.dcblink.com/upload/",   //UAT
+    //  "https://wxxcx.dcblink.com/upload/",   //UAT
       //  "https://olddcblink.dcblink.com/upload/",  //PROD
-  //  "http://127.0.0.1:8081/upload/",
+   "http://127.0.0.1:8081/upload/",
 
       servsers:
-   "https://wxxcx.dcblink.com/miniApp/",   //UAT
+  //  "https://wxxcx.dcblink.com/miniApp/",   //UAT
     //  "https://olddcblink.dcblink.com/miniApp/" ,  //PROD
-    //  "http://127.0.0.1:8081/miniApp/", 
+     "http://127.0.0.1:8081/miniApp/", 
       
     },
 

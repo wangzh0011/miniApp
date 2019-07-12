@@ -13,40 +13,17 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    // var cacheImage1 = wx.getStorageSync("cacheImage1");
-    // console.log("cacheImage1:" + cacheImage1)
     var cacheImage2 = wx.getStorageSync("cacheImage2");
     console.log("cacheImage2:" + cacheImage2)
     if (cacheImage2 != null && cacheImage2 != undefined && cacheImage2 != ""){
         console.log("读取图片缓存")
       that.setData({
-        // introduce1: cacheImage1,
         introduce2: cacheImage2
       })
     }else{
       
       console.log("I'm come in ")
-      // wx.downloadFile({
-      //   url: getApp().data.uploadurl + "introduce1.png",
-      //   success (res) {
-      //     if(res.statusCode == 200 ) {
-      //       console.log("图片下载成功" + res.tempFilePath)
-      //       that.setData({
-      //         introduce1: res.tempFilePath
-      //       })
-      //       wx.setStorageSync("cacheImage1", res.tempFilePath);
-      //       // var fs = wx.getFileSystemManager();
-      //       // console.log("fs"+fs)
-      //       // fs.saveFile({
-      //       //   tempFilePath: res.tempFilePath,
-      //       //   success (res) {
-      //       //     console.log("图片缓存成功" + res.savedFilePath)
-      //       //     wx.setStorageSync("cacheImage1", res.savedFilePath);
-      //       //   }
-      //       // })
-      //     }
-      //   }
-      // })
+     
       wx.downloadFile({
         url: getApp().data.uploadurl + "introduce2.png",
         success(res) {
@@ -56,18 +33,9 @@ Page({
               introduce2: res.tempFilePath
             })
             wx.setStorageSync("cacheImage2", res.tempFilePath);
-            // var fs = wx.getFileSystemManager();
-            // fs.saveFile({
-            //   tempFilePath: res.tempFilePath,
-            //   success(res) {
-            //     console.log("图片2：" + res.savedFilePath)
-            //     wx.setStorageSync("cacheImage2", res.savedFilePath);
-            //   }
-            // })
           }
         }
       })
-      
     }
     
   },
@@ -77,7 +45,6 @@ Page({
    */
   previewImage: function (e) {
     var introduceImg = this.data.introduceImg;
-    // introduceImg[0] = this.data.introduce1;
     introduceImg[0] = this.data.introduce2;
     wx.previewImage({
       current: e.currentTarget.id,

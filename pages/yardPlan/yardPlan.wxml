@@ -5,7 +5,7 @@
     <view class="page__title" style='font-size: 17px;'>堆场吊柜机械服务流程介绍</view>
     <view class="page__desc" style='font-size: 15px;'>1、选择内、外贸区域</view>
     <view class="page__desc" style='font-size: 15px;'>2、输入所在堆场位置</view>
-    <view class="page__desc" style='font-size: 15px;'>3、选择堆场吊柜遇到的机械问题类型</view>
+    <view class="page__desc" style='font-size: 15px;'>3、选择堆场吊柜遇到的困难与问题</view>
   </view>
 
   <view>
@@ -74,32 +74,48 @@
 
           <view class="attr_value">
             <label class='radio_label'>
-              <radio color='' value='noMechanical'>
-                <text>无机械</text>
+              <radio color='' value='1'>
+                <text>此街区没有机械作业</text>
               </radio>
             </label>
           </view>
 
           <view class="attr_value">
             <label class='radio_label'>
-              <radio color='' value='noOrder'>
-                <text>机械未按顺序作业</text>
+              <radio color='' value='2'>
+                <text>此街区机械作业繁忙</text>
               </radio>
             </label>
           </view>
 
           <view class="attr_value">
             <label class='radio_label'>
-              <radio color='' value='busy'>
-                <text>机械繁忙，需要改位</text>
+              <radio color='' value='3'>
+                <text>此街区机械不吊箱</text>
               </radio>
             </label>
           </view>
 
           <view class="attr_value">
             <label class='radio_label'>
-              <radio color='' value='unitDoor'>
-                <text>调箱门位置</text>
+              <radio color='' value='4'>
+                <text>提的柜号为烂柜</text>
+              </radio>
+            </label>
+          </view>
+
+          <view class="attr_value">
+            <label class='radio_label'>
+              <radio color='' value='5'>
+                <text>柜子吊箱门、没放好重新吊放</text>
+              </radio>
+            </label>
+          </view>
+
+          <view class="attr_value">
+            <label class='radio_label'>
+              <radio color='' value='6'>
+                <text>雪柜需要电工协助</text>
               </radio>
             </label>
           </view>

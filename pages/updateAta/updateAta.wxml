@@ -1,0 +1,27 @@
+<!--pages/updateAta/updateAta.wxml-->
+<view class="page">
+  <form >
+      <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{errormsg}}</view>
+      <view class="weui-cells__title weui-cells__titless">
+        <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>【温馨提示】请于船到码头前1小时报到</text>
+      </view>
+      <block wx:for="{{ltrschedule}}" wx:for-item="list" wx:key="*this" wx:for-index="index">
+        <view class="weui-cells__title"> 
+          <block>航次:{{list.iVoyCd}}/{{list.oVoyCd}}</block> 
+          <!-- <block wx:if='{{list.berth}}' > 泊位:{{list.berth}} </block> -->
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-btn-area">
+              <block wx:if="{{list.comeHere == 'Y'}}">
+                <button class="weui-btn" type="primary" size="mini" bindtap='bindCancelTap' data-index="{{index}}">取消报到</button>
+              </block>
+              <block wx:else>
+                <button class="weui-btn" type="primary" size="mini" bindtap='bindConfirmTap' data-index="{{index}}">报到</button>
+              </block>  
+            </view>
+          </view>
+        </view>
+      </block>  
+  </form> 
+</view>

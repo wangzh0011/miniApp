@@ -23,7 +23,11 @@
     "pages/suggest/suggest",
     "pages/video/video",
     "pages/introduce/introduce",
-    "pages/addTips/addTips"
+    "pages/addTips/addTips",
+    "pages/updateEta/updateEta",
+    "pages/updateAta/updateAta",
+    "pages/operNotice/notice",
+    "pages/operNotice/noticeDetail"
   ],
   "window": {
     "backgroundTextStyle": "dark",

@@ -1,0 +1,29 @@
+<!--pages/updateEta/updateEta.wxml-->
+<view class="page">
+  <form >
+      <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{errormsg}}</view>
+      <view class="weui-cells__title weui-cells__titless">
+        <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>【温馨提示】请于船到码头前1小时报到</text>
+      </view>
+      
+      <block wx:for="{{ltrschedule}}" wx:for-item="list" wx:key="*this" wx:for-index="index">
+        <view class="weui-cells__title">
+          <block>航次:{{list.iVoyCd}}/{{list.oVoyCd}}</block> 
+          <!-- <block wx:if='{{list.berth}}' > 泊位:{{list.berth}} </block> -->
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-input">{{list.eta}}</view>
+          </view>
+          <view class="weui-cell__hd">
+            <picker class='time-picker' mode="multiSelector" bindchange="bindStartMultiPickerChange" bindtap='pickerTap'  bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}" data-index="{{index}}">
+              <view class="weui-btn-area">
+                <button class="weui-btn" type="primary" size='mini'>修改</button>
+              </view>
+            </picker>
+          </view>
+        </view>
+      </block>  
+
+  </form> 
+</view>

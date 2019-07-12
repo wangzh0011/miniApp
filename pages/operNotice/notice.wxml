@@ -1,0 +1,27 @@
+<!--pages/operNotice/notice.wxml-->
+<view class="page">
+      <view class="weui-panel weui-panel_access">
+          <view class="weui-panel__hd">码头操作通知列表</view>
+          <view class="weui-panel__bd">
+              <block wx:if="{{noticeLength > 0}}">
+                <block wx:for="{{operNotice}}" wx:for-item="list" wx:key="*this">
+                  <view class="weui-media-box weui-media-box_text" bindtap="noticeDetailTap" data-index="{{index}}">
+                      <view class="weui-media-box__title weui-media-box__title_in-text">{{list.title}}</view>
+                      <view class="weui-media-box__desc">{{list.content}}</view>
+                  </view>
+                  <view class="weui-media-box__info">
+                      <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">大铲湾码头</view>
+                      <view class="weui-media-box__info__meta">{{list.createTime}}</view>
+                      <view class="weui-media-box__info__meta">浏览量：{{list.views}}</view>
+                  </view>
+                </block>
+              </block>  
+          </view>
+          <!-- <view class="weui-panel__ft">
+              <view class="weui-cell weui-cell_access weui-cell_link">
+                  <view class="weui-cell__bd">查看更多</view>
+                  <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+              </view>
+          </view> -->
+      </view>
+</view>      

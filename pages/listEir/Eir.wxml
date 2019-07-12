@@ -174,7 +174,7 @@ open-type="getUserInfo">飞单预约</button>
 
                       <view class='listItem'>
                         <view class='itemBox'>
-                          <form report-submit='true' bindsubmit='handle' data-name='guide'>
+                          <form report-submit='true' bindsubmit='handle' data-name='video'>
                             <view class='itemImg'>
                               <image src='../images/guide.png' mode='aspectFill'></image>
                             </view>
@@ -186,7 +186,7 @@ open-type="getUserInfo">飞单预约</button>
 
                       <view class='listItem'>
                         <view class='itemBox'>
-                          <form report-submit='true' bindsubmit='handle' data-name='introduce'>
+                          <form report-submit='true' bindsubmit='handle' data-name='picture'>
                             <view class='itemImg'>
                               <image src='../images/introduce.png' mode='aspectFill'></image>
                             </view>
@@ -211,7 +211,7 @@ open-type="getUserInfo">飞单预约</button>
 
                     <block wx:if="{{userType == 'vessel'}}">
                       <view class="weui-cells__title weui-cells__titless">
-                        <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>【温馨提示】请于船到码头前30--60分钟报到。</text>
+                        <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>【温馨提示】请于船到码头前1小时报到。</text>
                       </view>
 
                       <view class='listItem'>
@@ -228,7 +228,7 @@ open-type="getUserInfo">飞单预约</button>
 
                       <view class='listItem'>
                         <view class='itemBox'>
-                          <form report-submit='true' bindsubmit='handle' data-name='sitemap'>
+                          <form report-submit='true' bindsubmit='handle' data-name='updateAta'>
                             <view class='itemImg'>
                               <image src='../images/ship.png' mode='aspectFill'></image>
                             </view>
@@ -249,6 +249,31 @@ open-type="getUserInfo">飞单预约</button>
                           </form>
                         </view>
                       </view>
+
+                      <view class='listItem'>
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='video'>
+                            <view class='itemImg'>
+                              <image src='../images/guide.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>视频指引</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view>
+
+                      <view class='listItem'>
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='picture'>
+                            <view class='itemImg'>
+                              <image src='../images/introduce.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>使用流程</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view>
+
                     </block>
 
                       
@@ -260,6 +285,7 @@ open-type="getUserInfo">飞单预约</button>
                 <!-- 客服专区 -->
                 <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
                   <view class='otherModuleList'>
+
                     <!-- <block wx:if="{{userType == 'truck'}}">
                       <view class='listItem'>
                         <view class='itemBox'>
@@ -274,13 +300,28 @@ open-type="getUserInfo">飞单预约</button>
                       </view>
                     </block>   -->
 
-                    <view class='listItem'>
+                    <!-- <view class='listItem' >
+                      <view class='itemBox'>
+                        <form report-submit='true' bindsubmit='handle' data-name='notice'>
+                          <view class='itemImg'>
+                            <image src='../images/notice.png' mode='aspectFill'></image>
+                            <block wx:if="{{noticeNum > 0}}">
+                              <view class="weui-badge" style="position: absolute;top: 0.5em;right: 1.5em;">{{noticeNum}}</view>
+                            </block>  
+                          </view>
+                          <text class='textCenter'>操作通知</text>
+                          <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                        </form>
+                      </view>
+                    </view>  -->
+
+                    <view class='listItem' >
                       <view class='itemBox'>
                         <form report-submit='true' bindsubmit='handle' data-name='suggest'>
                           <view class='itemImg'>
                             <image src='../images/suggest.png' mode='aspectFill'></image>
                           </view>
-                          <text class='textCenter'>意见建议</text>
+                          <text class='textCenter'>建议反馈</text>
                           <button formType="submit" hover-class="none" class='invisibleclass'></button>
                         </form>
                       </view>
@@ -298,9 +339,10 @@ open-type="getUserInfo">飞单预约</button>
                         </form>
                       </view>
                     </view>
-                    </view>
+                    
                   </view>
                 </view>
+              </view>
             </view>
         </view>
 
