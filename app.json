@@ -27,7 +27,8 @@
     "pages/updateEta/updateEta",
     "pages/updateAta/updateAta",
     "pages/operNotice/notice",
-    "pages/operNotice/noticeDetail"
+    "pages/operNotice/noticeDetail",
+    "pages/mobileQuery/query"
   ],
   "window": {
     "backgroundTextStyle": "dark",

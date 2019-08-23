@@ -1,15 +1,21 @@
 <!--pages/operNotice/noticeDetail.wxml-->
 <view class="page">
     <view class="weui-article__p">
-        <view class="page__title"><image class="weui-article__img" src="../images/DCB.png" mode="aspectFit" style="height: 100px;width: 400px" /></view>
+        <view class="page__title"><image class="weui-article__img" src="../images/DCB.png" mode="aspectFit" style="height: 100px;width: 350px" /></view>
     </view>
     <view class="page__bd">
         <view class="weui-article">
-            <view class="weui-article__h1">{{noticeDetail.title}}</view>
+            <view class="weui-article__h1" style='font-weighy: bold'>
+              {{noticeDetail.title}}
+              <view class="weui-media-box__info">
+                <view class="weui-media-box__info__meta">{{noticeDetail.createTime}}</view>
+              </view>
+            </view>
+            
             <view class="weui-article__section">
                 <view class="weui-article__section">
                     <view class="weui-article__p">
-                        {{noticeDetail.content}}
+                        <text space='nbsp'>{{noticeDetail.content}}</text>
                     </view>
                 </view>
             </view>

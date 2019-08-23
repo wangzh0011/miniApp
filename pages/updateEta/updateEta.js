@@ -293,9 +293,6 @@ Page({
         data: {
           eta: eta,
           voyCd: ltrschedule[index].voyCd,
-          iVoyCd: ltrschedule[index].iVoyCd,
-          oVoyCd: ltrschedule[index].oVoyCd,
-          phone: wx.getStorageSync("userinfo").phone
         },
         method: 'post',
         header: {

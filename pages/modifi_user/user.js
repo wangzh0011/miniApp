@@ -366,7 +366,7 @@ Page({
         userType: userInfo.userType,
         userTypeIndex: 1
       })
-    }else{
+    } else if (userInfo.userType == 'truck'){
       var plate = userInfo.plate;
       that.setData({
         userName: userInfo.userName,
@@ -380,6 +380,12 @@ Page({
         colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
         userType: userInfo.userType,
         userTypeIndex: 0
+      })
+    } else {
+      wx.showModal({
+        title: '数据异常',
+        content: '请退出小程序再重新进入',
+        showCancel: false
       })
     }
   },

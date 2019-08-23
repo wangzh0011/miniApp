@@ -68,8 +68,7 @@ Page({
               ata: currentTime,
               comeHere: 'Y',
               phone: wx.getStorageSync("userinfo").phone,
-              iVoyCd: wx.getStorageSync('ltrschedule')[index].iVoyCd,
-              oVoyCd: wx.getStorageSync('ltrschedule')[index].oVoyCd,
+              voyCd: wx.getStorageSync('ltrschedule')[index].voyCd,
               isTakeStep: isTakeStep
             },
             method: 'post',
@@ -85,10 +84,11 @@ Page({
                 })
                 that.onPullDownRefresh();
               } else {
-                that.setData({
-                  showTopTips: true,
-                  errormsg: "系统错误！"
-                });
+                wx.showModal({
+                  title: '报到失败',
+                  content: '资料不齐，请联系驳船计划组：0755-29022956',
+                  showCancel: false
+                })
               }
               console.log("It will takeStep.");
             },
@@ -104,8 +104,7 @@ Page({
               ata: currentTime,
               comeHere: 'Y',
               phone: wx.getStorageSync("userinfo").phone,
-              iVoyCd: wx.getStorageSync('ltrschedule')[index].iVoyCd,
-              oVoyCd: wx.getStorageSync('ltrschedule')[index].oVoyCd,
+              voyCd: wx.getStorageSync('ltrschedule')[index].voyCd,
               isTakeStep: isTakeStep
             },
             method: 'post',
@@ -121,10 +120,11 @@ Page({
                 })
                 that.onPullDownRefresh();
               } else {
-                that.setData({
-                  showTopTips: true,
-                  errormsg: "系统错误！"
-                });
+                wx.showModal({
+                  title: '报到失败',
+                  content: '资料不齐，请联系驳船计划组：0755-29022956',
+                  showCancel: false
+                })
               }
               console.log("Not takeStep.");
             },
@@ -153,8 +153,7 @@ Page({
       data: {
         ata: '0',//设置0 为取消状态
         comeHere: 'N',
-        iVoyCd: wx.getStorageSync('ltrschedule')[index].iVoyCd,
-        oVoyCd: wx.getStorageSync('ltrschedule')[index].oVoyCd,
+        voyCd: wx.getStorageSync('ltrschedule')[index].voyCd,
         //phone: '13561409736'//test data
       },
       method: 'post',

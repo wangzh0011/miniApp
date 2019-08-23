@@ -124,7 +124,7 @@ Page({
               if (res.data.id == null || res.data.id == '') {
                 wx.setStorageSync("infobase", res.data)
                 var data = res.data;
-                that.infobase = data;
+                // that.infobase = data;
                 if (data.openid == undefined) {
                   wx.hideToast();
                   wx.showModal({

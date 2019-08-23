@@ -35,7 +35,7 @@ Page({
     var openid = wx.getStorageSync("userinfo").openid;
     var plate = wx.getStorageSync("userinfo").plate;
     wx.request({
-      url: getApp().data.servsers + '/saveFormId',
+      url: getApp().data.servsers + 'saveFormId',
       data: {
         openid: openid,
         plate: plate,
@@ -48,234 +48,249 @@ Page({
     })
 
     var name = e.currentTarget.dataset.name;
-
-    console.log(e)
-
-    if ("user" == name) {
-      wx.navigateTo({
-        url: '/pages/modifi_user/user',
-      })
-    }
-    if ("eir" == name) {
-      wx.navigateTo({
-        url: '/pages/eirsearch/search',
-      })
-    }
-    if ("cms" == name) {
-      wx.navigateTo({
-        url: '/pages/search/search',
-      })
-    }
-    if ("eirLess" == name) {
-      wx.navigateTo({
-        url: '/pages/history/historyorder',
-      })
-    }
-    if ("customer" == name) {
-      wx.makePhoneCall({
-        phoneNumber: '075529022902',
-      })
-      // wx.navigateTo({
-      //   url: '/pages/customer/customer',
-      // })
-    }
-    if ("gr" == name) {
-      console.log("抢单")
-      wx.navigateTo({
-        url: '/pages/imageUpload/upload',
-      })
-    }
-
-    if ("sign" == name) {
-      wx.showLoading({
-        title: '正在为你处理，请稍后......',
-      })
-
-      console.log("签到")
-      wx.request({
-        url: getApp().data.servsers + 'sign',
-        header: {
-          'content-type': 'application/x-www-form-urlencoded' // 默认值
-        },
-        method: "POST",
-        data: {
-          plate: getApp().userInfo.userInfo.plate,
-          openid: getApp().userInfo.userInfo.openid
-        },
-        success: function (res) {
-          wx.hideLoading();
-          if (res.data.code == 0) {
-            wx.showModal({
-              content: res.data.msg,
-              showCancel: false,
-              confirmText: "签到成功",             
-              success: function (res) {
-                if (res.confirm) {                
-
-                } else {
-
-                }
-
-              }
-            });
-          }else{
-
-            console.log(res.data.msg)
-            wx.showModal({
-              content: res.data.msg,
-              showCancel: false,
-              confirmText: "签到失败",
-              confirmColor: "#993300",    
-              success: function (res) {
-                if (res.confirm) {
-
-
-                } else {
-
-                }
-
-              }
-            });
-          }
-        },
-        complete: function(e) {
-          wx.hideLoading();
-        }
-      })
-
-
-    }
-
-    if ("updateAta" == name) {
-      wx.request({
-        url: getApp().data.servsers + 'checkPhoneIsExist',
-        data: {
-          phone: wx.getStorageSync("userinfo").phone
-        },
-        success: function (e) {
-          if(e.data == 1) {
-            wx.request({
-              url: getApp().data.servsers + 'getEta',
-              data: {
-                phone: wx.getStorageSync("userinfo").phone,
-                userName: wx.getStorageSync("userinfo").userName
-              },
-              success: function (e) {
-                console.log('bargelink返回的data:' + e.data);
-                wx.setStorageSync('ltrschedule', e.data);
-                wx.navigateTo({
-                  url: '/pages/updateAta/updateAta',
-                })
-              }
-            })
-          }else {
-            wx.showModal({
-              title: '更新驳船信息',
-              content: '驳船预留手机号已更改，请更新对应的手机号。',
-              showCancel: false,
-              confirmText: '去更新',
-              success (res) {
-                wx.navigateTo({
-                  url: '/pages/modifi_user/user',
-                })
-              }
-            })
-          }
-        }
-      })
-      
-    }
-
-    if("updateEta" == name){
-
-      wx.request({
-        url: getApp().data.servsers + 'checkPhoneIsExist',
-        data: {
-          phone: wx.getStorageSync("userinfo").phone
-        },
-        success: function (e) {
-          if (e.data == 1) {
-            wx.request({
-              url: getApp().data.servsers + 'getEta',
-              data: {
-                phone: wx.getStorageSync("userinfo").phone,
-                userName: wx.getStorageSync("userinfo").userName
-              },
-              success: function (e) {
-                console.log('bargelink返回的data:' + e.data);
-                wx.setStorageSync('ltrschedule', e.data);
-                wx.navigateTo({
-                  url: '/pages/updateEta/updateEta',
-                })
-              }
-            })
-          }else {
-            wx.showModal({
-              title: '更新驳船信息',
-              content: '驳船预留手机号已更改，请更新对应的手机号。',
-              showCancel: false,
-              confirmText: '去更新',
-              success(res) {
-                wx.navigateTo({
-                  url: '/pages/modifi_user/user',
-                })
-              }
-            })
-          }
-        }
-      })  
-      
-    }
-
-    if("suggest" == name){
-      wx.showModal({
-        title: '功能维护中',
-        content: '敬请期待！',
-        showCancel: false
-      })
-      // wx.navigateTo({
-      //   url: '/pages/suggest/suggest',
-      // })
-    }
-
-    if ("yardPlan" == name) {
-      wx.navigateTo({
-        url: '/pages/yardPlan/yardPlan',
-      })
-    }
-
-    if ("video" == name) {
-      wx.navigateTo({
-        url: '/pages/video/video',
-      })
-    }
-
-    if ("picture" == name) {
-      wx.navigateTo({
-        url: '/pages/introduce/introduce',
-      })
-    }
-
-    if ("notice" == name) {
-      
-      wx.setStorageSync("hasView", "Y")
-
-      wx.request({
-        url: getApp().data.servsers + 'getAllNotice',
-        success: function(e) {
-          wx.setStorageSync("operNotice", e.data);
-          wx.navigateTo({
-            url: '/pages/operNotice/notice',
-          })
-        },
-        fail: function(e) {
+    wx.showLoading({
+      title: '加载中',
+    })
+    //判断点击的功能是否关闭
+    wx.request({
+      url: getApp().data.servsers + 'wxSwitch',
+      data: {
+        functionCode: name
+      },
+      success: function(res) {
+        wx.hideLoading();
+        //关闭则显示通知
+        if (res.data.wxFunction.wxSwitch == '0'){
           wx.showModal({
-            title: '系统异常',
-            content: '请退出小程序重试！',
+            title: '系统通知',
+            content: res.data.wxFunction.notice,
+            showCancel: false
           })
+        }else{
+          //未关闭则跳转相应页面
+          if ("user" == name) {
+            wx.navigateTo({
+              url: '/pages/modifi_user/user',
+            })
+          } else if ("eir" == name) {
+            wx.navigateTo({
+              url: '/pages/eirsearch/search',
+            })
+          } else if ("cms" == name) {
+            wx.navigateTo({
+              url: '/pages/search/search',
+            })
+          } else if ("eirLess" == name) {
+            wx.navigateTo({
+              url: '/pages/history/historyorder',
+            })
+          } else if ("customer" == name) {
+            // wx.makePhoneCall({
+            //   phoneNumber: '075529022902',
+            // })
+            wx.showModal({
+              title: '电话列表',
+              content: '外贸飞单：0755-2902 2906\r\n内贸飞单：0755-2902 2055\r\n驳船报到：0755-2902 2956\r\n热线电话：0755-2902 2902\r\n外贸财务：0755-2902 2231\r\n内贸财务：0755-2902 2056',
+              showCancel: false
+            })
+          } else if ("gr" == name) {
+            console.log("抢单")
+            wx.navigateTo({
+              url: '/pages/imageUpload/upload',
+            })
+          } else if ("sign" == name) {
+            wx.showLoading({
+              title: '正在为你处理，请稍后......',
+            })
+
+            console.log("签到")
+            wx.request({
+              url: getApp().data.servsers + 'sign',
+              header: {
+                'content-type': 'application/x-www-form-urlencoded' // 默认值
+              },
+              method: "POST",
+              data: {
+                plate: getApp().userInfo.userInfo.plate,
+                openid: getApp().userInfo.userInfo.openid
+              },
+              success: function (res) {
+                wx.hideLoading();
+                if (res.data.code == 0) {
+                  wx.showModal({
+                    content: res.data.msg,
+                    showCancel: false,
+                    confirmText: "签到成功",
+                    success: function (res) {
+                      if (res.confirm) {
+
+                      } else {
+
+                      }
+
+                    }
+                  });
+                } else {
+
+                  console.log(res.data.msg)
+                  wx.showModal({
+                    content: res.data.msg,
+                    showCancel: false,
+                    confirmText: "签到失败",
+                    confirmColor: "#993300",
+                    success: function (res) {
+                      if (res.confirm) {
+
+
+                      } else {
+
+                      }
+
+                    }
+                  });
+                }
+              },
+              complete: function (e) {
+                wx.hideLoading();
+              }
+            })
+
+
+          } else if ("updateAta" == name) {
+            wx.request({
+              url: getApp().data.servsers + 'checkPhoneIsExist',
+              data: {
+                phone: wx.getStorageSync("userinfo").phone
+              },
+              success: function (e) {
+                if (e.data == 1) {
+                  wx.request({
+                    url: getApp().data.servsers + 'getEta',
+                    data: {
+                      phone: wx.getStorageSync("userinfo").phone,
+                      userName: wx.getStorageSync("userinfo").userName
+                    },
+                    success: function (e) {
+                      console.log('bargelink返回的data:' + e.data);
+                      wx.setStorageSync('ltrschedule', e.data);
+                      wx.navigateTo({
+                        url: '/pages/updateAta/updateAta',
+                      })
+                    }
+                  })
+                } else {
+                  wx.showModal({
+                    title: '更新驳船信息',
+                    content: '驳船预留手机号已更改，请更新对应的手机号。',
+                    showCancel: false,
+                    confirmText: '去更新',
+                    success(res) {
+                      wx.navigateTo({
+                        url: '/pages/modifi_user/user',
+                      })
+                    }
+                  })
+                }
+              }
+            })
+
+          } else if ("updateEta" == name) {
+
+            wx.request({
+              url: getApp().data.servsers + 'checkPhoneIsExist',
+              data: {
+                phone: wx.getStorageSync("userinfo").phone
+              },
+              success: function (e) {
+                if (e.data == 1) {
+                  wx.request({
+                    url: getApp().data.servsers + 'getEta',
+                    data: {
+                      phone: wx.getStorageSync("userinfo").phone,
+                      userName: wx.getStorageSync("userinfo").userName
+                    },
+                    success: function (e) {
+                      console.log('bargelink返回的data:' + e.data);
+                      wx.setStorageSync('ltrschedule', e.data);
+                      wx.navigateTo({
+                        url: '/pages/updateEta/updateEta',
+                      })
+                    }
+                  })
+                } else {
+                  wx.showModal({
+                    title: '更新驳船信息',
+                    content: '驳船预留手机号已更改，请更新对应的手机号。',
+                    showCancel: false,
+                    confirmText: '去更新',
+                    success(res) {
+                      wx.navigateTo({
+                        url: '/pages/modifi_user/user',
+                      })
+                    }
+                  })
+                }
+              }
+            })
+
+          } else if ("suggest" == name) {
+            // wx.showModal({
+            //   title: '功能维护中',
+            //   content: '敬请期待！',
+            //   showCancel: false
+            // })
+            wx.navigateTo({
+              url: '/pages/suggest/suggest',
+            })
+          } else if ("yardPlan" == name) {
+            wx.navigateTo({
+              url: '/pages/yardPlan/yardPlan',
+            })
+          } else if ("video" == name) {
+            wx.navigateTo({
+              url: '/pages/video/video',
+            })
+          } else if ("picture" == name) {
+            wx.navigateTo({
+              url: '/pages/introduce/introduce',
+            })
+          } else if ("notice" == name) {
+            wx.showLoading({
+              title: '加载中',
+            })
+            wx.setStorageSync("hasView", "Y")
+
+            wx.request({
+              url: getApp().data.servsers + 'getAllNotice',
+              success: function (e) {
+                wx.hideLoading();
+                wx.setStorageSync("operNotice", e.data);
+                wx.navigateTo({
+                  url: '/pages/operNotice/notice',
+                })
+              },
+              fail: function (e) {
+                wx.showModal({
+                  title: '系统异常',
+                  content: '请退出小程序重试！',
+                })
+              }
+            })
+          } else if ("mobileQuery" == name) {
+            wx.navigateTo({
+              url: '/pages/mobileQuery/query',
+            })
+          }
+
         }
-      })
-    }
+      },
+      fail: function(res) {
+        wx.hideLoading();
+        console.log(res)
+      }
+    })
+
+    
 
   },
   godetail: function(e) {
@@ -461,11 +476,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    wx.showLoading({
+      title: '加载中',
+    })
     var that = this;
     console.log("eir.js--onLoad--wx.getStorageSync('userinfo'):"+wx.getStorageSync('userinfo'));
     console.log("eir.js--onLoad--getApp().userInfo.userInfo:" + getApp().userInfo.userInfo);
     if (wx.getStorageSync('userinfo').userType == undefined || wx.getStorageSync("userinfo").userType == null
-      || wx.getStorageSync('userinfo').userName == null || wx.getStorageSync('userinfo').userName == undefined){
+      || wx.getStorageSync('userinfo').userName == null || wx.getStorageSync('userinfo').userName == undefined
+      || wx.getStorageSync('userinfo').openid == null || wx.getStorageSync('userinfo').openid == undefined
+      || wx.getStorageSync('userinfo').openid == 'undefined' || wx.getStorageSync('userinfo').id == null 
+      || wx.getStorageSync('userinfo').id == undefined || wx.getStorageSync('userinfo').id == 'undefined'){
       wx.clearStorageSync("userinfo");
       console.log("清除userinfo缓存");
     }
@@ -477,52 +498,54 @@ Page({
           // 已经授权，可以直接调用 getUserInfo 获取微信昵称
           wx.getUserInfo({
             success(res) {
-              console.log(res)
-              wx.setStorageSync("nickName", res.userInfo.nickName)
+              var nickName = res.userInfo.nickName;
+              wx.setStorageSync("nickName", nickName);
             }
           })
+
         }
       }
     })
   
+
     
-    if (wx.getStorageSync('userinfo')) {
-      console.log("nickname:"+wx.getStorageSync("nickName"))
-      //更新登录时间
-      wx.request({
-        url: getApp().data.servsers + "updateUser",
-        data: {
-          id: wx.getStorageSync("userinfo").id,
-          lastLoginTime: currentTime,
-          nickName: wx.getStorageSync("nickName")
-        },
-        success: function (res) {
-          console.log("已更新登录时间：" + currentTime);
-        }
-      })
+    // if (wx.getStorageSync('userinfo')) {
+    //   console.log("nickname:"+wx.getStorageSync("nickName"))
+    //   //更新登录时间
+    //   wx.request({
+    //     url: getApp().data.servsers + "updateUser",
+    //     data: {
+    //       id: wx.getStorageSync("userinfo").id,
+    //       lastLoginTime: currentTime,
+    //       nickName: wx.getStorageSync("nickName")
+    //     },
+    //     success: function (res) {
+    //       console.log("已更新登录时间：" + currentTime);
+    //     }
+    //   })
 
 
 
-      console.log("userType:" + wx.getStorageSync("userinfo").userType)
-      var plate = wx.getStorageSync("userinfo").plate;
-      if (wx.getStorageSync("userinfo").userType == 'truck' || wx.getStorageSync("userinfo").userType == null) {
-        console.log("显示拖车")
-        that.setData({
-          plate: plate,
-          truck_lic: plate.substring(2, plate.length - 1),
-          provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
-          colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
+    //   console.log("userType:" + wx.getStorageSync("userinfo").userType)
+    //   if (wx.getStorageSync("userinfo").userType == 'truck' || wx.getStorageSync("userinfo").userType == null) {
+    //     var plate = wx.getStorageSync("userinfo").plate;
+    //     console.log("显示拖车")
+    //     that.setData({
+    //       plate: plate,
+    //       truck_lic: plate.substring(2, plate.length - 1),
+    //       provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
+    //       colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
           
-        })
-      }
-      //设置userType以显示首页
-      that.setData({
-        userType: wx.getStorageSync("userinfo").userType
-      })
+    //     })
+    //   }
+    //   //设置userType以显示首页
+    //   that.setData({
+    //     userType: wx.getStorageSync("userinfo").userType
+    //   })
 
-      console.log("userType:" + wx.getStorageSync("userinfo").userType);
-    }else{
-
+    //   console.log("userType:" + wx.getStorageSync("userinfo").userType);
+    // }else{
+      console.log("调用登录接口")
       // 登录
       wx.login({
         success: res => {
@@ -555,26 +578,27 @@ Page({
                 })
 
               } else {
+                console.log('已注册')
+                wx.setStorageSync('userinfo', res.data);
+                wx.hideLoading();
 
                 //更新登录时间
                 wx.request({
                   url: getApp().data.servsers + "updateUser",
                   data: {
-                    id: wx.getStorageSync("userinfo").id,
-                    lastLoginTime: currentTime
+                    id: res.data.id,
+                    lastLoginTime: currentTime,
+                    nickName: wx.getStorageSync("nickName")
                   },
                   success: function (res) {
                     console.log("已更新登录时间：" + currentTime);
                   }
                 })
 
-                console.log('已注册')
-                wx.setStorageSync('userinfo', res.data);
-                wx.hideLoading();
                 //that.userInfo.userInfo = res.data;
                 //设置首页数据
-                var plate = wx.getStorageSync("userinfo").plate;
                 if (wx.getStorageSync("userinfo").userType == 'truck' || wx.getStorageSync("userinfo").userType == null) {
+                  var plate = wx.getStorageSync("userinfo").plate;
                   that.setData({
                     plate: plate,
                     truck_lic: plate.substring(2, plate.length - 1),
@@ -631,7 +655,7 @@ Page({
           });
         }
       })
-    }
+    // }
 
 
     //计算tab下面横条的中间位置
@@ -644,9 +668,81 @@ Page({
       }
     });
 
-    
+    //判断首页的功能是否显示
+    wx.request({
+      url: getApp().data.servsers + 'getFunctionList',
+      success: function (res) {
+        wx.hideLoading();
+        var list = res.data;
+        for (var i in list) {
+          if (list[i].functionCode == 'user') {
+            that.setData({
+              showUser: list[i].isShow
+            })
+          } else if (list[i].functionCode == 'eir') {
+            that.setData({
+              showEir: list[i].isShow
+            })
+          } else if (list[i].functionCode == 'cms') {
+            that.setData({
+              showCms: list[i].isShow
+            })
+          } else if (list[i].functionCode == 'eirLess') {
+            that.setData({
+              showEirLess: list[i].isShow
+            })
+          } else if (list[i].functionCode == 'gr') {
+            that.setData({
+              showGr: list[i].isShow
+            })
+          } else if (list[i].functionCode == 'video') {
+            that.setData({
+              showVideo: list[i].isShow
+            })
+          } else if (list[i].functionCode == 'picture') {
+            that.setData({
+              showPicture: list[i].isShow
+            })
+          } else if (list[i].functionCode == 'updateEta') {
+            that.setData({
+              showUpdateEta: list[i].isShow
+            })
+          } else if (list[i].functionCode == 'updateAta') {
+            that.setData({
+              showUpdateAta: list[i].isShow
+            })
+          } else if (list[i].functionCode == 'yardPlan') {
+            that.setData({
+              showYardPlan: list[i].isShow
+            })
+          } else if (list[i].functionCode == 'notice') {
+            that.setData({
+              showNotice: list[i].isShow
+            })
+          } else if (list[i].functionCode == 'suggest') {
+            that.setData({
+              showSuggest: list[i].isShow
+            })
+          } else if (list[i].functionCode == 'customer') {
+            that.setData({
+              showCustomer: list[i].isShow
+            })
+          } else if (list[i].functionCode == 'mobileQuery') {
+            that.setData({
+              showMobileQuery: list[i].isShow
+            })
+          }
+        }
+      }
+    })
 
+ 
+      wx.showTabBarRedDot({
+        index: 1,
+      })
+      wx.hideTabBar({
 
+      })
   },
 
   /**
@@ -660,6 +756,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    var that = this;
     console.log("eir.js--onShow--wx.getStorageSync('userinfo'):")
     console.log(wx.getStorageSync('userinfo'))
     //考虑到小程序非首次加载时只监听onShow函数，若小程序页面缓存失效，显示会异常，所以加入此行防止userType无值问题。
@@ -670,7 +767,6 @@ Page({
       });
     
       console.log("onShow--userType:"+wx.getStorageSync('userinfo').userType);
-      var that = this;
 
       // wx.showLoading({
       //   title: '加载数据中...',
@@ -760,29 +856,38 @@ Page({
     wx.request({
       url: getApp().data.servsers + 'getNoticeNum',
       success: function (e) {
+        var num = e.data;
         if (wx.getStorageSync("noticeNum")) {
           //获取缓存中操作通知数量
           var oldNoticeNum = wx.getStorageSync("noticeNum");
+          //更新缓存
+          wx.setStorageSync("noticeNum", num);
           //判断用户是否已查看
           if (wx.getStorageSync("hasView") == 'Y') {
-            //最新的通知数量
-            var notice = e.data - oldNoticeNum;
-            //更新缓存
-            wx.setStorageSync("noticeNum", e.data);
-            that.setData({
-              noticeNum: notice
-            })
+
+            if (num < oldNoticeNum) {
+              that.setData({
+                noticeNum: 1
+              })
+            } else {
+              //最新的通知数量
+              var notice = num - oldNoticeNum;
+              that.setData({
+                noticeNum: notice
+              })
+            }
           }else {
             that.setData({
-              noticeNum: e.data
+              noticeNum: num
             })
           }
         } else {
-          wx.setStorageSync("noticeNum", e.data);
+          wx.setStorageSync("noticeNum", num);
           that.setData({
-            noticeNum: e.data
+            noticeNum: num
           })
         }
+
       }
     })
 

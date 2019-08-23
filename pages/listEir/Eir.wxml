@@ -87,10 +87,14 @@ open-type="getUserInfo">飞单预约</button>
     </view>
   </block>
 
-  <view style='height: 40rpx;'>
 
+  <view style='height: 40rpx;'></view>
 
-  </view>
+  <block wx:if="{{userType == 'vessel'}}">
+    <view class="weui-cells__title weui-cells__titless">
+      <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>【温馨提示】请于船到码头前1小时报到。</text>
+    </view>
+  </block>  
 
 
   <view class="weui-tab">
@@ -102,13 +106,16 @@ open-type="getUserInfo">飞单预约</button>
                 </block>
                 <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
             </view>
+
             <view class="weui-tab__panel">
 
                 <!-- 操作专区 -->
                 <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
                   <view class='otherModuleList'>
+
                     <block wx:if="{{userType == 'truck'}}">
-                      <view class='listItem'>
+
+                      <view class='listItem' wx:if="{{showCms == '1'}}">
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='cms'>
                             <view class='itemImg'>
@@ -121,11 +128,11 @@ open-type="getUserInfo">飞单预约</button>
                       </view>
 
 
-                      <view class='listItem'>
+                      <view class='listItem' wx:if="{{showEir == '1'}}">
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='eir'>
                             <view class='itemImg'>
-                              <image src='../images/eir.jpg' mode='aspectFill'></image>
+                              <image src='../images/eir.png' mode='aspectFill'></image>
                             </view>
                             <text class='textCenter'>出闸纸</text>
                             <button formType="submit" hover-class="none" class='invisibleclass'></button>
@@ -134,11 +141,11 @@ open-type="getUserInfo">飞单预约</button>
                       </view>
 
 
-                      <view class='listItem'>
+                      <view class='listItem' wx:if="{{showEirLess == '1'}}">
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='eirLess'>
                             <view class='itemImg'>
-                              <image src='../images/dindan.png' mode='aspectFill'></image>
+                              <image src='../images/history.png' mode='aspectFill'></image>
                             </view>
                             <text class='textCenter'>飞单记录</text>
                             <button formType="submit" hover-class="none" class='invisibleclass'></button>
@@ -147,7 +154,7 @@ open-type="getUserInfo">飞单预约</button>
                       </view>
 
 
-                      <!-- <view class='listItem'>
+                      <view class='listItem'  wx:if="{{showGr == '1'}}">
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='gr'>
                             <view class='itemImg'>
@@ -157,10 +164,10 @@ open-type="getUserInfo">飞单预约</button>
                             <button formType="submit" hover-class="none" class='invisibleclass'></button>
                           </form>
                         </view>
-                      </view> -->
+                      </view>
 
 
-                      <view class='listItem'>
+                      <view class='listItem'  wx:if="{{showUser == '1'}}">
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='user'>
                             <view class='itemImg'>
@@ -172,7 +179,7 @@ open-type="getUserInfo">飞单预约</button>
                         </view>
                       </view>
 
-                      <view class='listItem'>
+                      <view class='listItem' wx:if="{{showVideo == '1'}}">
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='video'>
                             <view class='itemImg'>
@@ -184,7 +191,7 @@ open-type="getUserInfo">飞单预约</button>
                         </view>
                       </view>
 
-                      <view class='listItem'>
+                      <view class='listItem' wx:if="{{showPicture == '1'}}">
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='picture'>
                             <view class='itemImg'>
@@ -210,11 +217,9 @@ open-type="getUserInfo">飞单预约</button>
                     </block>
 
                     <block wx:if="{{userType == 'vessel'}}">
-                      <view class="weui-cells__title weui-cells__titless">
-                        <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>【温馨提示】请于船到码头前1小时报到。</text>
-                      </view>
+                     
 
-                      <view class='listItem'>
+                      <view class='listItem' wx:if="{{showUpdateEta == '1'}}">
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='updateEta'>
                             <view class='itemImg'>
@@ -226,11 +231,11 @@ open-type="getUserInfo">飞单预约</button>
                         </view>
                       </view>
 
-                      <view class='listItem'>
+                      <view class='listItem' wx:if="{{showUpdateAta == '1'}}">
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='updateAta'>
                             <view class='itemImg'>
-                              <image src='../images/ship.png' mode='aspectFill'></image>
+                              <image src='../images/updateAta.png' mode='aspectFill'></image>
                             </view>
                             <text class='textCenter'>自主报到</text>
                             <button formType="submit" hover-class="none" class='invisibleclass'></button>
@@ -238,7 +243,7 @@ open-type="getUserInfo">飞单预约</button>
                         </view>
                       </view>
 
-                      <view class='listItem'>
+                      <view class='listItem' wx:if="{{showUser == '1'}}">
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='user'>
                             <view class='itemImg'>
@@ -250,7 +255,7 @@ open-type="getUserInfo">飞单预约</button>
                         </view>
                       </view>
 
-                      <view class='listItem'>
+                      <view class='listItem' wx:if="{{showVideo == '1'}}">
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='video'>
                             <view class='itemImg'>
@@ -262,7 +267,7 @@ open-type="getUserInfo">飞单预约</button>
                         </view>
                       </view>
 
-                      <view class='listItem'>
+                      <view class='listItem' wx:if="{{showPicture == '1'}}">
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='picture'>
                             <view class='itemImg'>
@@ -286,21 +291,21 @@ open-type="getUserInfo">飞单预约</button>
                 <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
                   <view class='otherModuleList'>
 
-                    <!-- <block wx:if="{{userType == 'truck'}}">
-                      <view class='listItem'>
+                    <block wx:if="{{userType == 'truck'}}">
+                      <view class='listItem' wx:if="{{showYardPlan == '1'}}">
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='yardPlan'>
                             <view class='itemImg'>
                               <image src='../images/yardPlan.png' mode='aspectFill'></image>
                             </view>
-                            <text class='textCenter'>机械安排</text>
+                            <text class='textCenter'>闪电调度</text>
                             <button formType="submit" hover-class="none" class='invisibleclass'></button>
                           </form>
                         </view>
                       </view>
-                    </block>   -->
+                    </block>   
 
-                    <!-- <view class='listItem' >
+                    <view class='listItem' wx:if="{{showNotice == '1'}}">
                       <view class='itemBox'>
                         <form report-submit='true' bindsubmit='handle' data-name='notice'>
                           <view class='itemImg'>
@@ -313,9 +318,23 @@ open-type="getUserInfo">飞单预约</button>
                           <button formType="submit" hover-class="none" class='invisibleclass'></button>
                         </form>
                       </view>
-                    </view>  -->
+                    </view>
 
-                    <view class='listItem' >
+                    <block wx:if="{{userType == 'truck'}}">
+                      <view class='listItem' wx:if="{{showMobileQuery == '1'}}">
+                        <view class='itemBox'>
+                          <form report-submit='true' bindsubmit='handle' data-name='mobileQuery'>
+                            <view class='itemImg'>
+                              <image src='../images/query.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>移动查询</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view>
+                    </block>
+
+                    <view class='listItem' wx:if="{{showSuggest == '1'}}">
                       <view class='itemBox'>
                         <form report-submit='true' bindsubmit='handle' data-name='suggest'>
                           <view class='itemImg'>
@@ -327,14 +346,14 @@ open-type="getUserInfo">飞单预约</button>
                       </view>
                     </view>
 
-                    <view class='listItem'>
+                    <view class='listItem' wx:if="{{showCustomer == '1'}}">
                       <view class='itemBox'>
                         <form report-submit='true' bindsubmit='handle' data-name='customer'>
                           <view class='itemImg'>
                             <image src='../images/customer.png' mode='aspectFill'></image>
                             <!-- <contact-button type="default-dark" size='40'></contact-button> -->
                           </view>
-                          <text class='textCenter'>人工客服</text>
+                          <text class='textCenter'>联系方式</text>
                           <button formType="submit" hover-class="none" class='invisibleclass'></button>
                         </form>
                       </view>

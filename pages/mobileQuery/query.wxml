@@ -1,0 +1,23 @@
+<!--pages/mobileQuery/query.wxml-->
+
+<!-- <web-view  src="{{url}}" bind >
+</web-view> -->
+
+<view class="weui-panel weui-panel_access">
+    <view class="weui-panel__hd">可通过以下两种途径查询</view>
+    <view class="weui-panel__bd">
+        <view class="weui-media-box weui-media-box_text">
+            <view class="weui-media-box__title weui-media-box__title_in-text">1、	关注公众号</view>
+            <view class="weui-media-box__desc">深圳大铲湾现代港口发展有限公司→微查询→移动平台查询相关信息（点击图片查看二维码）</view>
+            <view bindtap='preview'>
+              <image style='width: 300px; height: 550px' src='../images/mobileQuery.gif'></image>
+              <!-- <image style='width: 140px; height: 140px' src='{{qccode}}'></image> -->
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text">
+            <view class="weui-media-box__title weui-media-box__title_in-text">2、	登陆码头网站：www.dcblink.com</view>
+            <view class="weui-media-box__desc">点击会员专区、公众查询界面可查找相关信息</view>
+            <!-- <view><image style='width: 140px; height: 140px' src='../images/dcblink.png'></image></view> -->
+        </view>
+    </view>
+</view>

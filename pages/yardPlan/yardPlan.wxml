@@ -2,10 +2,10 @@
 <form bindsubmit='addOrder' report-submit='true'>
 <view class='box'>
   <view class="page__hd">
-    <view class="page__title" style='font-size: 17px;'>堆场吊柜机械服务流程介绍</view>
-    <view class="page__desc" style='font-size: 15px;'>1、选择内、外贸区域</view>
-    <view class="page__desc" style='font-size: 15px;'>2、输入所在堆场位置</view>
-    <view class="page__desc" style='font-size: 15px;'>3、选择堆场吊柜遇到的困难与问题</view>
+    <view class="page__title" style='font-size: 17px;'>堆场吊柜机械服务步骤</view>
+    <view class="page__desc" style='font-size: 15px;'>第一步：选择内、外贸区域</view>
+    <view class="page__desc" style='font-size: 15px;'>第二步：输入所在堆场位置</view>
+    <view class="page__desc" style='font-size: 15px;'>第三步：选择堆场操作中遇到的困难与问题</view>
   </view>
 
   <view>
@@ -54,18 +54,23 @@
     </view>
   </view>
 
-  <view class="weui-cells__title">堆场位置</view>
-  <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input">
+  <view class="weui-cells__title" style='font-size: 15px'>堆场位置（例：G30-35，进场后无场位，请输入“0-0”）</view>
+  <view class="">
+      <!-- <view class="weui-cell weui-cell_input"> -->
           <view class="weui-cell__bd">
-              <input class="weui-input" name="location" placeholder="例：G30-35" />
+          <label class='label'>
+              <input class="weui-input" name="location1" maxlength='3'/>
+          </label>_
+          <label class='label'>    
+              <input class="weui-input" name="location2" maxlength='2'/>
+          </label>    
           </view>
-      </view>
+      <!-- </view> -->
   </view>
 
   <view class='box_view '>
     <view class="weui-loadmore weui-loadmore_line">
-      <view class="weui-loadmore__tips weui-loadmore__tips_in-line">机械问题</view>
+      <view class="weui-loadmore__tips weui-loadmore__tips_in-line">堆场操作中遇到的困难与问题</view>
     </view>
     <view class='vertical'>
 
@@ -107,7 +112,7 @@
           <view class="attr_value">
             <label class='radio_label'>
               <radio color='' value='5'>
-                <text>柜子吊箱门、没放好重新吊放</text>
+                <text>柜子调箱门、没放好重新吊放</text>
               </radio>
             </label>
           </view>
@@ -116,6 +121,22 @@
             <label class='radio_label'>
               <radio color='' value='6'>
                 <text>雪柜需要电工协助</text>
+              </radio>
+            </label>
+          </view>
+
+          <view class="attr_value">
+            <label class='radio_label'>
+              <radio color='' value='7'>
+                <text>完成作业后刷卡无法出闸</text>
+              </radio>
+            </label>
+          </view>
+
+          <view class="attr_value">
+            <label class='radio_label'>
+              <radio color='' value='8'>
+                <text>进场后无堆场位置</text>
               </radio>
             </label>
           </view>

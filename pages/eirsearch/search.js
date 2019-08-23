@@ -67,7 +67,6 @@ Page({
   },
   goEir: function (e) {
     var that = this;
-    var that = this;
     console.log("from id")
     var plate = that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex];
     wx.request({
@@ -105,6 +104,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this;
     var openid = wx.getStorageSync("userinfo").openid;
     if (openid == undefined) {
       wx.login({

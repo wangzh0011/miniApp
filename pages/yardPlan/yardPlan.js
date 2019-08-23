@@ -6,7 +6,8 @@ Page({
    */
   data: {
     //hiddenmodalput: true,
-    other: '其他'
+    other: '其他',
+    disabled: false
   },
 
   chooseSite: function(e) {
@@ -81,12 +82,14 @@ Page({
   addOrder: function(e) {
     var site = this.data.site;
     console.log(e)
-    var location = e.detail.value.location;
+    var location1 = e.detail.value.location1;
+    var location2 = e.detail.value.location2;
+    var location = location1 + "-" + location2;
     var issueType = this.data.issueType;
-    if(location == "" || location == undefined){
+    if (location1 == "" || location1 == undefined || location2 == "" || location2 == undefined){
       wx.showModal({
         title: '提示',
-        content: '请输入堆场位置',
+        content: '请输入完整的堆场位置',
         showCancel: false,
         confirmText: '确定'
       })
@@ -110,6 +113,9 @@ Page({
       })
       return;
     }
+    this.setData({
+      disabled: true
+    })
     var userInfo = wx.getStorageSync("userinfo");
     //保存formId
     wx.request({
@@ -151,6 +157,7 @@ Page({
       data: {
         openId: userInfo.openid,
         userName: userInfo.userName,
+        phone: userInfo.phone,
         plate: userInfo.plate,
         site: site,
         issueType: issueType,
@@ -162,7 +169,8 @@ Page({
       success: function(res){
         if(res.data.code == 0){
           wx.showModal({
-            content: '提交成功',
+            title: '提示',
+            content: '码头将于15分内通过微信服务通知推送机械安排结果，请您耐心等待！',
             confirmText: '确定',
             showCancel: false,
             success: function (res) {

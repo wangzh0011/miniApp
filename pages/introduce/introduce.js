@@ -13,29 +13,54 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    var cacheImage2 = wx.getStorageSync("cacheImage2");
-    console.log("cacheImage2:" + cacheImage2)
-    if (cacheImage2 != null && cacheImage2 != undefined && cacheImage2 != ""){
-        console.log("读取图片缓存")
-      that.setData({
-        introduce2: cacheImage2
-      })
-    }else{
-      
-      console.log("I'm come in ")
-     
-      wx.downloadFile({
-        url: getApp().data.uploadurl + "introduce2.png",
-        success(res) {
-          if (res.statusCode == 200) {
-            console.log("图片2下载成功")
-            that.setData({
-              introduce2: res.tempFilePath
-            })
-            wx.setStorageSync("cacheImage2", res.tempFilePath);
+    var userType = wx.getStorageSync("userinfo").userType;
+    wx.showLoading({
+      title: '加载中',
+    })
+    if(userType == 'truck'){
+      // var cacheImage2 = wx.getStorageSync("cacheImage2");
+      // if (cacheImage2 != null && cacheImage2 != undefined && cacheImage2 != ""){
+      //     console.log("读取图片缓存")
+      //   that.setData({
+      //     introduce2: cacheImage2
+      //   })
+      // }else{
+        wx.downloadFile({
+          url: getApp().data.uploadurl + "introduce2.png",
+          success(res) {
+            if (res.statusCode == 200) {
+              console.log("图片2下载成功")
+              that.setData({
+                introduce2: res.tempFilePath
+              })
+              wx.hideLoading();
+              // wx.setStorageSync("cacheImage2", res.tempFilePath);
+            }
           }
-        }
-      })
+        })
+      // }
+    }else if(userType == 'vessel'){
+      // var cacheImage2 = wx.getStorageSync("cacheImage2");
+      // if (cacheImage2 != null && cacheImage2 != undefined && cacheImage2 != "") {
+      //   console.log("读取图片缓存")
+      //   that.setData({
+      //     introduce2: cacheImage2
+      //   })
+      // } else {
+        wx.downloadFile({
+          url: getApp().data.uploadurl + "introduce2_vessel.png",
+          success(res) {
+            if (res.statusCode == 200) {
+              console.log("图片2下载成功")
+              that.setData({
+                introduce2: res.tempFilePath
+              })
+              wx.hideLoading();
+              // wx.setStorageSync("cacheImage2", res.tempFilePath);
+            }
+          }
+        })
+      // }
     }
     
   },

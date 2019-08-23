@@ -231,9 +231,6 @@ Page({
         attachUrl: attachUrl,
       })
     }
-    var that = this;
-
-
 
   },
 

@@ -29,10 +29,18 @@ Page({
       },
     })
 
-    this.setData({
-      srcUrl: getApp().data.uploadurl + "introduce.mp4",
-      imgUrl: getApp().data.uploadurl + "introduce.png"
-    })
+    var userType = wx.getStorageSync("userinfo").userType;
+    if(userType == 'truck'){
+      this.setData({
+        srcUrl: getApp().data.uploadurl + "introduce.mp4",
+        imgUrl: getApp().data.uploadurl + "introduce.png"
+      })
+    }else if(userType == 'vessel'){
+      this.setData({
+        srcUrl: getApp().data.uploadurl + "introduce_vessel.mp4",
+        imgUrl: getApp().data.uploadurl + "introduce_vessel.png"
+      })
+    }
     // this.videoContext = wx.createVideoContext('myVideo')
   },
 

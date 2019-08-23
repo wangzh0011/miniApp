@@ -92,7 +92,7 @@ Page({
 
     var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/g;
     if (reg.test(e.detail.value.truck_lic)) {
-      this.setData({
+      that.setData({
         showTopTips: true,
         errormsg: "车牌号码不能为中文"
       });
@@ -104,7 +104,7 @@ Page({
     console.log(e);
     if (e.detail.value.phone_number == '' || e.detail.value.truck_lic == '' || e.detail.value.cardid == '') {
 
-      this.setData({
+      that.setData({
         showTopTips: true,
         errormsg: "输入内容不能为空!"
       });
@@ -119,7 +119,7 @@ Page({
     }
     var reg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
     if (!reg.test(e.detail.value.phone_number)) {
-      this.setData({
+      that.setData({
         showTopTips: true,
         errormsg: "输入的手机号码不正确"
       });
@@ -133,8 +133,7 @@ Page({
       return;
     }
     if (e.detail.value.phone_number.length != 11) {
-      var that = this;
-      this.setData({
+      that.setData({
         showTopTips: true,
         errormsg: "输入的手机号码不正确"
       });
@@ -163,11 +162,10 @@ Page({
 
     reg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/;
     if (!reg.test(e.detail.value.cardid)) {
-      this.setData({
+      that.setData({
         showTopTips: true,
         errormsg: "输入身份证号码不正确!"
       });
-      wx.hideLoading();
       setTimeout(function() {
         that.setData({
           showTopTips: false
@@ -208,7 +206,7 @@ Page({
     wx.showLoading({
       title: '提交资料中...',
     })
-    this.setData({
+    that.setData({
       disabled: true
     });
     wx.request({

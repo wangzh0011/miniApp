@@ -5,7 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    currentNum: 0
+    currentNum: 0,
+    disabled: false,
   },
 
 
@@ -19,6 +20,9 @@ Page({
       })
       return;
     }
+    this.setData({
+      disabled: true
+    })
     var date = new Date();
     var currentMonth = date.getMonth() + 1;
     var currentDay = date.getDate();
@@ -45,13 +49,15 @@ Page({
         openId: userInfo.openid,
         userName: userInfo.userName,
         plate: userInfo.plate,
+        phone: userInfo.phone,
         createTime: currentTime,
         suggest: suggest,
+        status: "0"
       },
       success: function(res) {
         if(res.data.code == 0){
           wx.showModal({
-            content: '感谢您为我们提出的建议。',
+            content: '感谢您提出的宝贵建议，请留意后续的消息推送。',
             confirmText: '确定',
             showCancel: false,
             success: function(res){

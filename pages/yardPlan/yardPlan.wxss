@@ -20,6 +20,33 @@
   justify-content: center;
   flex: 1;
 } */
+
+.weui-cell__bd {
+  padding-left: 250rpx;
+  padding-bottom: 10rpx;
+  display: flex;
+  flex-direction: row;
+  align-self: center
+}
+
+.label {
+  height:100%;
+  line-height: 40rpx;
+  color: black;
+  
+}
+
+.weui-input{
+  position: relative;
+  border: lightgrey;
+  border-style: solid;
+  border-width: 1px;
+  font-size: 14px;
+  border-radius: 5px;
+  height: 31px;
+  padding-left: 10px;
+  width: 50px;
+}
 .time{
   padding-top: 15rpx;
   padding-bottom: 20rpx;  
