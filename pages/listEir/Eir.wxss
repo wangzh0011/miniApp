@@ -205,3 +205,46 @@ opacity:0;
 /* .weui-footer_fixed-bottom{
   position: static;
 } */
+
+/* 整体最外层*/
+/* .layer{
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  position: fixed;
+  top: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+/* 图片样式*/
+/* .layer image{
+  width: 600rpx;
+  height: 600rpx;
+} */
+/*关闭按钮样式 */
+/* .layer .close{
+  color:#fff;
+  width: 50rpx;
+  height: 50rpx;
+  text-align: center;
+  background:#000;
+  border-radius: 50%;
+  position: absolute;
+  top: 130px;
+  right: 20px;
+  font-size: 14px;
+  line-height: 50rpx;
+}
+
+.layer .describe{
+  color:rgb(245, 3, 3);
+  text-align: center;
+  border-radius: 50%;
+  position: absolute;
+  top: 90px;
+  right: 100px;
+  left: 100px;
+  font-size: 16px;
+  line-height: 50rpx;
+} */

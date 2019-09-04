@@ -12,13 +12,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+    var type = options.type;
     var that = this;
     wx.getSystemInfo({
       success: function(res) {
@@ -29,6 +23,14 @@ Page({
       },
     })
 
+    if(type == 'customer'){
+      this.setData({
+        srcUrl: getApp().data.uploadurl + "introduce_customer.mp4",
+        imgUrl: getApp().data.uploadurl + "introduce_customer.png"
+      })
+      return;
+    }
+  
     var userType = wx.getStorageSync("userinfo").userType;
     if(userType == 'truck'){
       this.setData({
@@ -41,7 +43,14 @@ Page({
         imgUrl: getApp().data.uploadurl + "introduce_vessel.png"
       })
     }
-    // this.videoContext = wx.createVideoContext('myVideo')
+    
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    
   },
 
   /**

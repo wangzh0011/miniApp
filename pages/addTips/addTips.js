@@ -13,7 +13,7 @@ Component({
     // 多少秒后关闭
     duration: {
       type: Number,
-      value: 10
+      value: 8
     }
   },
 
