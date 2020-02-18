@@ -294,6 +294,10 @@ Page({
             wx.navigateTo({
               url: '/pages/mobileQuery/query',
             })
+          } else if ("cosido" == name) {
+            wx.navigateTo({
+              url: '/pages/cosido/cosido',
+            })
           }
 
         }
@@ -303,6 +307,8 @@ Page({
         console.log(res)
       }
     })
+
+    
 
   },
   godetail: function (e) {

@@ -48,6 +48,111 @@ Page({
       currentMinute = "0" + currentMinute;
     }
     var currentTime = date.getFullYear() + "-" + currentMonth + "-" + currentDay + " " + currentHours + ":" + currentMinute;
+
+    wx.showModal({
+      title: '提示',
+      content: '请上传上一港装船缴费清单，若没有缴费则无需上传',
+      showCancel: true,
+      cancelText: '无清单',
+      confirmText: '去上传',
+      cancelColor: '#FF0000',
+      confirmColor: '#008000',
+      success: (res) => {
+        if(res.confirm) {
+          wx.chooseImage({
+            success: function(res) {
+              //上传图片
+                wx.showLoading({
+                  title: '正在上传',
+                })
+                // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+                
+                var filename = res.tempFilePaths;
+              
+                //上传图片
+                that.uploadFile(filename,0,index)
+                  
+                //更新ata
+                wx.hideLoading()
+                wx.showToast({
+                  title: '完成上传',
+                })
+                setTimeout(function() {
+                  that.updateAta(index, isTakeStep, currentTime);
+                },1800);
+                
+            },
+          })
+        }else {
+          that.updateAta(index, isTakeStep, currentTime);
+        }
+      }
+    })
+
+  },
+
+  /**
+   * 上传图片
+   */
+  uploadFile: function (filename,index,ltrScheduleIndex) {
+    var that = this;
+    wx.uploadFile({
+      url: getApp().data.servsers + 'saveImageOfVessel',
+      filePath: filename[index],
+      name: 'image',
+      formData: {
+        iVoyCd: wx.getStorageSync("ltrschedule")[ltrScheduleIndex].iVoyCd,
+        oVoyCd: wx.getStorageSync("ltrschedule")[ltrScheduleIndex].oVoyCd,
+        vesselName: wx.getStorageSync('userinfo').userName
+      },
+      success: function (res1) {
+        var jsondata = JSON.parse(res1.data);
+        var image = jsondata.data.filename;
+        if (image == undefined) {
+          wx.hideLoading();
+          wx.showModal({
+            showCancel: false,
+            title: '提示',
+            content: '此照片未成功上传，请重新选择照片上传！',
+            success: function (res) {
+
+            }
+          })
+        } else {
+          console.log("上传成功并保存到了服务器" + image)
+          that.setData({
+            resuleMessage: '上传成功'
+          })
+          if (index < filename.length-1) {
+            that.uploadFile(filename, index + 1, ltrScheduleIndex)
+          } 
+        }
+      },
+      fail: function (res1) {
+        console.log("上传文件连接服务器失败:")
+        wx.hideLoading()
+        wx.showModal({
+          showCancel: false,
+          title: '提示',
+          content: '网络环境不佳，照片未成功上传，请确认网络连接正常并重新上传！',
+          success: function (res) {
+
+          }
+        })
+      },
+      complete: function (res) {
+        console.log("结束上传")
+      }
+
+    })
+  },
+
+  /**
+  *更新ata 
+  */
+  updateAta: function (index,isTakeStep,currentTime) {
+    var that = this;
+    //弹出办手续提示，并提交更新请求服务器
     wx.showModal({
       title: '办联检手续',
       content: '请确认是否办理联检手续',
@@ -137,7 +242,6 @@ Page({
       fail: function (res) { },
       complete: function (res) { },
     })
-
   },
 
   

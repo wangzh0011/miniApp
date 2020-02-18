@@ -28,7 +28,8 @@
     "pages/updateAta/updateAta",
     "pages/operNotice/notice",
     "pages/operNotice/noticeDetail",
-    "pages/mobileQuery/query"
+    "pages/mobileQuery/query",
+    "pages/cosido/cosido"
   ],
   "window": {
     "backgroundTextStyle": "dark",

@@ -15,10 +15,10 @@
         <view class="weui-cell weui-cell_input">
             <view class="weui-btn-area">
               <block wx:if="{{list.comeHere == 'Y'}}">
-                <button class="weui-btn" type="primary" bindtap='bindCancelTap' data-index="{{index}}" style='color: white; background-color: #17437d; width:150px; position:absolution; left:-15px; top:-8px'>取消报到</button>
+                <button class="weui-btn" type="primary" bindtap='bindCancelTap' data-index="{{index}}" style='color: white; background-color: #17437d; width:150px; left:-15px; top:-8px'>取消报到</button>
               </block>
               <block wx:else>
-                <button class="weui-btn" type="primary" bindtap='bindConfirmTap' data-index="{{index}}" style='color: white; background-color: #17437d; width:150px; position:absolution; left:-15px; top:-8px'>报到</button>
+                <button class="weui-btn" type="primary" bindtap='bindConfirmTap' data-index="{{index}}" style='color: white; background-color: #17437d; width:150px; left:-15px; top:-8px'>报到</button>
               </block>   
             </view>
         </view>

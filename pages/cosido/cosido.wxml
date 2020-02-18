@@ -1,0 +1,73 @@
+<!--pages/cosido/cosido.wxml-->
+<view>
+    <view class="weui-cells__title">进口重箱查询</view>
+
+       <!-- <view class="weui-cells weui-cells_after-title"></view> -->
+
+       <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">提单号</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" bindinput='inputTap' placeholder-class="phcolor" placeholder="输入您的提单号"  value='{{docref}}'/>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input"></view>
+        <view class="weui-btn-area">
+          <button class="weui-btn" type="primary" bindtap="onTap">查询</button>
+        </view>
+
+        <!-- <view>注：请输入完整的提单号</view> -->
+
+
+    <block wx:if="{{nodata == 'yes'}}">
+      <view class="weui-loadmore weui-loadmore_line">
+          <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无数据</view>
+      </view>
+    </block>
+    <block wx:if="{{nodata == 'no'}}">
+      <view style="margin:5px;border:3px solid #1FB3D8">
+
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">EIR NO: {{cosido.eirno}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">提单号: {{cosido.docref}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">箱号: {{cosido.cntrno}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">箱型尺寸: {{cosido.sizetype}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">提箱有效期: {{cosido.createTime}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">状态：{{cosido.status}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        
+      </view>
+    </block>
+
+
+
+</view>

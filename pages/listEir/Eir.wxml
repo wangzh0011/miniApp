@@ -1,20 +1,22 @@
 <view class="page page_hight">
 	<add-tips/>
 
-	<modal
-	 hidden="{{modalHidden}}"
-	 bindconfirm="modalConfirm"
-	 no-cancel="true"
-	 confirmText="知道了"
-	>
-		<view style='color: rgb(245, 3, 3);'>智能再提速,助您快一步!</view>
-		<view style='color: rgb(245, 3, 3);'>欢迎使用大铲湾操作服务新功能。</view>
-		<view>
-			<image class="image" src="../images/add.png" mode='aspectFill' />
-		</view>
-	</modal>
 
 	<block wx:if="{{userType == 'truck'  }}">
+    <!--首页广告-->
+    <modal
+    hidden="{{modalHidden}}"
+    bindconfirm="modalConfirm"
+    no-cancel="true"
+    confirmText="知道了"
+    >
+      <view style='color: rgb(245, 3, 3);'>智能再提速,助您快一步!</view>
+      <view style='color: rgb(245, 3, 3);'>欢迎使用大铲湾操作服务新功能。</view>
+      <view>
+        <image class="image" src="../images/add.png" mode='aspectFill' />
+      </view>
+    </modal>
+
 		<view class="page__bd page__ss">
 			<text class='ssss '>您绑定的车牌号码是：{{prov[provCodeIndex]}}{{truck_lic}}{{colorCodes[colorCodeIndex]}}牌</text>
 		</view>
@@ -212,6 +214,18 @@
 								</form>
 							</view>
 						</view>
+
+            <view class='listItem' wx:if="{{showPicture == '1'}}">
+							<view class='itemBox'>
+								<form report-submit='true' bindsubmit='handle' data-name='cosido'>
+									<view class='itemImg'>
+										<image src='../images/cosido.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>重柜查询</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
 						<!-- <view class='listItem'>
                         <view class='itemBox'>
                           <form report-submit='true' bindsubmit='handle' data-name='sign'>
@@ -365,17 +379,19 @@
 						</view>
 					</view>
           
-					<view class='listItem' wx:if="{{showVideo_customer == '1'}}">
-						<view class='itemBox'>
-							<form report-submit='true' bindsubmit='handle' data-name='video_customer'>
-								<view class='itemImg'>
-									<image src='../images/guide.png' mode='aspectFill' />
-								</view>
-								<text class='textCenter'>视频指引</text>
-								<button formType="submit" hover-class="none" class='invisibleclass' />
-							</form>
-						</view>
-					</view>
+          <block wx:if="{{userType == 'truck'}}">
+            <view class='listItem' wx:if="{{showVideo_customer == '1'}}">
+              <view class='itemBox'>
+                <form report-submit='true' bindsubmit='handle' data-name='video_customer'>
+                  <view class='itemImg'>
+                    <image src='../images/guide.png' mode='aspectFill' />
+                  </view>
+                  <text class='textCenter'>视频指引</text>
+                  <button formType="submit" hover-class="none" class='invisibleclass' />
+                </form>
+              </view>
+            </view>
+          </block>
 
 				</view>
 			</view>
