@@ -1,6 +1,7 @@
 // pages/listEir/Eir.js
 var base64 = require("../images/base64");
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
+var app = getApp();
 Page({
 
   /**
@@ -25,7 +26,12 @@ Page({
     activeIndex: 0,
     sliderOffset: 0,
     sliderLeft: 0,
-    modalHidden: true
+    modalHidden: true,
+    hover_stay_time: 200, //按钮手指松开后点击保留时间
+    showTips: false,
+    showMessage: true,
+    showMask: true,
+    timeout: false//预约超时标识
   },
 
   /**
@@ -44,18 +50,6 @@ Page({
 
     var openid = wx.getStorageSync("userinfo").openid;
     var plate = wx.getStorageSync("userinfo").plate;
-    wx.request({
-      url: getApp().data.servsers + 'saveFormId',
-      data: {
-        openid: openid,
-        plate: plate,
-        formId: e.detail.formId
-      },
-      success: function (e) { },
-      fail: function (e) {
-        console.log(e)
-      }
-    })
 
     var name = e.currentTarget.dataset.name;
     wx.showLoading({
@@ -324,6 +318,10 @@ Page({
       url: '/pages/historydetail/detail?id=' + index,
     })
   },
+
+  /**
+   * 预约流程
+   */
   goAddEIR: function (e) {
 
     this.setData({
@@ -338,24 +336,6 @@ Page({
     }, 1000);
     var openid = wx.getStorageSync("userinfo").openid;
     var plate = wx.getStorageSync("userinfo").plate;
-
-    wx.request({
-      url: getApp().data.servsers + '/saveFormId',
-      data: {
-        openid: openid,
-        plate: plate,
-        formId: e.detail.formId
-      },
-      success: function (e) { },
-      fail: function (e) {
-        console.log("保存formid的时候未能连接服务器.")
-        console.log(e)
-      },
-      complete: function (res) {
-        console.log("结束连接")
-        console.log(res)
-      }
-    })
     var items = this.data.items;
 
     //不参与计数的条数
@@ -457,32 +437,106 @@ Page({
     })
 
   },
-  saveFormId: function (e) {
-    var openid = wx.getStorageSync("userinfo").openid;
-    var plate = wx.getStorageSync("userinfo").plate;
-    wx.request({
-      url: getApp().data.servsers + '/saveFormId',
-      data: {
-        openid: openid,
-        plate: plate,
-        formId: e.detail.formId
-      },
-      success: function (e) {
 
+  /**
+   * 拉起订阅消息  获取下发权限 拖车预约
+   */
+  subscribeMessageTap: function () {
+    var that = this;
+    var timeout = that.data.timeout
+    //预约超时，给出提示
+    if(timeout){
+      wx.showModal({
+        title: '温馨提示',
+        content: '存在超时的预约单，请处理后再进行预约操作',
+      })
+      return; 
+    } 
+    wx.requestSubscribeMessage({//app.tmplIds.serverStopId, app.tmplIds.eeirId,
+      tmplIds: [app.tmplIds.appointmentId, app.tmplIds.signInId, app.tmplIds.cmsId],
+      success(res) {
+        var reg = RegExp(/accept/)
+        var reg1 = RegExp(/reject/)
+        if (JSON.stringify(res).match(reg1)) {
 
+          wx.showModal({
+            title: '温馨提示',
+            content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+          })
+          return;
+
+        }
+        if(JSON.stringify(res).match(reg)) {
+
+          //订阅消息后 进入预约流程
+          that.goAddEIR();
+          return;
+        } 
+        
       },
-      fail: function (e) {
-        console.log(e)
+      fail(res) {
+        //表示关闭了订阅消息
+        wx.showModal({
+          title: '温馨提示',
+          content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+        })
       }
     })
 
-    var index = e.currentTarget.dataset.index;
+    
+  
 
-    wx.navigateTo({
-      url: '/pages/detail/detail?order=' + index,
+  },
+
+  /**
+   * 拉起订阅消息  获取下发权限  驳船预约
+   */
+  subscribeMessageVesselTap: function () {
+    var that = this;
+    wx.requestSubscribeMessage({//app.tmplIds.serverStopId, app.tmplIds.eeirId,
+      tmplIds: [app.tmplIds.berthingId],
+      success(res) {
+        var reg = RegExp(/accept/)
+        var reg1 = RegExp(/reject/)
+        if (JSON.stringify(res).match(reg1)) {
+
+          wx.showModal({
+            title: '温馨提示',
+            content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+          })
+          return;
+
+        }
+        if (JSON.stringify(res).match(reg)) {
+
+          //温馨提示
+          that.setData({
+            showTips: true,
+            showMessage: false
+          })
+
+        } 
+
+      },
+      fail(res) {
+        //表示关闭了订阅消息
+        wx.showModal({
+          title: '温馨提示',
+          content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+        })
+      }
     })
   },
 
+  /**
+   * 关闭温馨提示框
+   */
+  closeTips: function() {
+    this.setData({
+      showTips: false,
+      showMask: false
+    })
+  },
 
   tabClick: function (e) {
     this.setData({
@@ -526,43 +580,6 @@ Page({
     })
 
 
-
-    // if (wx.getStorageSync('userinfo')) {
-    //   console.log("nickname:"+wx.getStorageSync("nickName"))
-    //   //更新登录时间
-    //   wx.request({
-    //     url: getApp().data.servsers + "updateUser",
-    //     data: {
-    //       id: wx.getStorageSync("userinfo").id,
-    //       lastLoginTime: currentTime,
-    //       nickName: wx.getStorageSync("nickName")
-    //     },
-    //     success: function (res) {
-    //       console.log("已更新登录时间：" + currentTime);
-    //     }
-    //   })
-
-
-
-    //   console.log("userType:" + wx.getStorageSync("userinfo").userType)
-    //   if (wx.getStorageSync("userinfo").userType == 'truck' || wx.getStorageSync("userinfo").userType == null) {
-    //     var plate = wx.getStorageSync("userinfo").plate;
-    //     console.log("显示拖车")
-    //     that.setData({
-    //       plate: plate,
-    //       truck_lic: plate.substring(2, plate.length - 1),
-    //       provCodeIndex: provIndex(plate.substring(0, 2), this.data.provValue),
-    //       colorCodeIndex: colorIndex(plate.substring(plate.length - 1, plate.length), this.data.colorCodesValue),
-
-    //     })
-    //   }
-    //   //设置userType以显示首页
-    //   that.setData({
-    //     userType: wx.getStorageSync("userinfo").userType
-    //   })
-
-    //   console.log("userType:" + wx.getStorageSync("userinfo").userType);
-    // }else{
     console.log("调用登录接口")
     // 登录
     wx.login({
@@ -687,86 +704,7 @@ Page({
     });
 
     //判断首页的功能是否显示
-    wx.request({
-      url: getApp().data.servsers + 'getFunctionList',
-      success: function (res) {
-        wx.hideLoading();
-        var list = res.data;
-        for (var i in list) {
-          if (list[i].functionCode == 'user') {
-            that.setData({
-              showUser: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'eir') {
-            that.setData({
-              showEir: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'cms') {
-            that.setData({
-              showCms: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'eirLess') {
-            that.setData({
-              showEirLess: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'gr') {
-            that.setData({
-              showGr: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'video') {
-            that.setData({
-              showVideo: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'video_customer') {
-            that.setData({
-              showVideo_customer: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'picture') {
-            that.setData({
-              showPicture: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'updateEta') {
-            that.setData({
-              showUpdateEta: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'updateAta') {
-            that.setData({
-              showUpdateAta: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'yardPlan') {
-            that.setData({
-              showYardPlan: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'notice') {
-            that.setData({
-              showNotice: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'suggest') {
-            that.setData({
-              showSuggest: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'customer') {
-            that.setData({
-              showCustomer: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'mobileQuery') {
-            that.setData({
-              showMobileQuery: list[i].isShow
-            })
-          } else if (list[i].functionCode == 'add') {//首页广告显示
-            if (list[i].isShow == '1') {
-              that.setData({
-                modalHidden: false//显示
-              })
-            } else {
-              that.setData({
-                modalHidden: true//隐藏
-              })
-            }
-          }
-        }
-      }
-    })
+    this.showFunction()
 
   },
 
@@ -822,6 +760,11 @@ Page({
               activityQuantity: res.data.activityQuantity,
               servsers: getApp().data.uploadurl,
             })
+
+            //根据预约时间显示不同描述
+            if(that.data.time != null && that.data.time != undefined) {
+              that.showDescByTime(res.data.time);
+            }  
             getApp().order.order = res.data.list;
 
             for (var i in res.data.list) {
@@ -915,6 +858,8 @@ Page({
 
       }
     })
+
+    
 
   },
 
@@ -1023,7 +968,87 @@ Page({
       }
     })
 
-    //判断首页的功能是否显示
+    this.showFunction();
+
+    if(this.data.time != null && this.data.time != undefined) {
+      this.showDescByTime(this.data.time);
+    }
+
+
+  },
+
+  /**
+   * 根据进闸时间判断显示哪种信息
+   * 【待审核】及【审核通过】状态下
+      正常时间：如不能及时到达，请点击修改到港时间 【绿色字体】
+      半小时内：即将到达预约时间，如不能到港，请点击修改。【红色字体】
+      超时：已超时，请点击修改到港时间或取消预约。【深红色字体】
+   * @param {*} time 
+   */
+  showDescByTime: function(time) {
+    //传入的时间格式2020-04-09 18:00-20:00  IOS机器上不支持这种格式换算时间戳 所以改成/
+    var time = time.replace(/-/g,"/")
+    //将时间段分离
+    var times = time.split(" ")
+    //开始时间
+    var appointmentBegin = times[0] + " " + times[1].split("/")[0]
+    //结束时间
+    var appointmentEnd = times[0] + " " + times[1].split("/")[1]
+    var that = this;
+    //当前时间转成时间戳
+    var nowTimeStamp = new Date().getTime();
+    //传入的时间字符串转成时间戳
+    var appointmentBeginTimeStamp = new Date(appointmentBegin).getTime()
+    var appointmentEndTimeStamp = new Date(appointmentEnd).getTime()
+    //计算当前时间和预约时间的差值
+    var beginValue = appointmentBeginTimeStamp - nowTimeStamp
+    var endValue = appointmentEndTimeStamp - nowTimeStamp
+    if(endValue < 0) {//超时
+      that.setData({
+        desc: "已超时，请点击修改到港时间或取消预约>>",
+        color: "#C00000",
+        timeout: true
+      })
+    } else if(beginValue < 1800 && beginValue > 0) {//半小时内
+      that.setData({
+        desc: "即将到达预约时间，如不能到港，请点击修改>>",
+        color: "#FF0000",
+        timeout: false
+      })
+    } else {//正常时间
+      that.setData({
+        desc: "如不能及时到达，请点击修改到港时间>>",
+        color: "#00B050",
+        timeout: false
+      })
+    }
+  },
+
+  /**
+   * 修改预约时间
+   */
+  updateAppointmentTime: function() {
+    var that = this;
+    //获取预约订单
+    var items = that.data.items
+    //提取订单中的作业类型
+    var tranType = [];
+    for (var i = 0; i < items.length; i++) {
+      tranType[i] = items[i].tranType
+    }
+    //获取预约时间
+    var time = that.data.time
+    wx.navigateTo({
+      url: '/pages/updateAppointmentTime/update?site=' + items[0].order.site + '&time=' + time + '&tranType=' + tranType,
+    });
+
+  },
+
+  /**
+   * 判断首页的功能是否显示
+   */
+  showFunction: function() {
+    var that = this;
     wx.request({
       url: getApp().data.servsers + 'getFunctionList',
       success: function (res) {
@@ -1090,12 +1115,20 @@ Page({
             that.setData({
               showMobileQuery: list[i].isShow
             })
+          } else if (list[i].functionCode == 'add') {//首页广告显示
+            if (list[i].isShow == '1') {
+              that.setData({
+                modalHidden: false//显示
+              })
+            } else {
+              that.setData({
+                modalHidden: true//隐藏
+              })
+            }
           }
         }
       }
     })
-
-
   },
 
   /**
@@ -1110,8 +1143,12 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+
+
 })
+
+
 
 var getCurrentTime = function () {
   //获取当前时间

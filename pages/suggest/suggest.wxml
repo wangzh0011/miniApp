@@ -1,7 +1,5 @@
 <!--pages/suggest/suggest.wxml-->
 <view class="page">
-  <form report-submit='true' bindsubmit='submitTap'>
-      
       <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{errormsg}}</view>
       <view class="weui-cells__title">建议与反馈</view>
       <view class="weui-cells weui-cells_after-title">
@@ -13,8 +11,7 @@
             </view>
         </view>
       <view class="weui-btn-area">
-        <button class="weui-btn" type="primary" formType="submit" disabled='{{disabled}}'>提交</button>
+        <button class="weui-btn" type="primary" bindtap="submitTap" disabled='{{disabled}}'>提交</button>
       </view>
       
-  </form> 
 </view>

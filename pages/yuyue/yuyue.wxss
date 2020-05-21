@@ -21,9 +21,7 @@
   flex: 1;
 } */
 .time{
-  padding-top: 15rpx;
   padding-bottom: 20rpx;  
-  
 }
 .close {
     /* still bad on picking color */
@@ -128,17 +126,22 @@ flex-flow: row wrap;
 .group {
   display: flex;
    flex-direction: row; 
-   /* flex-flow: row wrap; */
   justify-content: space-around; 
   padding-left: 15rpx;
   padding-right: 15rpx;
   padding-bottom: 10rpx;
 }
 
-.attr_value {
+.radio_group{
+  display: flex;
+  flex-direction: row; 
+  width: 75vw;
+}
+
+.attr_value_title {
   position: relative;
   height: 80rpx;
-  width: 45vw;
+  width: 25vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -147,12 +150,67 @@ flex-flow: row wrap;
   
 }
 
+.attr_value {
+  position: relative;
+  height: 80rpx;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+  
+}
+
+
 .radio_label {
   width: 100%;
   height:100%;
   line-height: 40rpx;
   color: black;
   
+}
+
+.radio_title {
+  box-sizing: border-box;
+  background: none;
+  position: relative;
+  width: inherit;
+  height: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  border: 1px solid #D1D1D1;
+  border-radius: 3px;
+}
+
+.mask{
+  width:100%;
+  height:100%;
+  position:fixed;
+  background:rgba(0,0,0,0.5);
+  z-index:999;
+  top:0;
+  left:0;
+}
+
+.details{
+  display: flex;
+  flex-flow: column wrap; /*纵向排列*/
+  position: absolute;
+  background-color: #ffffff;
+  border-radius: 3px;
+  width: 100%;
+  top: 10%;
+  /* left: 20%; */
+  z-index:9999;
+}
+
+.item{
+  text-align: center;
+  margin-bottom: 4%;
+  font-size: 16px;
 }
 
 /*radio默认样式重置*/
@@ -172,6 +230,11 @@ radio text{
   position: relative;
   z-index: 2
 }
+
+radio view{
+    position: relative;
+    z-index: 2
+  }
 
 radio .wx-radio-input {
   position: absolute;

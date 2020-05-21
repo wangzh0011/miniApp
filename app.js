@@ -10,15 +10,15 @@ App(
     //全局变量
     data: {
       uploadurl:
-         "https://wxxcx.dcblink.com:9301/upload/",   //UAT 内网
-        //  "https://wxxcx.dcblink.com/upload/",   //UAT 外网
-        //  "https://olddcblink.dcblink.com/upload/",  //PROD
+        //  "https://wxxcx.dcblink.com/upload/",   // PROD
+        //  "https://olddcblink.dcblink.com/upload/",  // UAT  废弃
+        "https://mtest.dcblink.com:9300/upload/",//  UAT
         // "http://127.0.0.1:8081/upload/",
 
       servsers:
-         "https://wxxcx.dcblink.com:9301/miniApp/",   //UAT 内网
-        //  "https://wxxcx.dcblink.com/miniApp/",   //UAT 外网
-        //  "https://olddcblink.dcblink.com/miniApp/" ,  //PROD
+        //  "https://wxxcx.dcblink.com/miniApp/",   // PROD
+        //  "https://olddcblink.dcblink.com/miniApp/" ,  // UAT  废弃
+        "https://mtest.dcblink.com:9300/miniApp/",//  UAT
         // "http://127.0.0.1:8081/miniApp/",
 
     },
@@ -32,7 +32,6 @@ App(
         title: '初始化中...',
       })
 
-      wx.hideLoading()
       setTimeout(function () {
         wx.hideLoading()
       }, 2000)
@@ -78,6 +77,17 @@ App(
     },
     order: {
       order: []
+    },
+
+    tmplIds: {
+      yardPlanId: 'UlqEK0LWvJsmwiIJs8N2-J1aD3w4pCPoYSrPA-MF1nA',
+      suggestId: 'jSNTj57YGHTFVyRNEgL4ArQKoRp1pdiVDsrSmpHrEXA',
+      berthingId: 'rs9wg12satDvKzTleCPFC_vPaEs1FBcuOWsqqeoCJIs',
+      serverStopId: 'hI0MW3AKr7yfLZ70eW0gHzlhzTNVQ9bwyaqYC9hGVOI',
+      signInId: '9GyHdXrvxPMfMOoObwYQ4cY95SUZvaAOtgusx_54fjE',
+      appointmentId: 'SO_UlSQEJcvZUx-fBcDfytEm5tpzB9B6kjRJlbWKoGo',
+      eeirId: '2ndiSWmz1u6AxmGdFgYi8ouHOd1cnj4qtELam3GJ44w',
+      cmsId: '-1_eAQzTJrClavV8uWDsIcstGaAkpOO4ELOSZvjvioE'
     }
 
   }

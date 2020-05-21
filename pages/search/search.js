@@ -1,4 +1,7 @@
 // pages/search/search.js
+
+var app = getApp();
+
 Page({
 
   /**
@@ -39,53 +42,85 @@ Page({
       colorCodeIndex: e.detail.value
     })
   },
-  saveFormId: function (e) {
-    console.log(e.detail)
-    var that = this;
-    var plate = that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex];
+  // saveFormId: function (e) {
+  //   console.log(e.detail)
+  //   var that = this;
+  //   var plate = that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex];
     
-    console.log(plate);
-    wx.request({
-      url: getApp().data.servsers + '/saveFormId',
-      data: {
-        openid: wx.getStorageSync("userinfo").openid,
-        plate: plate,
-        formId: e.detail.formId
-      },
-      success: function (e) {
-        console.log(e)
-      },
-      fail: function (e) {
-        console.log(e)
-      }
-    })
-  },
+  //   console.log(plate);
+  //   wx.request({
+  //     url: getApp().data.servsers + '/saveFormId',
+  //     data: {
+  //       openid: wx.getStorageSync("userinfo").openid,
+  //       plate: plate,
+  //       formId: e.detail.formId
+  //     },
+  //     success: function (e) {
+  //       console.log(e)
+  //     },
+  //     fail: function (e) {
+  //       console.log(e)
+  //     }
+  //   })
+  // },
+
   gocms:function(e){
     var that = this;
-    var plate = that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex];
-    var formId = e.detail.formId;
-    wx.request({
-      url: getApp().data.servsers + '/saveFormId',
-      data: {
-        openid: that.data.openid,
-        plate: plate,
-        formId: formId,
-      },
-      success: function (e) {
-        console.log("save FormId sucess!")
-        console.log(e)
-      },
-      fail: function (e) {
-        console.log(e)
-      }
-    })
-    console.log("gocms")
+    var plate = that.data.provValue[that.data.provCodeIndex] + that.data.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex];
+    // var formId = e.detail.formId;
+    // wx.request({
+    //   url: getApp().data.servsers + '/saveFormId',
+    //   data: {
+    //     openid: that.data.openid,
+    //     plate: plate,
+    //     formId: formId,
+    //   },
+    //   success: function (e) {
+    //     console.log("save FormId sucess!")
+    //     console.log(e)
+    //   },
+    //   fail: function (e) {
+    //     console.log(e)
+    //   }
+    // })
     
-    var plate = that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex]; 
-    console.log(plate)
-   wx.navigateTo({
-     url: '/pages/cms/cms?plate=' + plate,
-   })
+    /**
+     * 订阅消息
+     */
+    wx.requestSubscribeMessage({
+
+      tmplIds: [app.tmplIds.cmsId, app.tmplIds.eeirId, app.tmplIds.serverStopId],
+      success(res) {
+        var reg = RegExp(/accept/)
+        var reg1 = RegExp(/reject/)
+        if (JSON.stringify(res).match(reg1)) {
+
+          wx.showModal({
+            title: '温馨提示',
+            content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+          })
+          return;
+
+        }
+        if (JSON.stringify(res).match(reg)) {
+
+          wx.navigateTo({
+            url: '/pages/cms/cms?plate=' + plate,
+          })
+          
+        } 
+
+      },
+      fail(res) {
+        //表示关闭了订阅消息
+        wx.showModal({
+          title: '温馨提示',
+          content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+        })
+      }
+
+    })
+
   },
   changePleta:function(e){
     console.log("changePleta")
@@ -101,68 +136,68 @@ Page({
 
     var openid = wx.getStorageSync("userinfo").openid;
 
-    if (openid == undefined) {
-      wx.login({
-        success: res => {
-          //如果本地没有存储有用户信息
+    // if (openid == undefined) {
+    //   wx.login({
+    //     success: res => {
+    //       //如果本地没有存储有用户信息
 
-          wx.showToast({
-            title: '程序数据加载中',
-            icon: 'loading',
-            duration: 6000
-          });
-          var code = res.code;
-          // 发送 res.code 到后台换取 openId, sessionKey, unionId
-          wx.request({
-            url: getApp().data.servsers + 'userInfo/' + res.code,
-            success: function (res) {
-              console.log('请求成功，开始处理')
-              console.log(res);
-              console.log(res.data);
-              console.log(res.data.id);
+    //       wx.showToast({
+    //         title: '程序数据加载中',
+    //         icon: 'loading',
+    //         duration: 6000
+    //       });
+    //       var code = res.code;
+    //       // 发送 res.code 到后台换取 openId, sessionKey, unionId
+    //       wx.request({
+    //         url: getApp().data.servsers + 'userInfo/' + res.code,
+    //         success: function (res) {
+    //           console.log('请求成功，开始处理')
+    //           console.log(res);
+    //           console.log(res.data);
+    //           console.log(res.data.id);
 
-              if (res.data.id == null || res.data.id == '') {
-                wx.setStorageSync("infobase", res.data)
-                var data = res.data;
-                // that.infobase = data;
-                if (data.openid == undefined) {
-                  wx.hideToast();
-                  wx.showModal({
-                    content: '未能正确获取数据，请退出程序重进',
-                    showCancel: false,
-                    success: function (res) {
-                      if (res.confirm) {
-                      }
-                    }
-                  });
-                }
-                console.log(getApp().infobase)
-                wx.redirectTo({
-                  url: '/pages/InformaTion/user',
-                })
+    //           if (res.data.id == null || res.data.id == '') {
+    //             wx.setStorageSync("infobase", res.data)
+    //             var data = res.data;
+    //             // that.infobase = data;
+    //             if (data.openid == undefined) {
+    //               wx.hideToast();
+    //               wx.showModal({
+    //                 content: '未能正确获取数据，请退出程序重进',
+    //                 showCancel: false,
+    //                 success: function (res) {
+    //                   if (res.confirm) {
+    //                   }
+    //                 }
+    //               });
+    //             }
+    //             console.log(getApp().infobase)
+    //             wx.redirectTo({
+    //               url: '/pages/InformaTion/user',
+    //             })
 
-              } else {
-                console.log('已注册')
-                wx.setStorageSync('userinfo', res.data);
+    //           } else {
+    //             console.log('已注册')
+    //             wx.setStorageSync('userinfo', res.data);
 
-                that.userInfo.userInfo = res.data
+    //             that.userInfo.userInfo = res.data
 
-              }
+    //           }
 
-              wx.hideToast();
-
-
-            },
+    //           wx.hideToast();
 
 
+    //         },
 
-          });
 
-        },
 
-      }
-      )
-    }
+    //       });
+
+    //     },
+
+    //   }
+    //   )
+    // }
     
     if (options.plate != undefined && options.plate.length > 5) {
       var plate = options.plate;
@@ -176,6 +211,7 @@ Page({
     }
     else {
       var plate = wx.getStorageSync("userinfo").plate;
+      console.log(plate)
       if(plate == undefined){
         this.setData({
           plate: "",

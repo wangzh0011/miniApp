@@ -3,9 +3,10 @@ function GetDatem(AddDayCount) {
   var dd = new Date();
   dd.setDate(dd.getDate() + AddDayCount); //获取AddDayCount天后的日期
   var y = dd.getFullYear();
-  var m = dd.getFullYear() + '-' + (dd.getMonth() + 1) + '-' + dd.getDate();
-  var d = dd.getDate();
-  return m;
+  var d = (Array(2).join("0") + dd.getDate()).slice(-2);
+  var m = (Array(2).join("0") + (dd.getMonth() +1)).slice(-2);
+  var date = y + '-' + m + '-' + d;
+  return date;
 };
 
 
@@ -50,6 +51,7 @@ function saveImage(path) {
 }
 
 var title = '压缩中，请稍候';
+var app = getApp();
 
 Page({
 
@@ -92,6 +94,14 @@ Page({
 
     files: '',
 
+    showMask: false,
+    showTimeList: false,
+    RE_NUM: 0,
+    RF_NUM: 0,
+    DE_NUM: 0,
+    DF_NUM: 0,
+    timeQuantum: "请选择"
+
     // eirImgFail: true,
     // sealImgFail: true,
     // sealImg1Fail: true,
@@ -101,20 +111,26 @@ Page({
 
   },
 
+  /**
+   * 选择作业地点
+   * @param {*} e 
+   */
   chooseSite: function(e) {
     
     var that = this;
+    var site = e.detail.value
     this.setData({
-      site: e.detail.value,
+      site: site,
       tranTypeChecked: false
     })
 
     wx.request({
       url: getApp().data.servsers + 'checkSite',
       data: {
-        site: e.detail.value
+        site: site
       },
       success: function (res) {
+        //判断此作业地点是否可以预约
         if (res.data.code != 0) {
           wx.showModal({
             showCancel: false,
@@ -128,6 +144,12 @@ Page({
               }
             }
           })
+        } else {
+          var dateTime = that.data.dateTime;
+          var timeQuantum = that.data.timeQuantum
+          if (dateTime != undefined && dateTime != null && dateTime != '') {
+            that.calSurplusRequest(site,timeQuantum,dateTime)
+          }
         }
       }
     })
@@ -162,6 +184,9 @@ Page({
 
   },
 
+  /**
+   * 选择作业类型
+   */
   type_Radios: function(e) {
     var that = this;
     var site = this.data.site;
@@ -197,6 +222,7 @@ Page({
               }
             }
           })
+          return;
         }
       }
     })
@@ -208,17 +234,64 @@ Page({
     //计算几交几提
     var type_D = 0;
     var type_R = 0;
+    var DE = 0;
+    var DF = 0;
+    var RE = 0;
+    var RF = 0;
+    var DE_NUM = this.data.DE_NUM;
+    var DF_NUM = this.data.DF_NUM;
+    var RE_NUM = this.data.RE_NUM;
+    var RF_NUM = this.data.RF_NUM;
+    var checktime = this.data.checktime;
+    console.log(items)
     for (var i in items) {
-      if (items[i].workType == 'DE' || items[i].workType == 'DF') {
-
+      if (items[i].workType == 'DE') {
+        DE += 1;
         type_D = type_D + 1;
-      }
-      if (items[i].workType == 'RE' || items[i].workType == 'RF') {
-
+      } else if (items[i].workType == 'DF') {
+        DF += 1;
+        type_D = type_D + 1;
+      } else if (items[i].workType == 'RE') {
+        RE += 1;
+        type_R = type_R + 1;
+      } else if (items[i].workType == 'RF') {
+        RF += 1;
         type_R = type_R + 1;
       }
 
     }
+
+    //判断车牌号是否为vip
+    wx.request({
+      url: getApp().data.servsers + 'isVipPlate',
+      data: {
+        plate: wx.getStorageSync("userinfo").plate
+      },
+      success: function (res) {
+        //不是vip车牌则判断是否还有余量
+        if (res.data.code != 0) {
+          //如果需预约数量大于余量则给出提示
+          if (DE > DE_NUM) {
+            this.showTips(checktime, "提空")
+            return;
+          }
+          if (DF > DF_NUM) {
+            this.showTips(checktime, "提重")
+            return;
+          }
+          if (RE > RE_NUM) {
+            this.showTips(checktime, "交空")
+            return;
+          }
+          if (RF > RF_NUM) {
+            this.showTips(checktime, "交重")
+            return;
+          }
+        }
+      }
+    })
+
+    
 
     var list = getApp().order.order;
 
@@ -245,9 +318,62 @@ Page({
 
   },
 
+  /**
+   * 显示余量不足提示
+   * @param {*} checktime 
+   * @param {*} tranType 
+   */
+  showTips: function (checktime,tranType) {
+    wx.showModal({
+      title: '系统提示',
+      content: checktime + '时间内的' + tranType + '已被预约完，请选择其他时段',
+      showCancel: false,
+      confirmText: '确定',
+      confirmColor: '#3CC51F',
+    });
+  },
+
+  /**
+   * 提交之后先订阅消息
+   */
+  addOrder: function () {
+
+    var that = this;
+    wx.requestSubscribeMessage({//app.tmplIds.serverStopId, app.tmplIds.eeirId,
+      tmplIds: [app.tmplIds.appointmentId, app.tmplIds.eeirId, app.tmplIds.cmsId],
+      success(res) {
+        var reg = RegExp(/accept/)
+        var reg1 = RegExp(/reject/)
+        if (JSON.stringify(res).match(reg1)) {
+
+          wx.showModal({
+            title: '温馨提示',
+            content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+          })
+          return;
+
+        }
+        if (JSON.stringify(res).match(reg)) {
+
+          //订阅消息后 进入预约流程
+          that.addOrdertmp();
+
+        } 
+
+      },
+      fail(res) {
+        //表示关闭了订阅消息
+        wx.showModal({
+          title: '温馨提示',
+          content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+        })
+      }
+    })
+
+  },
 
   //提交
-  addOrder: function(e) {
+  addOrdertmp: function(e) {
     //判断是否选择了日期
     // console.log(this.data.checkday)
     var time = this.data.time;
@@ -515,18 +641,33 @@ Page({
         },
         success: function (res) {
           wx.hideLoading();
-          wx.showModal({
-            showCancel: false,
-            title: '提示',
-            content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
-            success: function (res) {
-              if (res.confirm) {
-                wx.navigateBack({
-                  url: '../listEir/Eir',
-                })
+          if(res.data.code == 500){
+            wx.showModal({
+              title: '系统通知',
+              content: res.data.msg,
+              showCancel: false,
+              success: (result) => {
+                if(result.confirm){
+                  
+                }
+              },
+              fail: ()=>{},
+              complete: ()=>{}
+            });
+          }else {
+            wx.showModal({
+              showCancel: false,
+              title: '提示',
+              content: '码头将于15分钟内通过微信推送预约结果，请在审核通过后再进闸作业.',
+              success: function (res) {
+                if (res.confirm) {
+                  wx.navigateBack({
+                    url: '../listEir/Eir',
+                  })
+                }
               }
-            }
-          })
+            })
+          }
         },
         fail: function () {
           console.log("addOrder fail.")
@@ -560,39 +701,130 @@ Page({
   },
 
 
-
-
+  /**
+   * 添加业务
+   */
   addBusines: function(e) {
-    //var item = { 'workType': '', 'eir_img': '', 'seal_img': '', 'attacht_img': '' };
-    var item = this.data.item;
-    var items = this.data.items;
-    var remain = this.data.remain - 1;
+    var that = this;
+    
+    /**
+    * 拉起订阅消息  获取下发权限
+    */
+    wx.requestSubscribeMessage({
+      tmplIds: [app.tmplIds.appointmentId, app.tmplIds.signInId, app.tmplIds.cmsId],
+      success(res) {
+        //若订阅此消息，则下一步
+        var reg = RegExp(/accept/);
+        var reg1 = RegExp(/reject/)
+        if (JSON.stringify(res).match(reg1)) {
 
-    //判断是否小于或者等于4
+          wx.showModal({
+            title: '温馨提示',
+            content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+          })
+          return;
 
-    //不参与计数的条数
-    // var count = 0;
-    // for (var i in items) {
-    //   if (items[i].state == '3') {
-    //     count = count + 1;
-    //   }
-    // }
+        }
+        if (JSON.stringify(res).match(reg)) {
+          //var item = { 'workType': '', 'eir_img': '', 'seal_img': '', 'attacht_img': '' };
+          var item = that.data.item;
+          var items = that.data.items;
+          var remain = that.data.remain - 1;
+
+          //判断是否小于或者等于4
+
+          //不参与计数的条数
+          // var count = 0;
+          // for (var i in items) {
+          //   if (items[i].state == '3') {
+          //     count = count + 1;
+          //   }
+          // }
 
 
-    if (items.length > remain) {
+          if (items.length > remain) {
+            wx.showModal({
+              showCancel: false,
+              title: '提示',
+              content: '一次预约最多只能两交两提！',
+            })
+            return;
+          }
+
+          items.push(item[0]);
+          that.setData({
+            items: items,
+          })
+
+        } 
+        
+      },
+      fail(res) {
+        //表示关闭了订阅消息
+        wx.showModal({
+          title: '温馨提示',
+          content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+        })
+      }
+    })
+
+  },
+
+
+  /**
+   * 选择到港时间
+   */
+  chooseTime: function () {
+
+    var that = this;
+    //获取作业地点
+    var site = that.data.site;
+    if (site == "null") {
       wx.showModal({
-        showCancel: false,
         title: '提示',
-        content: '一次预约最多只能两交两提！',
+        content: '请先选择作业地点内贸或者外贸!',
+        showCancel: false,
+      })
+      that.setData({
+        showMask: false,
+        showTimeList: false
       })
       return;
     }
 
-    items.push(item[0]);
-    this.setData({
-      items: items,
-    })
+    console.log("开始选择到港时间")
+    // wx.request({
+    //   url: getApp().data.servsers + "chooseTime",
+    //   success(res) {
+        
+    //     that.setData({
+    //       showMask: true,
+    //       showTimeList: true,
+    //       timeList: res.data.timeList,
+    //       lineIndex: res.data.lineIndex
+    //     })
 
+    //   }
+    // })
+
+    //获取时间段对象
+    wx.request({
+      url: getApp().data.servsers + 'getTimeQuantum',
+      data: {
+        site: site
+      },
+      success: (result) => {
+        var timeQuantumList = result.data.list
+        that.setData({
+          showMask: true,
+          showTimeList: true,
+          timeQuantumList: timeQuantumList
+        })
+
+      },
+      fail: () => { },
+      complete: () => { }
+    });
 
   },
 
@@ -613,6 +845,115 @@ Page({
     })
     console.log(this.data.checkday + " " + this.data.checktime)
   },
+
+  /**
+   * 选择预约时间
+   * @param {*} e 
+   */
+  chooseAppointmentTime: function (e) {
+    console.log(e)
+    //选中项的值  时间
+    var value = e.detail.value.split(" ");
+    //选中的时间和日期
+    var dateTime = value[0]
+    var timeQuantum = value[1]
+    //设置选中日期和时间数据
+    this.setData({
+      showMask: false,
+      showTimeList: false,
+      dateTime: dateTime,
+      timeQuantum: timeQuantum,
+      checkday: dateTime,
+      checktime: timeQuantum,
+      expireTime: timeQuantum.split('-')[1],
+      RE_NUM: value[2],
+      RF_NUM: value[3],
+      DE_NUM: value[4],
+      DF_NUM: value[5],
+    })
+  },
+
+  /**
+   * 计算作业余量
+   * @param {} e 
+   */
+  calSurplus: function(e) {
+    var index = e.currentTarget.dataset.index;
+    var that = this;
+    var lineIndex = that.data.lineIndex;
+    console.log(lineIndex)
+
+    //获取作业地点
+    var site = that.data.site;
+    if(site == "null") {
+      wx.showModal({
+        title: '提示',
+        content: '请先选择作业地点内贸或者外贸!',
+        showCancel: false,
+      })
+      that.setData({
+        showMask: false,
+        showTimeList: false
+      })
+      return;
+    }
+
+    //选中分割线不做处理
+    if(index == lineIndex) {
+      return;
+    }else if(index > lineIndex) {
+      //选择的是第二天的时间段
+      that.setData({
+        checkday: that.data.tomorrow,
+        checktime: that.data.timeList[index],
+        expireTime: that.data.timeList[index].split('-')[1],
+      })
+    }else {
+      //当天时间段
+      that.setData({
+        checkday: that.data.today,
+        checktime: that.data.timeList[index],
+        expireTime: that.data.timeList[index].split('-')[1],
+      })
+    }
+    
+    //根据作业地点和时间段返回作业余量
+    var timeQuantum = that.data.timeList[index]
+    var dateTime = index > lineIndex ? that.data.tomorrow : that.data.today
+    this.calSurplusRequest(site,timeQuantum,dateTime)
+
+  },
+
+  /**
+   * 计算作业余量的请求方法
+   * @param {作业地点} site 
+   * @param {时间段} timeQuantum 
+   * @param {日期} dateTime 
+   */
+  calSurplusRequest: function(site,timeQuantum,dateTime) {
+    var that = this;
+    wx.request({
+      url: getApp().data.servsers + "calSurplus",
+      data: {
+        site: site,
+        timeQuantum: timeQuantum,
+        dateTime: dateTime
+      },
+      success(res) {
+        that.setData({
+          showMask: false,
+          showTimeList: false,
+          RE_NUM: res.data.list.RE_NUM,
+          RF_NUM: res.data.list.RF_NUM,
+          DE_NUM: res.data.list.DE_NUM,
+          DF_NUM: res.data.list.DF_NUM,
+          timeQuantum: timeQuantum,
+          dateTime: dateTime//用来判断是否选择了时间段，
+        })
+      }
+    })
+  },
+
   previewImage: function(e) {
     wx.previewImage({
       current: e.currentTarget.id, // 当前显示图片的http链接
@@ -1029,16 +1370,17 @@ Page({
     var site = options.site;
     console.log("预约界面的time:" + time)
     console.log("预约界面的site:" + site)
-    if (time != undefined && time != 'undefined') {
+    if (time != "null") {
       this.setData({
         time: time
       })
+
     } else {
       this.setData({
         time: 'null'
       })
     }
-    if (site != undefined && site != 'undefined') {
+    if (site != "null") {
       this.setData({
         site: site
       })
@@ -1046,6 +1388,11 @@ Page({
       this.setData({
         site: 'null'
       })
+    }
+
+    if (site != "null" && time != "null") {
+      //计算作业余量
+      this.calSurplusRequest(site,time.split(" ")[1],time.split(" ")[0])
     }
 
   },

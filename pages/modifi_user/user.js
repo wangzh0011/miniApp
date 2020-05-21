@@ -63,24 +63,24 @@ Page({
       truck_lic: e.detail.value.toLocaleUpperCase()
     })
   },
-  saveFormId: function (e) {
-    var userInfo = wx.getStorageSync("userinfo");
-    console.log(e.detail)
-    wx.request({
-      url: getApp().data.servsers + '/saveFormId',
-      data: {
-        openid: userInfo.openid,
-        plate: userInfo.plate,
-        formId: e.detail.formId
-      },
-      success: function (e) {
-        console.log(e)
-      },
-      fail: function (e) {
-        console.log(e)
-      }
-    })
-  },
+  // saveFormId: function (e) {
+  //   var userInfo = wx.getStorageSync("userinfo");
+  //   console.log(e.detail)
+  //   wx.request({
+  //     url: getApp().data.servsers + '/saveFormId',
+  //     data: {
+  //       openid: userInfo.openid,
+  //       plate: userInfo.plate,
+  //       formId: e.detail.formId
+  //     },
+  //     success: function (e) {
+  //       console.log(e)
+  //     },
+  //     fail: function (e) {
+  //       console.log(e)
+  //     }
+  //   })
+  // },
   SubMit:function(e){
     wx.showLoading({
       title: '正在提交...',
@@ -90,20 +90,20 @@ Page({
     },3000);
     var userInfo = wx.getStorageSync("userinfo");
     var that= this;
-    wx.request({
-      url: getApp().data.servsers + '/saveFormId',
-      data: {
-        openid: userInfo.openid,
-        plate: userInfo.plate,
-        formId: e.detail.formId
-      },
-      success: function (e) {
-        console.log(e)
-      },
-      fail: function (e) {
-        console.log(e)
-      }
-    })
+    // wx.request({
+    //   url: getApp().data.servsers + '/saveFormId',
+    //   data: {
+    //     openid: userInfo.openid,
+    //     plate: userInfo.plate,
+    //     formId: e.detail.formId
+    //   },
+    //   success: function (e) {
+    //     console.log(e)
+    //   },
+    //   fail: function (e) {
+    //     console.log(e)
+    //   }
+    // })
 
    
     if (e.detail.value.userName == '' ||e.detail.value.phone_number == '' || e.detail.value.truck_lic == '' || e.detail.value.cardid == '') {

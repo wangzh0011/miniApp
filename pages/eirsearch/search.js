@@ -1,4 +1,5 @@
 // pages/search/search.js
+var app = getApp();
 Page({
 
   /**
@@ -18,6 +19,7 @@ Page({
     colorCodes: ["黄", "蓝", "黑", "绿", "红", "白"],
     colorCodesValue: ["Y", "B", "D", "N", "R", "W"],
     colorCodeIndex: 0,
+    cntr: ''
   },
   bindprovCodeChange: function (e) {
     console.log('picker country code 发生选择改变，携带值为', e.detail.value);
@@ -45,53 +47,88 @@ Page({
       colorCodeIndex: e.detail.value
     })
   },
-  saveFormId: function (e) {
-    var that=this;
-    console.log("from id")
-    var plate = that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex];
-    console.log(e.detail)
-    wx.request({
-      url: getApp().data.servsers + '/saveFormId',
-      data: {
-        openid: wx.getStorageSync("userinfo").openid,
-        plate: wx.getStorageSync("userinfo").plate,
-        formId: e.detail.formId
-      },
-      success: function (e) {
-        console.log(e)
-      },
-      fail: function (e) {
-        console.log(e)
-      }
-    })
-  },
+  // saveFormId: function (e) {
+  //   var that=this;
+  //   console.log("from id")
+  //   var plate = that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex];
+  //   console.log(e.detail)
+  //   wx.request({
+  //     url: getApp().data.servsers + '/saveFormId',
+  //     data: {
+  //       openid: wx.getStorageSync("userinfo").openid,
+  //       plate: wx.getStorageSync("userinfo").plate,
+  //       formId: e.detail.formId
+  //     },
+  //     success: function (e) {
+  //       console.log(e)
+  //     },
+  //     fail: function (e) {
+  //       console.log(e)
+  //     }
+  //   })
+  // },
   goEir: function (e) {
     var that = this;
-    console.log("from id")
-    var plate = that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex];
-    wx.request({
-      url: getApp().data.servsers + '/saveFormId',
-      data: {
-        openid: wx.getStorageSync("userinfo").openid,
-        plate: plate,
-        formId: e.detail.formId
-      },
-      success: function (e) {
-        console.log("save FormId sucess!")
-        console.log(e)
-      },
-      fail: function (e) {
-        console.log(e)
-      }
-    })
-    console.log("gocms")
+    // console.log("from id")
+    var plate = that.data.provValue[that.data.provCodeIndex] + that.data.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex];
+    // wx.request({
+    //   url: getApp().data.servsers + '/saveFormId',
+    //   data: {
+    //     openid: wx.getStorageSync("userinfo").openid,
+    //     plate: plate,
+    //     formId: e.detail.formId
+    //   },
+    //   success: function (e) {
+    //     console.log("save FormId sucess!")
+    //     console.log(e)
+    //   },
+    //   fail: function (e) {
+    //     console.log(e)
+    //   }
+    // })
+    // console.log("gocms")
 
-    var plate = that.data.provValue[that.data.provCodeIndex] + e.detail.value.truck_lic + that.data.colorCodesValue[that.data.colorCodeIndex];
     console.log(plate)
-    console.log(e.detail.value.cntr)
-    wx.navigateTo({
-      url: '/pages/EirInfo/eirInfo?plate=' + plate + '&&cntr=' + e.detail.value.cntr,
+
+    /**
+     * 订阅消息
+     */
+    wx.requestSubscribeMessage({
+
+      tmplIds: [app.tmplIds.cmsId, app.tmplIds.eeirId, app.tmplIds.serverStopId],
+      success(res) {
+        var reg = RegExp(/accept/)
+        var reg1 = RegExp(/reject/)
+        if(JSON.stringify(res).match(reg1)) {
+          
+            wx.showModal({
+              title: '温馨提示',
+              content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+            })
+            return;
+          
+        }
+
+
+        if (JSON.stringify(res).match(reg)) {
+
+          wx.navigateTo({
+            url: '/pages/EirInfo/eirInfo?plate=' + plate + '&&cntr=' + that.data.cntr,
+          })
+
+        } 
+
+      },
+      fail(res) {
+        //表示关闭了订阅消息
+        wx.showModal({
+          title: '温馨提示',
+          content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+        })
+      }
+
     })
+    
   },
   changePleta: function (e) {
     console.log("changePleta")

@@ -12,7 +12,7 @@
 
 
 
-  <form bindsubmit='SubMit' bindreset='Reet' report-submit="true">
+  <form bindsubmit='SubMit' bindreset='Reet'>
 
     <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{errormsg}}</view>
 

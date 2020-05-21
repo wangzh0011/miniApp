@@ -1,0 +1,24 @@
+<!--pages/messageDetails/details.wxml-->
+<view class="weui-cells__title">消息详细</view>
+<view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell" wx:if="{{title1}}">
+        <view class="weui-cell__bd">{{title1}}</view>
+        <view class="weui-cell__ft">{{data1}}</view>
+    </view>
+    <view class="weui-cell" wx:if="{{title2}}">
+        <view class="weui-cell__bd">{{title2}}</view>
+        <view class="weui-cell__ft">{{data2}}</view>
+    </view>
+    <view class="weui-cell" wx:if="{{title3}}">
+        <view class="weui-cell__bd">{{title3}}</view>
+        <view class="weui-cell__ft">{{data3}}</view>
+    </view>
+    <view class="weui-cell" wx:if="{{title4}}">
+        <view class="weui-cell__bd">{{title4}}</view>
+        <view class="weui-cell__ft">{{data4}}</view>
+    </view>
+    <view class="weui-cell" wx:if="{{title5}}">
+        <view class="weui-cell__bd">{{title5}}</view>
+        <view class="weui-cell__ft">{{data5}}</view>
+    </view>
+</view>

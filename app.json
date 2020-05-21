@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/listEir/Eir",
+    "pages/updateAppointmentTime/update",
+    "pages/yuyue/yuyue",
     "pages/modifi_user/user",
     "pages/InformaTion/user",
     "pages/Information_vessel/user",
@@ -12,7 +14,6 @@
     "pages/listcms/cms",
     "pages/history/historyorder",
     "pages/eirsearch/search",
-    "pages/yuyue/yuyue",
     "pages/EirInfo/eirInfo",
     "pages/updateorder/updateorder",
     "pages/historydetail/detail",
@@ -21,7 +22,6 @@
     "pages/customer/customer",
     "pages/yardPlan/yardPlan",
     "pages/suggest/suggest",
-    "pages/video/video",
     "pages/introduce/introduce",
     "pages/addTips/addTips",
     "pages/updateEta/updateEta",
@@ -29,7 +29,8 @@
     "pages/operNotice/notice",
     "pages/operNotice/noticeDetail",
     "pages/mobileQuery/query",
-    "pages/cosido/cosido"
+    "pages/cosido/cosido",
+    "pages/messageDetails/details"
   ],
   "window": {
     "backgroundTextStyle": "dark",

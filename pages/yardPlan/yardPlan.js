@@ -1,4 +1,5 @@
 // pages/yardPlan/yardPlan.js
+var app = getApp()
 Page({
 
   /**
@@ -78,15 +79,74 @@ Page({
     })
   },
 
+  /**
+   * 获取输入信息
+   */
+  location1Tap: function(e) {
+    var location1 = e.detail.value
+    this.setData({
+      location1: location1
+    })
+  },
 
-  addOrder: function(e) {
+  /**
+   * 获取输入信息
+   */
+  location2Tap: function (e) {
+    var location2 = e.detail.value
+    this.setData({
+      location2: location2
+    })
+  },
+
+
+  /**
+   * 提交信息
+   */
+  addOrder: function() {
+    var that = this;
+    //订阅消息
+    wx.requestSubscribeMessage({
+
+      tmplIds: [app.tmplIds.yardPlanId],
+      success(res) {
+        var reg = RegExp(/accept/)
+        var reg1 = RegExp(/reject/)
+        if (JSON.stringify(res).match(reg1)) {
+
+          wx.showModal({
+            title: '温馨提示',
+            content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+          })
+          return;
+
+        }
+        if (JSON.stringify(res).match(reg)) {
+
+          that.addOrderTemp();
+
+        }
+
+      },
+      fail(res) {
+        //表示关闭了订阅消息
+        wx.showModal({
+          title: '温馨提示',
+          content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+        })
+      }
+
+    })
+
+  },
+
+  addOrderTemp: function () {
     var site = this.data.site;
-    console.log(e)
-    var location1 = e.detail.value.location1;
-    var location2 = e.detail.value.location2;
+    var location1 = this.data.location1;
+    var location2 = this.data.location2;
     var location = location1 + "-" + location2;
     var issueType = this.data.issueType;
-    if (location1 == "" || location1 == undefined || location2 == "" || location2 == undefined){
+    if (location1 == "" || location1 == undefined || location2 == "" || location2 == undefined) {
       wx.showModal({
         title: '提示',
         content: '请输入完整的堆场位置',
@@ -95,7 +155,7 @@ Page({
       })
       return;
     }
-    if(site == undefined){
+    if (site == undefined) {
       wx.showModal({
         title: '提示',
         content: '请选择作业地点',
@@ -104,7 +164,7 @@ Page({
       })
       return;
     }
-    if(issueType == undefined){
+    if (issueType == undefined) {
       wx.showModal({
         title: '提示',
         content: '请选择机械问题',
@@ -117,19 +177,19 @@ Page({
       disabled: true
     })
     var userInfo = wx.getStorageSync("userinfo");
-    //保存formId
-    wx.request({
-      url: getApp().data.servsers + 'saveFormId',
-      data: {
-        openid: userInfo.openid,
-        plate: userInfo.plate,
-        formId: e.detail.formId
-      },
-      success: function (e) {console.log(e.data) },
-      fail: function (e) {
-        console.log(e)
-      }
-    })
+    // //保存formId
+    // wx.request({
+    //   url: getApp().data.servsers + 'saveFormId',
+    //   data: {
+    //     openid: userInfo.openid,
+    //     plate: userInfo.plate,
+    //     formId: e.detail.formId
+    //   },
+    //   success: function (e) {console.log(e.data) },
+    //   fail: function (e) {
+    //     console.log(e)
+    //   }
+    // })
 
     //获取当前时间
     var date = new Date();
@@ -166,8 +226,8 @@ Page({
         location: location,
         status: "0" //待回复状态
       },
-      success: function(res){
-        if(res.data.code == 0){
+      success: function (res) {
+        if (res.data.code == 0) {
           wx.showModal({
             title: '提示',
             content: '码头将于15分内通过微信服务通知推送机械安排结果，请您耐心等待！',
@@ -181,7 +241,7 @@ Page({
               }
             }
           })
-        }else{
+        } else {
           wx.showModal({
             content: res.data.msg,
             confirmText: '确定',

@@ -1,5 +1,5 @@
 <!--pages/yardPlan/yardPlan.wxml-->
-<form bindsubmit='addOrder' report-submit='true'>
+<form>
 <view class='box'>
   <view class="page__hd">
     <view class="page__title" style='font-size: 17px;'>堆场吊柜机械服务步骤</view>
@@ -59,10 +59,10 @@
       <!-- <view class="weui-cell weui-cell_input"> -->
           <view class="weui-cell__bd">
           <label class='label'>
-              <input class="weui-input" name="location1" maxlength='3'/>
+              <input class="weui-input" name="location1" bindinput="location1Tap" maxlength='3'/>
           </label>_
           <label class='label'>    
-              <input class="weui-input" name="location2" maxlength='2'/>
+              <input class="weui-input" name="location2" bindinput="location2Tap" maxlength='2'/>
           </label>    
           </view>
       <!-- </view> -->
@@ -161,6 +161,6 @@
 
 
 <view class='layout_horizontal'>
-  <button class='btn2' formType='submit' disabled='{{disabled}}'>提交</button>
+  <button class='btn2' bindtap="addOrder" disabled='{{disabled}}'>提交</button>
 </view>
 </form>

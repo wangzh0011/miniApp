@@ -21,34 +21,68 @@ Page({
     })
   },
 
+  /**
+   * 报到
+   */
   bindConfirmTap: function (e) {
-    var index = e.currentTarget.dataset.index;
+
     var that = this;
-    var date = new Date();
-    var isTakeStep = 'N';//默认不办手续
-    var currentMonth = date.getMonth() + 1;
-    var currentDay = date.getDate();
-    var currentHours = date.getHours();
-    var currentMinute = date.getMinutes();
-    // var showButton = wx.getStorageSync('showButton');
-    // if (showButton.length == 0){
-    //   showButton = []
-    // }
 
-    if (currentMonth < 10) {
-      currentMonth = "0" + currentMonth;
-    }
-    if (currentDay < 10) {
-      currentDay = "0" + currentDay;
-    }
-    if (currentHours < 10) {
-      currentHours = "0" + currentHours;
-    }
-    if (currentMinute < 10) {
-      currentMinute = "0" + currentMinute;
-    }
-    var currentTime = date.getFullYear() + "-" + currentMonth + "-" + currentDay + " " + currentHours + ":" + currentMinute;
+    wx.requestSubscribeMessage({
 
+      tmplIds: [app.tmplIds.berthingId],
+      success(res) {
+        var reg = RegExp(/accept/)
+        var reg1 = RegExp(/reject/)
+        if (JSON.stringify(res).match(reg1)) {
+
+          wx.showModal({
+            title: '温馨提示',
+            content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+          })
+          return;
+
+        }
+        if (JSON.stringify(res).match(reg)) {
+
+          var index = e.currentTarget.dataset.index;
+          var date = new Date();
+          var isTakeStep = 'N';//默认不办手续
+          var currentMonth = date.getMonth() + 1;
+          var currentDay = date.getDate();
+          var currentHours = date.getHours();
+          var currentMinute = date.getMinutes();
+
+          if (currentMonth < 10) {
+            currentMonth = "0" + currentMonth;
+          }
+          if (currentDay < 10) {
+            currentDay = "0" + currentDay;
+          }
+          if (currentHours < 10) {
+            currentHours = "0" + currentHours;
+          }
+          if (currentMinute < 10) {
+            currentMinute = "0" + currentMinute;
+          }
+          var currentTime = date.getFullYear() + "-" + currentMonth + "-" + currentDay + " " + currentHours + ":" + currentMinute;
+
+          that.updateAta(index, isTakeStep, currentTime);
+
+        } 
+      },
+      fail(res) {
+        //表示关闭了订阅消息
+        wx.showModal({
+          title: '温馨提示',
+          content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+        })
+      }
+
+    })
+    
+
+/* 财务要求上传装船缴费清单
     wx.showModal({
       title: '提示',
       content: '请上传上一港装船缴费清单，若没有缴费则无需上传',
@@ -88,6 +122,7 @@ Page({
         }
       }
     })
+    */
 
   },
 

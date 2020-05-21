@@ -19,7 +19,34 @@
 
 
     <view class='radio_view' wx:if="{{time=='null'}}">
-      <radio-group class="group" bindchange="chooseSite">
+
+      <view class="group">
+          <view class="attr_value_title">
+            <label class='radio_label'>
+              <view class="radio_title">
+                <text>作业地点</text>
+              </view>
+            </label>
+          </view>
+        <radio-group class="radio_group" bindchange="chooseSite">
+          <view class="attr_value">
+            <label class='radio_label'>
+              <radio color='' checked="{{checked}}" value='D'>
+                <text>内贸</text>
+              </radio>
+            </label>
+          </view>
+
+          <view class="attr_value">
+            <label class='radio_label'>
+              <radio color='' checked="{{checked}}" value='I'>
+                <text>外贸</text>
+              </radio>
+            </label>
+          </view>
+        </radio-group>
+      </view>
+      <!-- <radio-group class="group" bindchange="chooseSite">
         <view class="attr_value">
           <label class='radio_label'>
             <radio color='' checked="{{checked}}" value='D'>
@@ -35,10 +62,34 @@
             </radio>
           </label>
         </view>
-      </radio-group>
+      </radio-group> -->
     </view>
 
+
     <view class='radio_view' wx:if="{{time=='null'}}">
+
+      <view class="group">
+        <view class="attr_value_title">
+          <label class='radio_label'>
+            <view class="radio_title">
+              <text>到港时间</text>
+            </view>
+          </label>
+        </view>
+  
+        <view class="radio_group" bindtap="chooseTime">
+          <view class="attr_value">
+            <label class='radio_label'>
+              <view class="radio_title">
+                <text>{{timeQuantum}}</text>
+              </view>
+            </label>
+          </view>
+        </view>
+      </view>
+
+    </view>
+    <!-- <view class='radio_view' wx:if="{{time=='null'}}">
       <radio-group class="group" bindchange="dayradios">
         <view class="attr_value">
           <label class='radio_label'>
@@ -56,9 +107,59 @@
           </label>
         </view>
       </radio-group>
-    </view>
+    </view> -->
 
-    <view class='radio_view time' wx:if="{{time=='null'}}">
+    <!--遮罩层-->
+    <view class="mask" wx:if="{{showMask}}">
+    </view>
+    <!--end-->
+
+    <view class="details" wx:if="{{showTimeList}}">
+      <radio-group bindchange="chooseAppointmentTime">
+          <view class="attr_value" wx:for="{{timeQuantumList}}" wx:for-item="item" wx:key="*this">
+              <label class='radio_label'>
+                  <radio class="weui-form-preview__item" value="{{item.dateTime}} {{item.timeQuantum}} {{item.reRemain}} {{item.rfRemain}} {{item.deRemain}} {{item.dfRemain}}">
+                      <view class="weui-form-preview__label"> {{item.timeQuantum}}</view>
+                      <view class="weui-form-preview__value">交空{{item.reRemain}}，交重{{item.rfRemain}}，提空{{item.deRemain}}，提重{{item.dfRemain}}</view>
+                  </radio>
+              </label>    
+          </view>    
+      </radio-group>
+    </view>  
+
+    
+      <!-- <view wx:for="{{timeList}}" wx:key="*this" wx:for-item="item" wx:for-index="index">
+          <view class="item">
+              <view class="desc" bindtap="calSurplus" data-index="{{index}}">
+                {{item}}
+              </view>
+          </view>
+      </view> -->
+
+    <view class='radio_view time'>
+
+      <view class="group">
+        <view class="attr_value_title">
+          <label class='radio_label'>
+            <view class="radio_title">
+              <text>余量显示</text>
+            </view>
+          </label>
+        </view>
+        <view class="radio_group" bindchange="timeradios">
+
+          <view class="attr_value">
+            <label class='radio_label'>
+              <view class="radio_title">
+                <text>交空{{RE_NUM}}，交重{{RF_NUM}}，提空{{DE_NUM}}，提重{{DF_NUM}}</text>
+              </view>
+            </label>
+          </view>
+        </view>
+      </view>  
+
+    </view>
+    <!-- <view class='radio_view time' wx:if="{{time=='null'}}">
       <radio-group class="group" bindchange="timeradios">
 
         <view class="attr_value">
@@ -86,7 +187,7 @@
         </view>
       </radio-group>
 
-    </view>
+    </view> -->
 
   </view>
 
