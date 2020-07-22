@@ -12,7 +12,7 @@ App(
       uploadurl:
         //  "https://wxxcx.dcblink.com/upload/",   // PROD
         //  "https://olddcblink.dcblink.com/upload/",  // UAT  废弃
-        "https://mtest.dcblink.com:9300/upload/",//  UAT
+        "https://mtest.dcblink.com/upload/",//  UAT
         // "http://127.0.0.1:8081/upload/",
 
       servsers:

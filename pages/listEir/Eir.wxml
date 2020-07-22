@@ -277,7 +277,7 @@
 									<view class='itemImg'>
 										<image src='../images/updateEta.png' mode='aspectFill' />
 									</view>
-									<text class='textCenter'>船期更新</text>
+									<text class='textCenter'>提前预报</text>
 									<button formType="submit" hover-class="none" class='invisibleclass' />
 								</form>
 							</view>

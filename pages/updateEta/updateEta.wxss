@@ -1,1 +1,36 @@
 /* pages/updateEta/updateEta.wxss */
+.weui-cell-custom{
+  padding: 0px 15px;
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 0;
+
+}
+
+.mask{
+  width:100%;
+  height:100%;
+  position:fixed;
+  background:rgba(0,0,0,0.5);
+  z-index:999;
+  top:0;
+  left:0;
+}
+
+.details{
+  display: flex;
+  flex-flow: column wrap; /*纵向排列*/
+  position: absolute;
+  background-color: #ffffff;
+  border-radius: 3px;
+  width: 100%;
+  top: 12%;
+  /* left: 20%; */
+  z-index:9999;
+}

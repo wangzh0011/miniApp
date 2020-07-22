@@ -13,6 +13,9 @@ Page({
     startDate: "请选择日期",
     multiArray: [['今天', '明天'], [0, 1, 2, 3, 4, 5, 6], [0, 1, 2]],
     multiIndex: [0, 0, 0],
+    showTips: true,
+    showMask: false,
+    showDetails: false,
   },
 
   onLoad: function () {
@@ -53,6 +56,183 @@ Page({
       ltrschedule: ltrschedule
     })
     
+  },
+
+  /**
+   * 拉起订阅消息  获取下发权限  驳船预约
+   */
+  subscribeMessageVesselTap: function (e) {
+    var that = this;
+    var index = e.currentTarget.dataset.index;
+    wx.requestSubscribeMessage({//app.tmplIds.serverStopId, app.tmplIds.eeirId,
+      tmplIds: [app.tmplIds.berthingId],
+      success(res) {
+        var reg = RegExp(/accept/)
+        var reg1 = RegExp(/reject/)
+        if (JSON.stringify(res).match(reg1)) {
+
+          wx.showModal({
+            title: '温馨提示',
+            content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+            showCancel: false,
+            success(res) {
+              wx.redirectTo({
+                url: '/pages/updateEta/updateEta',
+              })
+            }
+          })
+          return;
+
+        }
+        
+        if (JSON.stringify(res).match(reg)) {
+          that.setData({
+            showTips: false//提示点击修改或确认
+          })
+          //记录提前预报时间
+          that.updatePreEtaTap(index);
+          //订阅消息后 进入修改eta流程
+          that.pickerTap();
+          return;
+        } 
+
+      },
+      fail(res) {
+        //表示关闭了订阅消息
+        wx.showModal({
+          title: '温馨提示',
+          content: '未订阅相关消息，请订阅此消息或到小程序设置里面开启订阅消息',
+        })
+      }
+    })
+  },
+
+  /**
+   * 记录提前预报时间
+   */
+  updatePreEtaTap: function(index) {
+    var ltrschedule = wx.getStorageSync('ltrscheduleForPick');
+    wx.request({
+      url: app.data.servsers + 'updatePreEta',
+      data: {
+        voyCd: ltrschedule[index].voyCd,
+      },
+    })
+  },
+
+  /**
+   * 查看箱量详情
+   */
+  showDetailsTap: function(e) {
+    var ltrschedule = wx.getStorageSync('ltrscheduleForPick');
+    var index = e.currentTarget.dataset.index;
+    var showTips = this.data.showTips;
+    var that = this;
+    if(showTips == true) {
+      wx.showModal({
+        title: '温馨提示',
+        content: '请确定或修改预计到港时间后查询箱量详情',
+        showCancel: false
+      })
+    } else {
+      //接口请求
+      wx.request({
+        url: app.data.servsers + 'showDetails',
+        data: {
+          voyCd: ltrschedule[index].voyCd,
+        },
+        success(res) {
+          //卸量详情
+          var dMap = res.data.map.dMap;
+          if(dMap.msg == ""){
+            //拼接箱量
+            var dData = dMap.data;
+            var dMsg = that.concatBox(dData)
+            that.setData({
+              dMsg: dMsg
+            })
+          }else{
+            that.setData({
+              dMsg: dMap.msg
+            })
+          }
+          //装量详情
+          var lMap = res.data.map.lMap;
+          if (lMap.msg == "") {
+            var lData = lMap.data;
+            var lMsg = that.concatBox(lData)
+            that.setData({
+              lMsg: lMsg
+            })
+          } else {
+            that.setData({
+              lMsg: lMap.msg
+            })
+          }
+          //码头下单情况
+          var dOrdInd = res.data.map.dOrdInd;//卸
+          var lOrdInd = res.data.map.lOrdInd;//装
+          that.setData({
+            dOrdInd: dOrdInd,
+            lOrdInd: lOrdInd
+          })
+        }
+      })
+
+      this.setData({
+        showMask: true,
+        showDetails: true
+      })
+    }
+  },
+
+  /**
+   * 拼接箱量
+   */
+  concatBox: function(data) {
+    var msg = "";
+    if (data.f20 != "0") {
+      msg = msg + data.f20 + "x20'F," 
+    }
+    if (data.f40 != "0") {
+      msg = msg + data.f40 + "x40'F,"
+    }
+    if (data.f45 != "0") {
+      msg = msg + data.f45 + "x45'F,"
+    }
+    if (data.f48 != "0") {
+      msg = msg + data.f48 + "x48'F,"
+    }
+    if (data.f53 != "0") {
+      msg = msg + data.f53 + "x53'F,"
+    }
+    
+    if (data.e20 != "0") {
+      msg = msg + data.e20 + "x20'E,"
+    }
+    if (data.e40 != "0") {
+      msg = msg + data.e40 + "x40'E,"
+    }
+    if (data.e45 != "0") {
+      msg = msg + data.e45 + "x45'E,"
+    }
+    if (data.e48 != "0") {
+      msg = msg + data.e48 + "x48'E,"
+    }
+    if (data.e53 != "0") {
+      msg = msg + data.e53 + "x53'E,"
+    }
+    return msg;
+  },
+
+  /**
+   * 查看箱量详情点击确定
+   */
+  confirmTap: function() {
+    this.setData({
+      showMask: false,
+      showDetails: false
+    })
   },
 
   //以下为日期时间选择代码

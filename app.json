@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/listEir/Eir",
+    "pages/updateEta/updateEta",
     "pages/updateAppointmentTime/update",
     "pages/yuyue/yuyue",
     "pages/modifi_user/user",
@@ -24,7 +25,6 @@
     "pages/suggest/suggest",
     "pages/introduce/introduce",
     "pages/addTips/addTips",
-    "pages/updateEta/updateEta",
     "pages/updateAta/updateAta",
     "pages/operNotice/notice",
     "pages/operNotice/noticeDetail",

@@ -180,6 +180,7 @@ Page({
       items: items,
       type_D: type_D,
       type_R: type_R,
+      disabled: false
     })
 
   },
@@ -272,19 +273,19 @@ Page({
         if (res.data.code != 0) {
           //如果需预约数量大于余量则给出提示
           if (DE > DE_NUM) {
-            this.showTips(checktime, "提空")
+            that.showTips(checktime, "提空")
             return;
           }
           if (DF > DF_NUM) {
-            this.showTips(checktime, "提重")
+            that.showTips(checktime, "提重")
             return;
           }
           if (RE > RE_NUM) {
-            this.showTips(checktime, "交空")
+            that.showTips(checktime, "交空")
             return;
           }
           if (RF > RF_NUM) {
-            this.showTips(checktime, "交重")
+            that.showTips(checktime, "交重")
             return;
           }
         }
@@ -314,6 +315,7 @@ Page({
       items: items,
       type_D: type_D,
       type_R: type_R,
+      disabled: false
     })
 
   },
@@ -324,6 +326,9 @@ Page({
    * @param {*} tranType 
    */
   showTips: function (checktime,tranType) {
+    this.setData({
+      disabled: true
+    })
     wx.showModal({
       title: '系统提示',
       content: checktime + '时间内的' + tranType + '已被预约完，请选择其他时段',
@@ -851,16 +856,65 @@ Page({
    * @param {*} e 
    */
   chooseAppointmentTime: function (e) {
+    var that = this;
     console.log(e)
     //选中项的值  时间
     var value = e.detail.value.split(" ");
     //选中的时间和日期
     var dateTime = value[0]
     var timeQuantum = value[1]
-    //设置选中日期和时间数据
-    this.setData({
+    //更换时间格式 预约时间的截止时间
+    var time = "";
+    if (timeQuantum.split("-")[1] == "24:00") {
+      time = dateTime.replace(/-/g, "/") + " " + "23:59"//真机上24：00计算不出时间戳
+    } else {
+      time = dateTime.replace(/-/g, "/") + " " + timeQuantum.split("-")[1]
+    }
+    //预约时间和当前时间的时间戳
+    var timeStamp = new Date(time).getTime();
+    var nowTimeStamp = new Date().getTime();
+    //剩余时间
+    var remainTime = timeStamp - nowTimeStamp;
+    //关闭弹窗
+    that.setData({
       showMask: false,
       showTimeList: false,
+    })
+    //剩余时间在16 - 30分钟，提示距进闸签到时间不足半小时，请确认是否继续预约。
+    if(remainTime <= 30*60*1000 && remainTime >= 15*60*1000) {
+      wx.showModal({
+        title: '温馨提示',
+        content: '距进闸签到时间不足半小时，请确认是否继续预约',
+        cancelText: '否',
+        confirmText: '是',
+        success: function(res) {
+          if (res.confirm) {
+            that.setParams(dateTime, timeQuantum, value);
+          }
+        },
+      })
+    } else if(remainTime >=0 && remainTime < 15*60*1000) {
+      wx.showModal({
+        title: '温馨提示',
+        content: '此时段剩余不足15分钟，请选择其它时间段预约',
+        showCancel: false,
+        success: function () {
+          return;
+        },
+      })
+    } else {
+      that.setParams(dateTime, timeQuantum, value);
+    }
+
+    
+  },
+
+  /**
+   * 设置到岗时间，余量显示
+   */
+  setParams: function(dateTime,timeQuantum,value) {
+    //设置选中日期和时间数据
+    this.setData({
       dateTime: dateTime,
       timeQuantum: timeQuantum,
       checkday: dateTime,
@@ -874,7 +928,7 @@ Page({
   },
 
   /**
-   * 计算作业余量
+   * 计算作业余量  废弃
    * @param {} e 
    */
   calSurplus: function(e) {

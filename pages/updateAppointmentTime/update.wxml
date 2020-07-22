@@ -23,7 +23,7 @@
                 <radio-group bindchange="chooseAppointmentTime">
                     <view class="attr_value" wx:for="{{timeQuantumList}}" wx:for-item="item" wx:key="*this">
                         <label class='radio_label'>
-                            <radio class="weui-form-preview__item" value="{{item.dateTime}} {{item.timeQuantum}}">
+                            <radio class="weui-form-preview__item" value="{{item.dateTime}} {{item.timeQuantum}}" checked="{{checked}}">
                                 <view class="weui-form-preview__label"> {{item.timeQuantum}}</view>
                                 <view class="weui-form-preview__value">交空{{item.reRemain}}，交重{{item.rfRemain}}，提空{{item.deRemain}}，提重{{item.dfRemain}}</view>
                             </radio>

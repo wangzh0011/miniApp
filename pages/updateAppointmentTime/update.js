@@ -15,7 +15,8 @@ Page({
     tranType: '',
     dateTime: '',
     timeQuantum: '',
-    site: ''
+    site: '',
+    checked: false
   },
 
   /**
@@ -57,8 +58,23 @@ Page({
    */
   chooseAppointmentTime: function(e) {
     console.log(e)
+    var that = this;
     //选中项的值  时间
     var value = e.detail.value;
+    //选中的时间不能已预约的时间一样
+    if(value == this.data.time) {
+      wx.showModal({
+        title: '温馨提示',
+        content: '选中时间与已预约时间一致，请选择其他预约时间',
+        showCancel: false,
+        success: function() {
+          that.setData({
+            checked: false
+          })
+          return;
+        }
+      })
+    }
     //选中的时间和日期
     var dateTime = value.split(" ")[0]
     var timeQuantum = value.split(" ")[1]

@@ -764,6 +764,10 @@ Page({
             //根据预约时间显示不同描述
             if(that.data.time != null && that.data.time != undefined) {
               that.showDescByTime(res.data.time);
+            } else {
+              that.setData({
+                timeout: false
+              })
             }  
             getApp().order.order = res.data.list;
 
@@ -972,7 +976,11 @@ Page({
 
     if(this.data.time != null && this.data.time != undefined) {
       this.showDescByTime(this.data.time);
-    }
+    } else {
+      this.setData({
+        timeout: false
+      })
+    }  
 
 
   },
@@ -993,7 +1001,12 @@ Page({
     //开始时间
     var appointmentBegin = times[0] + " " + times[1].split("/")[0]
     //结束时间
-    var appointmentEnd = times[0] + " " + times[1].split("/")[1]
+    var appointmentEnd = ""
+    if(times[1].split("/")[1] == "24:00") {
+      appointmentEnd = times[0] + " " + "23:59"//真机上24：00计算不出时间戳
+    } else {
+      appointmentEnd = times[0] + " " + times[1].split("/")[1]
+    }
     var that = this;
     //当前时间转成时间戳
     var nowTimeStamp = new Date().getTime();
@@ -1003,6 +1016,10 @@ Page({
     //计算当前时间和预约时间的差值
     var beginValue = appointmentBeginTimeStamp - nowTimeStamp
     var endValue = appointmentEndTimeStamp - nowTimeStamp
+    console.log("appointmentEnd ==> " + appointmentEnd)
+    console.log("appointmentEndTimeStamp ==> " + appointmentEndTimeStamp)
+    console.log("nowTimeStamp ==> " + nowTimeStamp)
+    console.log("endValue ==> " + endValue)
     if(endValue < 0) {//超时
       that.setData({
         desc: "已超时，请点击修改到港时间或取消预约>>",
