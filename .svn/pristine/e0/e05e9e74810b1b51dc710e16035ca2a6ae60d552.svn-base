@@ -1,0 +1,8 @@
+{
+
+    "navigationBarTitleText": "大铲湾操作服务",
+    "enablePullDownRefresh": true,
+    "usingComponents": {
+      "add-tips": "/pages/addTips/addTips"
+    }
+}

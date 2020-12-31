@@ -1,0 +1,150 @@
+<!--index.wxml-->
+<view class='page'>
+  <!--
+  <view class='scroll_view_border'>
+    <view class="srcoll_view" bindtap="textclick">目前台风期间,暂停作业，请勿前往码头!</view>
+  </view>
+-->
+
+  <view class="userinfo">
+
+    <open-data class="userinfo-avatar" background-size="cover" type="userAvatarUrl"></open-data>
+    <open-data class="userinfo-nickname" type="userNickName" data-ooo="userinfo-nickname"></open-data>
+    <!--
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" type="default" plain="true"> 获取头像昵称 </button>
+    <block wx:else>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+    -->
+  </view>
+
+
+
+
+
+
+  <view class="weui-cells weui-cells_after-title">
+    <view>
+
+    </view>
+    <form report-submit='true' bindsubmit='saveFormId'>
+      <!--
+      <navigator url="/pages/imageUpload/upload" class="weui-cell weui-cell_access bb" hover-class="weui-cell_active">
+
+        <view class="weui-cell__hd">
+          <image src="/pages/images/order.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+        </view>
+
+        <view class="weui-cell__bd ">
+          <form report-submit='true' bindsubmit='saveFormId'>
+            <button formType="submit" class='btn'>
+              <text decode="{{true}}">  移动平台&ensp;</text>
+            </button>
+          </form>
+        </view>
+
+
+        <view class="weui-cell__ft  "></view>
+      </navigator>
+      -->
+
+    </form>
+
+    <view class="weui-cell weui-cell_access bb" hover-class="weui-cell_active">
+      <view class="weui-cell__hd">
+        <image src="/pages/images/edit.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd ">
+        <form report-submit='true' bindsubmit='saveFormId' data-name='user'>
+          <text decode="{{true}}">  资料修改</text>
+          <button formType="submit" hover-class="none" class='invisibleclass'></button>
+        </form>
+      </view>
+      <view class="weui-cell__ft "></view>
+      <view class='arrow' ></view>
+    </view>
+
+
+    <view class="weui-cell weui-cell_access bb" hover-class="weui-cell_active">
+      <view class="weui-cell__hd">
+        <image src="/pages/images/eir.jpg" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd">
+        <form report-submit='true' bindsubmit='saveFormId' data-name='eir'>
+          <text decode="{{true}}">  设备交接单</text>
+          <button formType="submit" hover-class="none" class='invisibleclass'></button>
+        </form>
+      </view>
+      <view class="weui-cell__ft "></view>
+      <view class='arrow'></view>
+      
+    </view>
+
+    <view class="weui-cell weui-cell_access custom bb" hover-class="weui-cell_active">
+      <view class="weui-cell__hd">
+        <image src="/pages/images/search.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd">
+        <form report-submit='true' bindsubmit='saveFormId' data-name='cms'>
+          <text decode="{{true}}">  小票查询</text>
+          <button formType="submit" hover-class="none" class='invisibleclass'></button>
+        </form>
+      </view>
+      <view class="weui-cell__ft "></view>
+      <view class='arrow'></view>
+    </view>
+
+    <view class="weui-cell weui-cell_access custom bb" hover-class="weui-cell_active">
+      <view class="weui-cell__hd">
+        <image src="/pages/images/history.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd">
+        <form report-submit='true' bindsubmit='saveFormId' data-name='eirLess'>
+          <text decode="{{true}}">飞单查询</text>
+          <button formType="submit" hover-class="none" class='invisibleclass'></button>
+        </form>
+      </view>
+      <view class="weui-cell__ft "></view>
+      <view class='arrow'></view>
+    </view>
+
+    <!--
+    <view class="weui-cell weui-cell_access custom" hover-class="weui-cell_active bb" >
+      <view class="weui-cell__hd">
+        <image src="/pages/images/customer.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd">
+      
+      <text decode="{{true}}">  在线打单客服</text>
+      <button open-type="contact"  hover-class="none" class='invisibleclass'></button> 
+      
+      </view>
+      <view class="weui-cell__ft "></view>
+    </view>
+-->
+    <view class="weui-cell weui-cell_access custom" hover-class="weui-cell_active bb" bindtap='callPhone'>
+      <view class="weui-cell__hd">
+        <image src="/pages/images/phone.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd">
+        <text decode="{{true}}">  客服热线</text>
+      </view>
+      <view class="weui-cell__ft "></view>
+      <view class='arrow'></view>
+    </view>
+
+
+
+
+
+
+  </view>
+  <view class="weui-footer weui-footer_fixed-bottom">
+    <view class="weui-footer__links">
+      <text class="weui-footer__link">DCB 拖车服务</text>
+    </view>
+    <view class="weui-footer__text">Copyright © 2018-5-12</view>
+  </view>
+
+</view>

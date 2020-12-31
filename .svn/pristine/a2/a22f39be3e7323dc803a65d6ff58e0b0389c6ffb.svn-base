@@ -1,0 +1,16 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://github.com/wangzh0011/miniApp
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[remote "timmy"]
+	url = https://github.com/Timmy0586/miniApp
+	fetch = +refs/heads/*:refs/remotes/timmy/*
+[branch "ship"]
+	remote = origin
+	merge = refs/heads/ship

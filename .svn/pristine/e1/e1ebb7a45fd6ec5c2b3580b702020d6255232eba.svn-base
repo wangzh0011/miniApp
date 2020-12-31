@@ -1,0 +1,41 @@
+/* pages/modifi_user/user.wxss */
+.form_button {  
+  background-color: transparent;  
+  padding: 0;  
+  margin: 0;  
+  text-align: left;  
+}  
+  
+.form_button::after {  
+  border: 0px;  
+}
+.phcolor{
+  font-size: 14px
+}
+.weui-cell{
+  padding: 0 0 0 15px;
+}
+.car-color .weui-select{
+  border: none
+} 
+.userinfo-avatar {
+  
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+  display: block;
+  overflow: hidden;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  
+  
+}

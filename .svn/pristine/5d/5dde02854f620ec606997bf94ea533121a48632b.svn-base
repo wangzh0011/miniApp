@@ -1,0 +1,4 @@
+/* pages/imageUpload/upload.wxss */
+.ttt{
+  width: 600%;
+}

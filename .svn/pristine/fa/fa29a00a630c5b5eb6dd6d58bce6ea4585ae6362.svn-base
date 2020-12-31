@@ -1,0 +1,103 @@
+<!--pages/updateEta/updateEta.wxml-->
+<view class="page">
+  <form >
+      <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{errormsg}}</view>
+      <view class="weui-cells__title weui-cells__titless">
+        <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>【温馨提示】\n请核实预计到港时间，预计时间不变的，请点击确定，需要更新到港时间的，请点击修改。\n有进行提前预报操作并且准时抵达的，安排泊位时，同等条件下将优先安排。\n请于船到码头前1小时进行自主报到。</text>
+      </view>
+      <view class="weui-loadmore weui-loadmore_line" wx:if='{{ltrschedule.length == 0}}'>
+          <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无数据</view>
+      </view>
+      
+      <block wx:for="{{ltrschedule}}" wx:for-item="list" wx:key="*this" wx:for-index="index">
+        <view class="weui-cells__title">
+          <block>航次:{{list.iVoyCd}}/{{list.oVoyCd}}</block> 
+          <!-- <block wx:if='{{list.berth}}' > 泊位:{{list.berth}} </block> -->
+        </view>
+        <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__hd">
+              <view >预计到港：</view>
+            </view>
+          </view>
+        <view class="weui-cell-custom ">
+          <view class="weui-cell__hd">
+            <view class="weui-input" >{{list.eta}}</view>
+          </view>
+          <view class="weui-cell__hd">
+            <picker class='time-picker' mode="multiSelector" bindchange="bindStartMultiPickerChange" bindtap='subscribeMessageVesselTap'  bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}" data-index="{{index}}">
+              <view class="weui-btn-area">
+                <button class="weui-btn" type="primary" size="mini" style='color: white; background-color: #17437d; left: 20px; top: -5px'>修改</button>
+              </view>
+            </picker>
+          </view>
+          <view class="weui-cell__hd">
+            <!-- <view class="weui-btn-area"> -->
+              <button class="weui-btn" bindtap="subscribeMessageVesselTap" data-index="{{index}}" type="primary" size="mini" style='color: white; background-color: #17437d; left: 20px; top: 2px'>确定</button>
+            <!-- </view> -->
+          </view>
+        </view>
+        <view class="weui-cell-custom">
+          <view class="weui-cell__hd">
+            <view >箱量详情</view>
+          </view>
+          <view class="weui-cell__hd">
+            <view class="weui-btn-area">
+              <button bindtap="showDetailsTap" class="weui-btn" type="primary" size="mini" data-index="{{index}}" style='color: white; background-color: #17437d; left: 20px; top: -5px'>查看</button>
+            </view>
+          </view>
+        </view>
+      </block>  
+
+      <!--遮罩层-->
+      <view class="mask" wx:if="{{showMask}}">
+      </view>
+      <view class="details" wx:if="{{showDetails}}">
+        <view class="weui-form-preview__bd">
+            <view class="weui-form-preview__item">
+                <view class="weui-form-preview__label">卸量：</view>
+                <view class="weui-form-preview__value">{{dMsg}}</view>
+            </view>
+            <view class="weui-form-preview__item">
+                <view class="weui-form-preview__label">装量：</view>
+                <view class="weui-form-preview__value">{{lMsg}}</view>
+            </view>
+            <view class="weui-form-preview__item">
+                <view class="weui-form-preview__label">装量明细：</view>
+                <view class="weui-form-preview__value"></view>
+            </view>
+            <view class="weui-form-preview__item">
+                <view class="weui-form-preview__label">{{}}：</view>
+                <view class="weui-form-preview__value"></view>
+            </view>
+            <view class="weui-form-preview__item">
+                <view class="weui-form-preview__label">{{}}：</view>
+                <view class="weui-form-preview__value"></view>
+            </view>
+            <view class="weui-form-preview__item">
+                <view class="weui-form-preview__label">{{}}：</view>
+                <view class="weui-form-preview__value"></view>
+            </view>
+            <view class="weui-form-preview__item">
+                <view class="weui-form-preview__label">总重量：</view>
+                <view class="weui-form-preview__value"></view>
+            </view>
+            <view class="weui-form-preview__item">
+                <view class="weui-form-preview__label">码头下单情况：</view>
+                <view class="weui-form-preview__value"></view>
+            </view>
+            <view class="weui-form-preview__item">
+                <view class="weui-form-preview__label">卸<icon wx:if="{{dOrdInd == 'Y'}}" type="success" size="23"></icon></view>
+                <view class="weui-form-preview__value"></view>
+            </view>
+            <view class="weui-form-preview__item">
+                <view class="weui-form-preview__label">装<icon wx:if="{{lOrdInd == 'Y'}}" type="success" size="23"></icon></view>
+                <view class="weui-form-preview__value"></view>
+            </view>
+        </view>
+        <view class="page__bd page__bd_spacing">
+            <button class="weui-btn" type="primary" bindtap="confirmTap">确定</button>
+        </view>
+      </view>
+
+  </form> 
+</view>

@@ -1,0 +1,152 @@
+<view class="page">
+    
+    <view class="page__bd">
+     <text wx:if="{{msg!=null}}"  > {{msg}}</text>
+     <text wx:if="{{document.length==0}}" class='bigtext' > 暂无小票信息,如已进场，请稍候再试</text>
+     
+       
+      <block wx:for="{{document}}"  wx:for-item="cms" wx:key="*this">
+      
+        <view class="weui-cells__title">{{cms.truckLic}} 第{{index + 1}}张设备交接单信息，共{{document.length}}张</view>
+       
+        <view style="margin:5px;border:3px solid #1FB3D8">
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">箱主: {{cms.soa}}<text class='text'>\t\t|\t\t</text> 箱号：{{cms.cntrNo}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">船舶: {{cms.vessel}}<text class='text'>\t\t|\t\t</text>航次:{{cms.voyage}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">尺寸/类型/高度:{{cms.size}}/{{cms.type}}/{{cms.height}}   ({{cms.iso}})</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">拖车车牌: {{cms.truckLic}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">拖车公司: {{cms.truckCompany}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">进闸时间：{{cms.gateinTime}}<text class='text'>\t\t|\t\t</text> 出闸时间：{{cms.gateoutTime}}</view>
+                
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">作业类型：{{cms.moveType}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">服务状态/类型：{{cms.statusType}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">托运人：{{cms.consignee}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">订舱单号：{{cms.bookingno}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">装箱港 :{{cms.loadport}}<text class='text'>\t\t|\t\t</text>卸货港:{{cms.discport}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">封条号：{{cms.sealno}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">重量：{{cms.weight}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">前超长/后超长/左超宽/右超宽/超高：{{cms.ol1}}/{{cms.ol2}}/{{cms.ow1}}/{{cms.ow2}}/{{cms.oh}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">国际险货：{{cms.dgNo}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">要求温度：{{cms.rfTemp}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">说明运行温度：{{cms.despatchTemp}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">T/Code：{{cms.truckCode}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">卸货港2：{{cms.discport2}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">备注：{{cms.remark}}</view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd"><text class='text'>\t\t 声明：本单仅作为集装箱交收凭证,任何人不得将它和它所含的信息作为任何其他用途.否则,责任自负,DCB不承担任何责任 \t\t</text></view>
+                <view class="weui-cell__ft"></view>
+            </view>
+        </view>
+        
+
+
+        
+
+       </view>
+
+
+       </block>
+
+       
+    </view>
+</view>

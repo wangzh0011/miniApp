@@ -1,0 +1,35 @@
+0000000000000000000000000000000000000000 ccb6fdc7188d178d3d13994e687d4b4dbc2e16a1 alan.wang <wang_zonghua@163.com> 1551335208 +0800	initial pull
+ccb6fdc7188d178d3d13994e687d4b4dbc2e16a1 812b58ecff4337fd6fcef218d848b9867a3beeae alan.wang <wang_zonghua@163.com> 1551335282 +0800	commit: test
+812b58ecff4337fd6fcef218d848b9867a3beeae abf4ae98cd4991f3b63e0becbc8c2f59445c03bb alan.wang <wang_zonghua@163.com> 1551755584 +0800	commit: 【update&modify】
+abf4ae98cd4991f3b63e0becbc8c2f59445c03bb 287934f16c2f6b2482cad2d2a8608bbbc1d9ba1b alan.wang <wang_zonghua@163.com> 1551784594 +0800	commit: 【modify】
+287934f16c2f6b2482cad2d2a8608bbbc1d9ba1b b10699c0a26b817938ee15a61c5ba71dc4961f79 alan.wang <wang_zonghua@163.com> 1551843928 +0800	pull timmy master: Fast-forward
+b10699c0a26b817938ee15a61c5ba71dc4961f79 85bd390a10edfbe9c478119a707f11d98b5975b3 alan.wang <wang_zonghua@163.com> 1551918762 +0800	commit: 【update】
+85bd390a10edfbe9c478119a707f11d98b5975b3 0d5f4376fddbb9c3388aa48512692f97bc5ee170 alan.wang <wang_zonghua@163.com> 1551951197 +0800	commit: 【update】
+0d5f4376fddbb9c3388aa48512692f97bc5ee170 021c23faca07cdda03d1b93b3c002248dd44e4ec alan.wang <wang_zonghua@163.com> 1552541077 +0800	commit: 【modify】
+021c23faca07cdda03d1b93b3c002248dd44e4ec b7973b0887411badcb2cbcfa473b23f13b806a32 alan.wang <wang_zonghua@163.com> 1552541349 +0800	pull timmy master: Merge made by the 'recursive' strategy.
+b7973b0887411badcb2cbcfa473b23f13b806a32 26ee8eb65e3238dc204542ad900e14e01ea60c00 alan.wang <wang_zonghua@163.com> 1552869760 +0800	pull timmy master: Fast-forward
+26ee8eb65e3238dc204542ad900e14e01ea60c00 7decdce23c263a78267b84365f9543bc8becb9eb alan.wang <wang_zonghua@163.com> 1553129585 +0800	commit: 【modify】Today hava a good weather.
+7decdce23c263a78267b84365f9543bc8becb9eb 9d8ff9653389ae1da3d19d6151e143f33fce8178 alan.wang <wang_zonghua@163.com> 1553237820 +0800	pull timmy master: Fast-forward
+9d8ff9653389ae1da3d19d6151e143f33fce8178 bd490b536cabef48504e38a4b4722cedb973e596 alan.wang <wang_zonghua@163.com> 1553824090 +0800	commit: 【modify】
+bd490b536cabef48504e38a4b4722cedb973e596 31ec44bb746559632b178b8c8b151fde5f4dadd1 alan.wang <wang_zonghua@163.com> 1553825827 +0800	pull timmy master: Fast-forward
+31ec44bb746559632b178b8c8b151fde5f4dadd1 31ec44bb746559632b178b8c8b151fde5f4dadd1 alan.wang <wang_zonghua@163.com> 1553826553 +0800	reset: moving to HEAD
+31ec44bb746559632b178b8c8b151fde5f4dadd1 411964ad8542bf042bfc8ac083164b5ffc774cb7 alan.wang <wang_zonghua@163.com> 1555305145 +0800	commit: 【update】
+411964ad8542bf042bfc8ac083164b5ffc774cb7 30f5a82eb90ac432b500f2dec72736009b07cf3e alan.wang <wang_zonghua@163.com> 1555910258 +0800	commit: 【update】
+30f5a82eb90ac432b500f2dec72736009b07cf3e 30f5a82eb90ac432b500f2dec72736009b07cf3e alan.wang <wang_zonghua@163.com> 1558430144 +0800	checkout: moving from master to shipDev
+30f5a82eb90ac432b500f2dec72736009b07cf3e 30f5a82eb90ac432b500f2dec72736009b07cf3e alan.wang <wang_zonghua@163.com> 1558430471 +0800	checkout: moving from shipDev to master
+30f5a82eb90ac432b500f2dec72736009b07cf3e 36c961d720329476eea855a06761e7ab1c16e833 alan.wang <wang_zonghua@163.com> 1558430543 +0800	commit: update
+36c961d720329476eea855a06761e7ab1c16e833 30f5a82eb90ac432b500f2dec72736009b07cf3e alan.wang <wang_zonghua@163.com> 1558431898 +0800	checkout: moving from master to shipDev
+30f5a82eb90ac432b500f2dec72736009b07cf3e 2386bb180de3d7db11aa1f06f053b15646114193 alan.wang <wang_zonghua@163.com> 1558432074 +0800	commit: test
+2386bb180de3d7db11aa1f06f053b15646114193 36c961d720329476eea855a06761e7ab1c16e833 alan.wang <wang_zonghua@163.com> 1558432082 +0800	checkout: moving from shipDev to master
+36c961d720329476eea855a06761e7ab1c16e833 2b87e1256321177e08d53ab309dc4793b9ed860b alan.wang <wang_zonghua@163.com> 1558432260 +0800	commit: update
+2b87e1256321177e08d53ab309dc4793b9ed860b 2b87e1256321177e08d53ab309dc4793b9ed860b alan.wang <wang_zonghua@163.com> 1558432349 +0800	checkout: moving from master to ship
+2b87e1256321177e08d53ab309dc4793b9ed860b 2b87e1256321177e08d53ab309dc4793b9ed860b alan.wang <wang_zonghua@163.com> 1558488603 +0800	checkout: moving from ship to master
+2b87e1256321177e08d53ab309dc4793b9ed860b 2b87e1256321177e08d53ab309dc4793b9ed860b alan.wang <wang_zonghua@163.com> 1558488666 +0800	checkout: moving from master to ship
+2b87e1256321177e08d53ab309dc4793b9ed860b 2b87e1256321177e08d53ab309dc4793b9ed860b alan.wang <wang_zonghua@163.com> 1561527617 +0800	checkout: moving from ship to master
+2b87e1256321177e08d53ab309dc4793b9ed860b 2b87e1256321177e08d53ab309dc4793b9ed860b alan.wang <wang_zonghua@163.com> 1561527849 +0800	checkout: moving from master to ship
+2b87e1256321177e08d53ab309dc4793b9ed860b 9a44372d9ba0203690ac1e58b49977276dde100a alan.wang <wang_zonghua@163.com> 1562919429 +0800	commit: 【update】
+9a44372d9ba0203690ac1e58b49977276dde100a 3051ee942e2af36e4e0337717b2d8587f7f71430 alan.wang <wang_zonghua@163.com> 1566547674 +0800	commit: update
+3051ee942e2af36e4e0337717b2d8587f7f71430 c324c11ae4a20756c361a337f7789575a7c81b39 alan.wang <wang_zonghua@163.com> 1567585095 +0800	commit: update
+c324c11ae4a20756c361a337f7789575a7c81b39 11a20146434daaed811965a17efdff2bc5096747 alan.wang <wang_zonghua@163.com> 1582004782 +0800	commit: update
+11a20146434daaed811965a17efdff2bc5096747 e083952c97dfbbdd31edecb3b8a84a37d0ba85e1 alan.wang <wang_zonghua@163.com> 1590048109 +0800	commit: update
+e083952c97dfbbdd31edecb3b8a84a37d0ba85e1 632e28c276977af4ef7027f2b273ce915db30eda Alan1223 <alan.wang@dcbterminals.com> 1595382421 +0800	commit: update

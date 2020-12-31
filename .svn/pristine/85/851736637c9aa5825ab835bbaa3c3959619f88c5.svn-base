@@ -1,0 +1,18 @@
+/* pages/cms/cms.wxss */
+.text{
+  color: red;
+  
+}
+.textfont{
+ font-size: 12px;
+}
+.bigtext{
+  font-size: 2rem;
+}
+.point{  
+  font-size: larger;
+  font-weight:bold;
+  font-style: italic;
+  text-align: center;
+  
+}

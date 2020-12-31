@@ -1,0 +1,46 @@
+{
+  "pages": [
+    "pages/listEir/Eir",
+    "pages/updateEta/updateEta",
+    "pages/updateAppointmentTime/update",
+    "pages/yuyue/yuyue",
+    "pages/modifi_user/user",
+    "pages/InformaTion/user",
+    "pages/Information_vessel/user",
+    "pages/search/search",
+    "pages/addseal/seal",
+    "pages/imageUpload/upload",
+    "pages/detail/detail",
+    "pages/cms/cms",
+    "pages/listcms/cms",
+    "pages/history/historyorder",
+    "pages/eirsearch/search",
+    "pages/EirInfo/eirInfo",
+    "pages/updateorder/updateorder",
+    "pages/historydetail/detail",
+    "pages/sitemap/sitemap",
+    "pages/VesselOrTruck/vesselOrTruck",
+    "pages/customer/customer",
+    "pages/yardPlan/yardPlan",
+    "pages/suggest/suggest",
+    "pages/introduce/introduce",
+    "pages/addTips/addTips",
+    "pages/updateAta/updateAta",
+    "pages/operNotice/notice",
+    "pages/operNotice/noticeDetail",
+    "pages/mobileQuery/query",
+    "pages/cosido/cosido",
+    "pages/messageDetails/details"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarTitleText": "大铲湾操作服务",
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#f8f8f8"
+  },
+  "networkTimeout": {
+    "request": 60000,
+    "downloadFile": 100000
+  },
+  "sitemapLocation": "sitemap.json"
+}

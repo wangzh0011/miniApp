@@ -1,0 +1,17 @@
+<!--pages/suggest/suggest.wxml-->
+<view class="page">
+      <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{errormsg}}</view>
+      <view class="weui-cells__title">建议与反馈</view>
+      <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">
+                    <textarea name="suggest" class="weui-textarea" value="{{value}}" placeholder="请输入您的建议,我们将为您不断改进" font-size="12px" style="height: 5.3em" bindtap='cancelShowTop' bindinput='inputTap' maxlength='120'/>
+                    <view class="weui-textarea-counter">{{currentNum}}/120</view>
+                </view>
+            </view>
+        </view>
+      <view class="weui-btn-area">
+        <button class="weui-btn" type="primary" bindtap="submitTap" disabled='{{disabled}}'>提交</button>
+      </view>
+      
+</view>

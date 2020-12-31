@@ -1,0 +1,215 @@
+<!--pages/picture/picture.wxml-->
+<view class="page">
+  <!--
+  <view class="page__hd">
+        <view class="page__desc">手机号码：{{orderVo.phone}}</view>
+        <view class="page__desc">车牌号码：{{orderVo.plate}}</view>
+        <view class="page__desc">到港时间：{{orderVo.arrive}}</view>
+        <view class="page__desc">预约状态：{{orderVo.state}}  </view>
+        <view class="page__desc"><text wx:if="{{orderVo.reason!=null }}" class='textred'>审核失败原因：  {{orderVo.reason}} </text> </view>
+    </view>
+  -->
+  <form>
+  <view class="page__bd">
+   <view class="weui-cells">
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">手机号码：{{orderVo.order.phone}}</view>
+        <view class="weui-cell__ft"></view>
+      </view>
+    </view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">车牌号码：{{orderVo.order.plate}}</view>
+        <view class="weui-cell__ft"></view>
+      </view>
+    </view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">作业类型：
+        
+        <view class='rr'>
+        <view class='radio_view'>
+        <radio-group class="group" bindchange="type_Radios" data-index="{{index}}">
+
+          
+          <view class="attr_value" wx:if="{{tranType == 'RE'}}">
+            <label class='radio_label'>
+              <radio color='' value='RE'  checked="{{tranType == 'RE'}}" >
+                <text>交空</text>
+              </radio>
+            </label>
+          </view>
+
+          <view class="attr_value" wx:if="{{tranType == 'RF'}}">
+            <label class='radio_label'>
+              <radio color='' value='RF' checked="{{tranType == 'RF'}}">
+                <text>交重</text>
+              </radio>
+            </label>
+          </view>
+
+          <view class="attr_value" wx:if="{{tranType == 'DE'}}">
+            <label class='radio_label'>
+              <radio color='' value='DE' checked="{{tranType == 'DE'}}">
+                <text>提空</text>
+              </radio>
+            </label>
+          </view>
+
+          <view class="attr_value" wx:if="{{tranType == 'DF'}}">
+            <label class='radio_label'>
+              <radio color='' value='DF'checked="{{tranType == 'DF'}}">
+                <text>提重</text>
+              </radio>
+            </label>
+          </view>
+        </radio-group>
+
+      </view>
+        
+        </view>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        </view>
+        <view class="weui-cell__ft"></view>
+      </view>
+    </view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">到港时间：{{orderVo.order.appointmentTime}}</view>
+        <view class="weui-cell__ft"></view>
+      </view>
+    </view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd" >状态：<text style='color:{{orderVo.wxCss}}'> {{orderVo.wxState}} </text></view>
+        <view class="weui-cell__ft">
+          <text wx:if="{{orderVo.reason!=null }}" class='textred'>{{orderVo.reason}} </text>
+        </view>
+      </view>
+    </view>   
+      
+        <view class="weui-cell">
+
+          <view class="weui-cell__bd">
+
+            <view class="weui-uploader">
+              <view class="weui-uploader__hd">
+                <view class="weui-uploader__title"><button class='btn_img' bindtap='chooseEirImage'>单证照片</button> </view>
+                <view class="weui-uploader__info"></view>
+              </view>
+              <view class="weui-uploader__bd">
+                <view class="weui-uploader__files" id="uploaderFiles">
+
+                  <view wx:if="{{orderVo.order.eirImg != null}}" >                  
+                    <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-type='eir'>
+                      <image class="weui-uploader__img" src="{{eirUrl[0]}}" mode="aspectFill" />
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+
+
+          <view class="weui-cell__bd" wx:if="{{tranType == 'RF'}}">
+
+            <view class="weui-uploader">
+              <view class="weui-uploader__hd">
+                <view class="weui-uploader__title"><button class='btn_img' bindtap='chooseSealImage' >封条照片</button></view>
+                <view class="weui-uploader__info"></view>
+              </view>
+              <view class="weui-uploader__bd">
+                <view class="weui-uploader__files" id="uploaderFiles">
+
+                  <block wx:for="{{sealUrl}}" wx:key="*this">              
+                    <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-type='seal'>
+                      <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                    </view>
+                  </block>
+                </view>
+              </view>
+            </view>
+          </view>
+
+           <view class="weui-cell__bd">
+
+            <view class="weui-uploader">
+              <view class="weui-uploader__hd">
+                <view class="weui-uploader__title"><button class='btn_img' bindtap='chooseAttachlImage'>附属证明材料照片</button></view>
+                <view class="weui-uploader__info"></view>
+              </view>
+              <view class="weui-uploader__bd">
+                <view class="weui-uploader__files" id="uploaderFiles">
+                  <block wx:for="{{attachUrl}}" wx:key="*this">                
+                    <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}" data-type='attach'>
+                      <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                    </view>
+                  </block>
+                </view>
+              </view>
+            </view>
+          </view>
+
+
+        </view>
+
+        
+        
+
+
+        <view class="weui-cell"  >
+         
+        </view>
+
+        
+
+        
+
+
+
+
+
+
+
+
+      </view>
+
+
+
+      <view class="weui-cell weui-cell_select">
+
+      </view>
+
+      <view class="weui-btn-area">
+            
+            
+      </view>
+       
+     <view class="weui-btn-area">
+            
+            <button class="weui-btn" type="primary" bindtap="confirm">确认修改</button>
+      </view>
+
+
+    </view>
+  </form>
+</view>

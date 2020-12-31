@@ -1,0 +1,5 @@
+{
+  "navigationBarTitleText": "历史记录查询",
+  "enablePullDownRefresh": false,
+  "onReachBottomDistance": 50
+}

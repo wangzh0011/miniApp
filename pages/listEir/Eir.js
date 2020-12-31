@@ -494,7 +494,7 @@ Page({
   subscribeMessageVesselTap: function () {
     var that = this;
     wx.requestSubscribeMessage({//app.tmplIds.serverStopId, app.tmplIds.eeirId,
-      tmplIds: [app.tmplIds.berthingId],
+      tmplIds: [app.tmplIds.berthingId, app.tmplIds.berthingId1],
       success(res) {
         var reg = RegExp(/accept/)
         var reg1 = RegExp(/reject/)

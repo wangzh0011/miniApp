@@ -1,0 +1,27 @@
+<!--pages/updateAta/updateAta.wxml-->
+<view class="page">
+  <form >
+      <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{errormsg}}</view>
+      <view class="weui-cells__title weui-cells__titless">
+        <text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>【温馨提示】请于船到码头前1小时报到</text>
+      </view>
+      <view class="weui-loadmore weui-loadmore_line" wx:if='{{ltrschedule.length == 0}}'>
+          <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无数据</view>
+      </view>
+      <block wx:for="{{ltrschedule}}" wx:for-item="list" wx:key="*this" wx:for-index="index">
+        <view class="weui-cells__title" style="font-size: 16px"> 
+          <block >航次:{{list.iVoyCd}}/{{list.oVoyCd}}</block> 
+        </view>
+        <view class="weui-cell weui-cell_input">
+            <view class="weui-btn-area">
+              <block wx:if="{{list.comeHere == 'Y'}}">
+                <button class="weui-btn" type="primary" bindtap='bindCancelTap' data-index="{{index}}" style='color: white; background-color: #17437d; width:150px; left:-15px; top:-8px'>取消报到</button>
+              </block>
+              <block wx:else>
+                <button class="weui-btn" type="primary" bindtap='bindConfirmTap' data-index="{{index}}" style='color: white; background-color: #17437d; width:150px; left:-15px; top:-8px'>报到</button>
+              </block>   
+            </view>
+        </view>
+      </block>  
+  </form> 
+</view>

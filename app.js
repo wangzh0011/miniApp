@@ -11,14 +11,12 @@ App(
     data: {
       uploadurl:
         //  "https://wxxcx.dcblink.com/upload/",   // PROD
-        //  "https://olddcblink.dcblink.com/upload/",  // UAT  废弃
-        "https://mtest.dcblink.com/upload/",//  UAT
+         "https://olddcblink.dcblink.com/upload/",  // UAT 
         // "http://127.0.0.1:8081/upload/",
 
       servsers:
-        //  "https://wxxcx.dcblink.com/miniApp/",   // PROD
-        //  "https://olddcblink.dcblink.com/miniApp/" ,  // UAT  废弃
-        "https://mtest.dcblink.com:9300/miniApp/",//  UAT
+         "https://wxxcx.dcblink.com/miniApp/",   // PROD
+        //  "https://olddcblink.dcblink.com/miniApp/" ,  // UAT 
         // "http://127.0.0.1:8081/miniApp/",
 
     },
@@ -87,7 +85,8 @@ App(
       signInId: '9GyHdXrvxPMfMOoObwYQ4cY95SUZvaAOtgusx_54fjE',
       appointmentId: 'SO_UlSQEJcvZUx-fBcDfytEm5tpzB9B6kjRJlbWKoGo',
       eeirId: '2ndiSWmz1u6AxmGdFgYi8ouHOd1cnj4qtELam3GJ44w',
-      cmsId: '-1_eAQzTJrClavV8uWDsIcstGaAkpOO4ELOSZvjvioE'
+      cmsId: '-1_eAQzTJrClavV8uWDsIcstGaAkpOO4ELOSZvjvioE',
+      berthingId1: 'rMLnVFcydspeTqYwigjaHZgIPsFxIKFMnW__05vAw-s'
     }
 
   }

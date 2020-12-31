@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/listEir/Eir",
+    "pages/test/test",
     "pages/updateEta/updateEta",
     "pages/updateAppointmentTime/update",
     "pages/yuyue/yuyue",
@@ -37,6 +38,12 @@
     "navigationBarTitleText": "大铲湾操作服务",
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#f8f8f8"
+  },
+  "plugins": {
+    "WechatSI": {
+      "version": "0.3.3",
+      "provider": "wx069ba97219f66d99"
+    }
   },
   "networkTimeout": {
     "request": 60000,

@@ -1,0 +1,450 @@
+<view class="page page_hight">
+	<add-tips/>
+
+  <block wx:if="{{userType == 'vessel'}}">
+    <!-- 用户订阅消息弹出层  -->
+    <view class="mask" wx:if="{{showMask}}">
+    </view>
+    <!-- 弹出层内容 -->
+    <view wx:if="{{showMessage}}" class="details_subscribemessage">
+      <view class="mask_title">系统通知</view>
+      <view class="content_integral"><text >请订阅“驳船靠泊通知”，获取码头通知信息</text></view>
+      <view class="line"></view>
+      <view hover-class="detail-hover" hover-stay-time="{{hover_stay_time}}" bindtap="subscribeMessageVesselTap" class="confrim_text">
+        确定
+      </view>
+    </view>
+    <!-- end -->
+
+    <!-- 温馨提示 -->
+    <view wx:if="{{showTips}}" class="details_tips">
+      <view class="mask_title">温馨提示</view>
+      <view class="content_integral"><text >1. 请于上一港离泊时进行提前预报，预报到港时间；\n2. 上一港为南沙或深圳其他码头的驳船，请至少在到港前6小时进行提前预报；\n3. 当到港时间有变动时，请到“提前预报”更新到港时间；\n4. 请于船到码头前1小时进行自主报到</text></view>
+      <view class="line"></view>
+      <view hover-class="detail-hover" hover-stay-time="{{hover_stay_time}}" bindtap="closeTips" class="confrim_text">
+        确定
+      </view>
+    </view>
+
+  </block>
+
+	<block wx:if="{{userType == 'truck'  }}">
+    <!--首页广告-->
+    <modal
+    hidden="{{modalHidden}}"
+    bindconfirm="modalConfirm"
+    no-cancel="true"
+    confirmText="知道了"
+    >
+      <view style='color: rgb(245, 3, 3);'>智能再提速,助您快一步!</view>
+      <view style='color: rgb(245, 3, 3);'>欢迎使用大铲湾操作服务新功能。</view>
+      <view>
+        <image class="image" src="../images/add.png" mode='aspectFill' />
+      </view>
+    </modal>
+
+		<view class="page__bd page__ss">
+			<text class='ssss '>您绑定的车牌号码是：{{prov[provCodeIndex]}}{{truck_lic}}{{colorCodes[colorCodeIndex]}}牌</text>
+		</view>
+
+		<view class="page__bd">
+			<view class="weui-cells__title weui-cells__titless" wx:if="{{time != null }}" style='color:rgb(255, 1, 52);width: 95vw;'>
+				<!-- 您在{{time}}预约了以下作业，审核通过后请准时到达 -->
+				<view >进闸时间：{{time}}</view>
+				<view bindtap="updateAppointmentTime" class="right" style="color: {{color}}">{{desc}} </view>
+			</view>
+			<view class="weui-cells__title weui-cells__titless" wx:if="{{time == null}}">
+				<text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>为减少您的等待时间,请至少提前30分钟预约。</text>
+			</view>
+
+			<block wx:for="{{items}}" wx:for-item="list" wx:key="*this">
+
+				<view class="weui-cells weui-cells_after-title">
+					<form bindsubmit='godetail' data-index='{{index}}'><!--bindsubmit='godetail'-->
+						<view data-index='{{index}}' class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+							<view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+								<image src="{{servsers}}{{list.order.eirImg}}" style="width: 50px; height: 50px; display: block" />
+							</view>
+							<view class="weui-cell__bd">
+								<view style="font-size: 14px;color: #888888;">{{list.tranType}}
+									<text wx:if="{{list.order.site == 'D'  }}">(内贸)</text>
+									<text wx:if="{{list.order.site == 'I'  }}">(外贸)</text>
+								</view>
+								<view style="font-size: 13px;color: #888888;">预约号:{{list.order.id}}</view>
+								<view style="font-size: 13px;color: #888888;">时间:{{list.order.appointmentTime}} </view>
+							</view>
+							<view class="weui-cell__ft weui-cell__ft_in-access ">状态:
+								<text style='color:{{list.wxCss}}'>{{list.wxState}}</text>
+							</view>
+
+							<button formType="submit" hover-class="none" class='invisibleclass' />
+
+						</view>
+
+					</form>
+
+				</view>
+
+			</block>
+
+			<block wx:for="{{ls}}" wx:for-item="list" wx:key="*this">
+
+				<view class="weui-cells weui-cells_after-title">
+					<form  bindsubmit='gocancel' data-index='{{list.order.id}}'>
+						<view data-index='{{index}}' class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+							<view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+								<image src="{{servsers}}{{list.order.eirImg}}" style="width: 50px; height: 50px; display: block" />
+							</view>
+							<view class="weui-cell__bd">
+								<view style="font-size: 14px;color: #888888;">{{list.tranType}}
+									<text wx:if="{{list.order.site == 'D'  }}">(内贸)</text>
+									<text wx:if="{{list.order.site == 'I'  }}">(外贸)</text>
+
+								</view>
+								<view style="font-size: 13px;color: #888888;">单号:{{list.order.id}}</view>
+								<view style="font-size: 13px;color: #888888;">时间:{{list.order.appointmentTime}} </view>
+							</view>
+							<view class="weui-cell__ft weui-cell__ft_in-access ">状态:
+								<text style='color:{{list.wxCss}}'>{{list.wxState}}</text>
+							</view>
+
+							<button formType="submit" hover-class="none" class='invisibleclass' />
+
+						</view>
+
+					</form>
+
+				</view>
+
+			</block>
+
+		</view>
+
+		<view class="weui-cell__bd rrrr ">
+			<form  bindtap='subscribeMessageTap'>
+				<button
+				 class="weui-btn custom"
+				 disabled='{{disabled}}'
+				 wx:if="{{canIUse}}"
+				 open-type="getUserInfo"
+				>飞单预约
+				</button>
+
+			</form>
+		</view>
+	</block>
+
+	<view style='height: 40rpx;' />
+
+	<block wx:if="{{userType == 'vessel'}}">
+		<view class="weui-cells__title weui-cells__titless">
+			<text style='color:rgb(255, 0, 102);flex-flow: column wrap;'>【温馨提示】请于船到码头前1小时报到。</text>
+		</view>
+	</block>
+
+	<view class="weui-tab">
+		<view class="weui-navbar">
+			<block wx:for="{{tabs}}" wx:key="*this">
+				<view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+					<view class="weui-navbar__title">{{item}}</view>
+				</view>
+			</block>
+			<view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);" />
+		</view>
+
+		<view class="weui-tab__panel">
+
+			<!-- 操作专区 -->
+			<view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+				<view class='otherModuleList'>
+
+					<block wx:if="{{userType == 'truck'}}">
+
+						<view class='listItem' wx:if="{{showCms == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='cms'>
+									<view class='itemImg'>
+										<image src='../images/search.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>小票</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+
+						<view class='listItem' wx:if="{{showEir == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='eir'>
+									<view class='itemImg'>
+										<image src='../images/eir.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>出闸纸</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+
+						<view class='listItem' wx:if="{{showEirLess == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='eirLess'>
+									<view class='itemImg'>
+										<image src='../images/history.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>飞单记录</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+
+						<view class='listItem' wx:if="{{showGr == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='gr'>
+									<view class='itemImg'>
+										<image src='../images/gr.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>港融渡柜</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+
+						<view class='listItem' wx:if="{{showUser == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='user'>
+									<view class='itemImg'>
+										<image src='../images/user.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>个人资料</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+
+						<view class='listItem' wx:if="{{showVideo == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='video'>
+									<view class='itemImg'>
+										<image src='../images/guide.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>飞单视频</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+
+						<view class='listItem' wx:if="{{showPicture == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='picture'>
+									<view class='itemImg'>
+										<image src='../images/introduce.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>飞单简图</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+
+            <view class='listItem' wx:if="{{showPicture == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='cosido'>
+									<view class='itemImg'>
+										<image src='../images/cosido.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>重柜查询</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+						<!-- <view class='listItem'>
+                        <view class='itemBox'>
+                          <form  bindsubmit='handle' data-name='sign'>
+                            <view class='itemImg'>
+                              <image src='../images/signIn.png' mode='aspectFill'></image>
+                            </view>
+                            <text class='textCenter'>码头签到</text>
+                            <button formType="submit" hover-class="none" class='invisibleclass'></button>
+                          </form>
+                        </view>
+                      </view> -->
+
+					</block>
+
+					<block wx:if="{{userType == 'vessel'}}">
+
+						<view class='listItem' wx:if="{{showUpdateEta == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='updateEta'>
+									<view class='itemImg'>
+										<image src='../images/updateEta.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>提前预报</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+
+						<view class='listItem' wx:if="{{showUpdateAta == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='updateAta'>
+									<view class='itemImg'>
+										<image src='../images/updateAta.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>自主报到</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+
+						<view class='listItem' wx:if="{{showUser == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='user'>
+									<view class='itemImg'>
+										<image src='../images/user.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>个人资料</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+
+						<view class='listItem' wx:if="{{showVideo == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='video'>
+									<view class='itemImg'>
+										<image src='../images/guide.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>视频指引</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+
+						<view class='listItem' wx:if="{{showPicture == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='picture'>
+									<view class='itemImg'>
+										<image src='../images/introduce.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>使用流程</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+
+					</block>
+
+				</view>
+			</view>
+
+			<!-- 客服专区 -->
+			<view class="weui-tab__content" hidden="{{activeIndex != 1}}">
+				<view class='otherModuleList'>
+
+					<block wx:if="{{userType == 'truck'}}">
+						<view class='listItem' wx:if="{{showYardPlan == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='yardPlan'>
+									<view class='itemImg'>
+										<image src='../images/yardPlan.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>闪电调度</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+					</block>
+
+					<view class='listItem' wx:if="{{showNotice == '1'}}">
+						<view class='itemBox'>
+							<form  bindsubmit='handle' data-name='notice'>
+								<view class='itemImg'>
+									<image src='../images/notice.png' mode='aspectFill' />
+									<block wx:if="{{noticeNum > 0}}">
+										<view class="weui-badge" style="position: absolute;top: 0.5em;right: 1.5em;">{{noticeNum}}</view>
+									</block>
+								</view>
+								<text class='textCenter'>操作通知</text>
+								<button formType="submit" hover-class="none" class='invisibleclass' />
+							</form>
+						</view>
+					</view>
+
+					<block wx:if="{{userType == 'truck'}}">
+						<view class='listItem' wx:if="{{showMobileQuery == '1'}}">
+							<view class='itemBox'>
+								<form  bindsubmit='handle' data-name='mobileQuery'>
+									<view class='itemImg'>
+										<image src='../images/query.png' mode='aspectFill' />
+									</view>
+									<text class='textCenter'>移动查询</text>
+									<button formType="submit" hover-class="none" class='invisibleclass' />
+								</form>
+							</view>
+						</view>
+					</block>
+
+					<view class='listItem' wx:if="{{showSuggest == '1'}}">
+						<view class='itemBox'>
+							<form  bindsubmit='handle' data-name='suggest'>
+								<view class='itemImg'>
+									<image src='../images/suggest.png' mode='aspectFill' />
+								</view>
+								<text class='textCenter'>建议反馈</text>
+								<button formType="submit" hover-class="none" class='invisibleclass' />
+							</form>
+						</view>
+					</view>
+
+					<view class='listItem' wx:if="{{showCustomer == '1'}}">
+						<view class='itemBox'>
+							<form  bindsubmit='handle' data-name='customer'>
+								<view class='itemImg'>
+									<image src='../images/customer.png' mode='aspectFill' />
+									<!-- <contact-button type="default-dark" size='40'></contact-button> -->
+								</view>
+								<text class='textCenter'>联系方式</text>
+								<button formType="submit" hover-class="none" class='invisibleclass' />
+							</form>
+						</view>
+					</view>
+          
+          <block wx:if="{{userType == 'truck'}}">
+            <view class='listItem' wx:if="{{showVideo_customer == '1'}}">
+              <view class='itemBox'>
+                <form  bindsubmit='handle' data-name='video_customer'>
+                  <view class='itemImg'>
+                    <image src='../images/guide.png' mode='aspectFill' />
+                  </view>
+                  <text class='textCenter'>视频指引</text>
+                  <button formType="submit" hover-class="none" class='invisibleclass' />
+                </form>
+              </view>
+            </view>
+          </block>
+
+				</view>
+			</view>
+		</view>
+	</view>
+</view>
+
+<!-- 空白行 -->
+<view class='listItem'>
+	<view class='itemBox'>
+		<form  bindsubmit='' data-name=''>
+			<text class='textCenter'/>
+
+        </form>
+	</view>
+</view>
+
+<view class="weui-footer weui-footer_fixed-bottom">
+	<view class="weui-footer__links">
+		<text class="weui-footer__link">DCB 操作服务</text>
+	</view>
+	<view class="weui-footer__text">Copyright © 2018-5-12</view>
+
+	<view class="page__bd" />
+
+</view>
+

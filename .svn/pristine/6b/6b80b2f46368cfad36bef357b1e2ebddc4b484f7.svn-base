@@ -1,0 +1,9 @@
+<!--pages/imageUpload/upload.wxml-->
+<view class='ttt'>
+<web-view  src="{{url}}" bind >
+
+
+
+
+</web-view>
+</view>

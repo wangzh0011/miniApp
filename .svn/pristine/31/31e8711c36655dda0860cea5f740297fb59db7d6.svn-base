@@ -1,0 +1,39 @@
+<!--pages/updateAppointmentTime/update.wxml-->
+<view class="page">
+    <view class="page__hd" style="padding: 15px;">
+        <view class="page__title">作业地点</view>
+        <view class="page__desc">{{siteDesc}}</view>
+    </view>
+    <view class="page__bd">
+        <view class="weui-form-preview">
+            <view class="weui-form-preview__hd">
+                <view class="weui-form-preview__item">
+                    <view class="weui-form-preview__label">当前预约时间</view>
+                    <view class="weui-form-preview__value_in-hd">{{time}}</view>
+                </view>
+                <view class="weui-form-preview__item">
+                    <view class="weui-form-preview__label">当前预约作业类型</view>
+                    <view class="weui-form-preview__value_in-hd">{{tranType}}</view>
+                </view>
+            </view>
+            <view class="weui-form-preview__bd">
+                <view class="weui-form-preview__item">
+                    <text class="weui-form-preview__label">请选择要修改的作业时间和地点</text>
+                </view>
+                <radio-group bindchange="chooseAppointmentTime">
+                    <view class="attr_value" wx:for="{{timeQuantumList}}" wx:for-item="item" wx:key="*this">
+                        <label class='radio_label'>
+                            <radio class="weui-form-preview__item" value="{{item.dateTime}} {{item.timeQuantum}}" checked="{{checked}}">
+                                <view class="weui-form-preview__label"> {{item.timeQuantum}}</view>
+                                <view class="weui-form-preview__value">交空{{item.reRemain}}，交重{{item.rfRemain}}，提空{{item.deRemain}}，提重{{item.dfRemain}}</view>
+                            </radio>
+                        </label>    
+                    </view>    
+                </radio-group>
+            </view>
+        </view>
+        <view class="page__bd page__bd_spacing">
+            <button class="weui-btn" type="primary" bindtap="updateAppointmentTime">修改</button>
+        </view>
+    </view>
+</view>
